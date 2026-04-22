@@ -13,45 +13,51 @@ datasource db {
 }
 
 model User {
-  id        Int       @id @default(autoincrement())
-  createdAt DateTime  @default(now())
-  email     String    @unique
-  name      String
-  role      Role      @default(USER)
-  groups    Group[]
-  meetings  Meeting[]
+  id                      String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  createdAt               DateTime    @default(now())
+  updatedAt               DateTime    @updatedAt
+  email                   String      @unique
+  name                    String
+  role                    Role        @default(USER)
+  meetings                Meeting[]
+  createdGroups           Group[]     @relation("GroupCreator")
+  clockerInGroups         Group[]     @relation("GroupKlocker")
+  @@map("users")
 }
 
 model Group {
-  id          Int       @id @default(autoincrement())
-  createdAt   DateTime  @default(now())
-  creator     User      @relation(fields: [creatorId], references: [id])
-  creatorId   Int
-  name        String
-  description String?
-  meetings    Meeting
-  keeper      User[]
+  id                      String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  createdAt               DateTime     @default(now())
+  updatedAt               DateTime     @updatedAt
+  creator                 User         @relation("GroupCreator", fields: [creatorId], references: [id])
+  creatorId               String       @db.Uuid
+  name                    String
+  description             String?
+  meetings                Meeting[]
+  klockers                User[]       @relation("GroupKlocker")
+  @@map("groups")
 }
 
 model Meeting {
-  id                  Int           @id @default(autoincrement())
-  createdAt           DateTime      @default(now())
-  keeper              User          @relation(fields: [keeperId], references: [id])
-  keeperId            Int
-  group               Group?        @relation(fields: [groupId], references: [id])
-  groupId             Int?
-  title               String?
-  startTime           DateTime
-  womenCount          Int           @default(0)
-  nonBinaryCount      Int           @default(0)
-  menCount            Int           @default(0)
-  totalSpeakingTime   Int
-  womenSpeakingTime   Int
-  nonBinarySpeakingTime Int
-  menSpeakingTime     Int
-  womenStatementCount Int
-  nonBinaryStatementCount Int
-  menStatementCount   Int
+  id                      String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  createdAt               DateTime      @default(now())
+  creator                 User          @relation(fields: [creatorId], references: [id])
+  creatorId               String        @db.Uuid
+  group                   Group?        @relation(fields: [groupId], references: [id])
+  groupId                 String?       @db.Uuid
+  title                   String?
+  startedAt               DateTime
+  womenCount              Int           @default(0)
+  nonbinaryCount          Int           @default(0)
+  menCount                Int           @default(0)
+  totalSpeakingTime       Int
+  womenSpeakingTime       Int
+  nonbinarySpeakingTime   Int
+  menSpeakingTime         Int
+  womenStatementCount     Int
+  nonbinaryStatementCount Int
+  menStatementCount       Int
+  @@map("meetings")
 }
 
 enum Role {
