@@ -17,11 +17,13 @@ model User {
   createdAt               DateTime    @default(now())
   updatedAt               DateTime    @updatedAt
   email                   String      @unique
-  name                    String
+  userName                String      @unique
   role                    Role        @default(USER)
   meetings                Meeting[]
   createdGroups           Group[]     @relation("GroupCreator")
   clockerInGroups         Group[]     @relation("GroupKlocker")
+  @@index([userName])
+  @@index([email])
   @@map("users")
 }
 
@@ -35,6 +37,8 @@ model Group {
   description             String?
   meetings                Meeting[]
   klockers                User[]       @relation("GroupKlocker")
+  @@index([creatorId])
+  @@index([name])
   @@map("groups")
 }
 
@@ -45,8 +49,8 @@ model Meeting {
   creatorId               String        @db.Uuid
   group                   Group?        @relation(fields: [groupId], references: [id])
   groupId                 String?       @db.Uuid
-  title                   String?
-  startedAt               DateTime
+  title                   String
+  startedAt               DateTime      @default(now())
   womenCount              Int           @default(0)
   nonbinaryCount          Int           @default(0)
   menCount                Int           @default(0)
@@ -57,6 +61,9 @@ model Meeting {
   womenStatementCount     Int
   nonbinaryStatementCount Int
   menStatementCount       Int
+  @@index([creatorId])
+  @@index([groupId])
+  @@index([startedAt])
   @@map("meetings")
 }
 
