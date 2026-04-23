@@ -37,8 +37,7 @@ model Group {
   description             String?
   meetings                Meeting[]
   klockers                User[]       @relation("GroupKlocker")
-  @@index([creatorId])
-  @@index([name])
+  @@unique([creatorId, name])
   @@map("groups")
 }
 
@@ -54,16 +53,16 @@ model Meeting {
   womenCount              Int           @default(0)
   nonbinaryCount          Int           @default(0)
   menCount                Int           @default(0)
-  totalSpeakingTime       Int
-  womenSpeakingTime       Int
-  nonbinarySpeakingTime   Int
-  menSpeakingTime         Int
-  womenStatementCount     Int
-  nonbinaryStatementCount Int
-  menStatementCount       Int
-  @@index([creatorId])
+  totalSpeakingTime       Int           @default(0)
+  womenSpeakingTime       Int           @default(0)
+  nonbinarySpeakingTime   Int           @default(0)
+  menSpeakingTime         Int           @default(0)
+  womenStatementCount     Int           @default(0)
+  nonbinaryStatementCount Int           @default(0)
+  menStatementCount       Int           @default(0)
+  @@unique([creatorId, startedAt])
   @@index([groupId])
-  @@index([startedAt])
+  @@index([title])
   @@map("meetings")
 }
 
