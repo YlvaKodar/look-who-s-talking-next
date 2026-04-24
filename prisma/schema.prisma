@@ -17,11 +17,15 @@ model User {
   createdAt               DateTime    @default(now())
   updatedAt               DateTime    @updatedAt
   email                   String      @unique
+  emailVerified           Boolean     @default(false)
   userName                String      @unique
   role                    Role        @default(USER)
   meetings                Meeting[]
   createdGroups           Group[]     @relation("GroupCreator")
   clockerInGroups         Group[]     @relation("GroupKlocker")
+  sessions                Session[]
+  accounts                Account[]
+
   @@index([userName])
   @@index([email])
   @@map("users")
@@ -64,6 +68,54 @@ model Meeting {
   @@index([groupId])
   @@index([title])
   @@map("meetings")
+}
+
+model Session {
+  id        String   @id
+  expiresAt DateTime
+  token     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  ipAddress String?
+  userAgent String?
+  userId    String   @db.Uuid
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([token])
+  @@index([userId])
+  @@map("session")
+}
+
+model Account {
+  id                    String    @id
+  accountId             String
+  providerId            String
+  userId                String    @db.Uuid
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  password              String?
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+
+  @@index([userId])
+  @@map("account")
+}
+
+model Verification {
+  id         String   @id
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([identifier])
+  @@map("verification")
 }
 
 enum Role {
