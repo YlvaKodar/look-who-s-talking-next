@@ -10,7 +10,7 @@ export default async function Home() {
           <ol className="list-decimal list-inside font-[family-name:var(--font-geist-sans)] text-[#333333]">
               {users.map((user) => (
                   <li key={user.id} className="mb-2">
-                      {user.userName}
+                      {user.name}
                   </li>
               ))}
           </ol>

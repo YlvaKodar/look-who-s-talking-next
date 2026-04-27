@@ -1,6 +1,7 @@
 import { PrismaClient, Prisma } from "../generated/prisma/client";
 import { PrismaPg } from "@prisma/adapter-pg";
 import "dotenv/config";
+import { auth } from "@/lib/auth";
 
 const adapter = new PrismaPg({connectionString: process.env["DATABASE_URL"]});
 
@@ -15,13 +16,30 @@ function daysAgo(days: number): Date {
 }
 
 async function main(){
-    const bee = await prisma.user.upsert({
+
+    await prisma.meeting.deleteMany();
+    await prisma.group.deleteMany();
+    await prisma.session.deleteMany();
+    await prisma.account.deleteMany();
+    await prisma.user.deleteMany();
+
+    await auth.api.signUpEmail({
+        body: { name: "Queen Bee", email: "queen@bee.hive", password: "password1" }
+    });
+    await auth.api.signUpEmail({
+        body: { name: "Ada Lovelace", email: "ada@lovelace.cyberspace", password: "password2" }
+    });
+    await auth.api.signUpEmail({
+        body: { name: "Hedy Lamarr", email: "hedy@lamarr.cyberspace", password: "password3" }
+    });
+    await auth.api.signUpEmail({
+        body: { name: "Agatha Christie", email: "agatha@christie.crimesforsale", password: "password4" }
+    });
+
+    const bee = await prisma.user.update({
         where: { email: "queen@bee.hive" },
-        update: {},
-        create: {
+        data: {
             createdAt: daysAgo(5),
-            email: "queen@bee.hive",
-            userName: "Queen Bee",
             createdGroups: {
                 create: [
                     {
@@ -35,13 +53,10 @@ async function main(){
         }
     });
 
-    const ada = await prisma.user.upsert({
+    const ada = await prisma.user.update({
         where: { email: "ada@lovelace.cyberspace" },
-        update: {},
-        create: {
+        data: {
             createdAt: daysAgo(5),
-            email: "ada@lovelace.cyberspace",
-            userName: "Ada Lovelace",
             meetings: {
                 create: [
                     {
@@ -76,13 +91,10 @@ async function main(){
         }
     });
 
-    const hedy = await prisma.user.upsert({
+    const hedy = await prisma.user.update({
         where: { email: "hedy@lamarr.cyberspace" },
-        update: {},
-        create: {
+        data: {
             createdAt: daysAgo(5),
-            email: "hedy@lamarr.cyberspace",
-            userName: "Hedy Lamarr",
             meetings: {
                 create: [
                     {
@@ -114,13 +126,12 @@ async function main(){
         },
     });
 
-    const agatha = await prisma.user.upsert({
+    const agatha = await prisma.user.update({
         where: { email: "agatha@christie.crimesforsale" },
-        update: {},
-        create: {
+        data: {
             createdAt: daysAgo(5),
             email: "agatha@christie.crimesforsale",
-            userName: "Agatha Christie",
+            name: "Agatha Christie",
         }
     });
 

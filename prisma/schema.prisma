@@ -17,16 +17,16 @@ model User {
   createdAt               DateTime    @default(now())
   updatedAt               DateTime    @updatedAt
   email                   String      @unique
-  emailVerified           Boolean     @default(false)
-  userName                String      @unique
-  role                    Role        @default(USER)
+  emailVerified Boolean @default(false)
+  name          String  @unique
+  role          Role    @default(USER)
   meetings                Meeting[]
   createdGroups           Group[]     @relation("GroupCreator")
   clockerInGroups         Group[]     @relation("GroupKlocker")
   sessions                Session[]
   accounts                Account[]
 
-  @@index([userName])
+  @@index([name])
   @@index([email])
   @@map("users")
 }
@@ -71,7 +71,7 @@ model Meeting {
 }
 
 model Session {
-  id        String   @id
+  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   expiresAt DateTime
   token     String
   createdAt DateTime @default(now())
@@ -87,7 +87,7 @@ model Session {
 }
 
 model Account {
-  id                    String    @id
+  id                    String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   accountId             String
   providerId            String
   userId                String    @db.Uuid
@@ -107,7 +107,7 @@ model Account {
 }
 
 model Verification {
-  id         String   @id
+  id         String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   identifier String
   value      String
   expiresAt  DateTime
@@ -119,7 +119,7 @@ model Verification {
 }
 
 model Jwks {
-  id         String    @id
+  id         String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   publicKey  String
   privateKey String
   createdAt  DateTime  @db.Timestamptz(3)
