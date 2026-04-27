@@ -16,4 +16,4 @@ export default function LogInForm({ onSubmit }: LogInFormProps) {
          <button type="submit">{logInLabel}</button>
      </form>
     )
-}
+};

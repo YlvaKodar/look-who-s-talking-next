@@ -3,6 +3,8 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
 export default async function DashboardPage() {
+    let helloRole = "Hello Admin";
+
     const session = await auth.api.getSession({
         headers: await headers()
     });
@@ -11,9 +13,13 @@ export default async function DashboardPage() {
         redirect("/login");
     }
 
+    if (session.user.role !== "ADMIN") {
+        helloRole = "Hello User!"
+    };
+
     return (
         <div>
-            <h1>LOGGED IN</h1>
+            <h1>{helloRole}</h1>
             <p> {session.user.name}</p>
             <p>{session.user.email}</p>
         </div>

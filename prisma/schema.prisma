@@ -118,15 +118,6 @@ model Verification {
   @@map("verification")
 }
 
-model Jwks {
-  id         String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  publicKey  String
-  privateKey String
-  createdAt  DateTime  @db.Timestamptz(3)
-  expiresAt  DateTime? @db.Timestamptz(3)
-  @@map("jwks")
-}
-
 enum Role {
   USER
   ADMIN

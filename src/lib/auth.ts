@@ -10,12 +10,24 @@ export const auth = betterAuth({
     emailAndPassword: {
         enabled: true
     },
+    session: {
+        cookieCache: {
+            enabled: true,
+            maxAge: 5 * 60
+        }
+    },
     advanced: {
         database: {
             generateId: () => crypto.randomUUID()
         },
     },
-    plugins: [
-        jwt(),
-    ]
+    user: {
+        additionalFields:{
+            role: {
+                type: ["USER", "ADMIN"],
+                input: false,
+            }
+        }
+    },
+
 });
