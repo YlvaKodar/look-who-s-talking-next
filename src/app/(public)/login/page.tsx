@@ -2,9 +2,10 @@
 
 import LogInForm from "@/components/auth/LogInForm";
 import { signIn } from "@/lib/auth-client";
+import { SubmitEvent } from "react";
 
 export default function LogInPage() {
-    async function handleSubmit(e: React.SubmitEvent<HTMLFormElement>) {
+    async function handleSubmit(e: SubmitEvent<HTMLFormElement>) {
         e.preventDefault();
         const formData = new FormData(e.currentTarget);
         const result = await signIn.email({

@@ -2,11 +2,22 @@
 
 import RegisterForm from "@/components/auth/RegisterForm";
 import { signUp } from "@/lib/auth-client";
+import { useRouter } from "next/navigation";
+import { SubmitEvent } from "react";
 
 export default function SignInPage(){
-    async function handleSubmit(e: React.SubmitEvent<HTMLFormElement>) {
+    const router = useRouter();
+    async function handleSubmit(e: SubmitEvent<HTMLFormElement>) {
         e.preventDefault();
         const formData = new FormData(e.currentTarget);
+
+        const password = formData.get("password") as string;
+        const repeatPassword = formData.get("repeatPassword") as string;
+        if (password !== repeatPassword) {
+            console.error("no match");
+            return;
+        }
+
         const result = await signUp.email({
             email: formData.get("email") as string,
             name: (formData.get("userName") as string) || (formData.get("email") as string),
@@ -18,6 +29,7 @@ export default function SignInPage(){
             console.error(result.error);
             return;
         }
+        router.push("/dashboard");
     }
 
     return (

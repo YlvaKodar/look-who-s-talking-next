@@ -8,7 +8,7 @@ export default function RegisterForm({onSubmit}: RegisterFormProps) {
     const emailLabel = "Email";
     const userNameLabel = "UserName if other than email";
     const passwordLabel = "Password";
-    const repeatPasswordLabel = "Password";
+    const repeatPasswordLabel = "Password again";
     const createAccountLabel = "Create account";
 
     return (
