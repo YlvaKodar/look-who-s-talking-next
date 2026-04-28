@@ -1,4 +1,4 @@
-import { PrismaClient, Prisma } from "../generated/prisma/client";
+import { PrismaClient } from "../generated/prisma/client";
 import { PrismaPg } from "@prisma/adapter-pg";
 import "dotenv/config";
 import { auth } from "@/lib/auth";
@@ -40,6 +40,7 @@ async function main(){
         where: { email: "queen@bee.hive" },
         data: {
             createdAt: daysAgo(5),
+            role: "ADMIN",
             createdGroups: {
                 create: [
                     {

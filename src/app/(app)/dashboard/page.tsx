@@ -1,10 +1,9 @@
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
+import AdminTestComponent from "@/components/admin/AdminTestComponent"
 
 export default async function DashboardPage() {
-    let helloRole = "Hello Admin";
-
     const session = await auth.api.getSession({
         headers: await headers()
     });
@@ -13,15 +12,12 @@ export default async function DashboardPage() {
         redirect("/login");
     }
 
-    if (session.user.role !== "ADMIN") {
-        helloRole = "Hello User!"
-    };
-
     return (
-        <div>
-            <h1>{helloRole}</h1>
-            <p> {session.user.name}</p>
-            <p>{session.user.email}</p>
+        <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-center -mt-16">
+            <h1 className="text-4xl font-bold mb-8 font-[family-name:var(--font-geist-sans)] text-[#333333]">Hello {session.user.name}</h1>
+            <div>
+                {session.user.role === "ADMIN" && <AdminTestComponent />}
+            </div>
         </div>
     );
 }
