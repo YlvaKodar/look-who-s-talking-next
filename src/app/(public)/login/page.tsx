@@ -2,9 +2,10 @@
 
 import LogInForm from "@/components/auth/LogInForm";
 import { signIn } from "@/lib/auth-client";
-import { SubmitEvent } from "react";
+import { SubmitEvent, useState } from "react";
 
 export default function LogInPage() {
+    const [serverError, setServerError] = useState<string | null>(null);
     async function handleSubmit(e: SubmitEvent<HTMLFormElement>) {
         e.preventDefault();
         const formData = new FormData(e.currentTarget);
@@ -14,10 +15,13 @@ export default function LogInPage() {
             callbackURL: "/dashboard"
         });
 
-        console.log(result);
+        if (result.error) {
+            setServerError(result.error.message ?? "server result ej okej");
+            return;
+        }
     }
 
     return (
-        <LogInForm onSubmit={handleSubmit}/>
+        <LogInForm onSubmit={handleSubmit} serverError={serverError}/>
     )
 }
