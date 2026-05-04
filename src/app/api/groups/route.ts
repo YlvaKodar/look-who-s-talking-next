@@ -15,7 +15,7 @@ export async function GET( request: Request ) {
     const url = new URL(request.url)
     const status = url.searchParams.get("status");
 
-    if (status === "creator") {
+    if (status && status === "creator") {
         const groups = await prisma.group.findMany({
             where: {creatorId: session.user.id}
         });
@@ -23,7 +23,7 @@ export async function GET( request: Request ) {
         return NextResponse.json(groups);
     }
 
-    if (status === "klocker") {
+    if (status && status === "klocker") {
         const groups = await prisma.group.findMany({
             where: {
                 klockers: {
@@ -34,6 +34,10 @@ export async function GET( request: Request ) {
 
         return NextResponse.json(groups);
     }
+
+    const groups = await prisma.group.findMany();
+
+    return NextResponse.json(groups);
 }
 
 
