@@ -17,4 +17,21 @@ export async function GET() {
     return NextResponse.json(meetings);
 }
 
+export async function POST(request: Request) {
+    const session = await auth.api.getSession({
+        headers: await headers()
+    });
+    if(!session) {
+        return NextResponse.json({error: "No such session"}, { status: 401 });
+    }
+    const meetingData = await request.json();
 
+    const newMeeting = await prisma.meeting.create({
+        data: {
+            ...meetingData,
+            creatorId: session.user.id
+        }
+    });
+
+    return NextResponse.json(newMeeting, { status: 201 });
+}

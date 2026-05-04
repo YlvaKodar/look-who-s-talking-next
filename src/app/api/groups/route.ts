@@ -39,5 +39,21 @@ export async function GET( request: Request ) {
 
     return NextResponse.json(groups);
 }
+export async function POST(request: Request) {
+    const session = await auth.api.getSession({
+        headers: await headers()
+    });
+    if(!session) {
+        return NextResponse.json({error: "No such session"}, { status: 401 });
+    }
+    const groupData = await request.json();
 
+    const newGroup = await prisma.group.create({
+        data: {
+            ...groupData,
+            creatorId: session.user.id
+        }
+    });
 
+    return NextResponse.json(newGroup, { status: 201 });
+}
