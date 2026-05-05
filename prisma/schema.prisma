@@ -31,7 +31,8 @@ model User {
   @@map("users")
 }
 
-// maybe change from creator to like boss or something MISSTAKE CLOCKERS
+// maybe change from / creator to like keeper or something
+// MISTAKE CLOCKERS
 model Group {
   id                      String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   createdAt               DateTime     @default(now())
@@ -41,18 +42,20 @@ model Group {
   name                    String
   description             String?
   meetings                Meeting[]
-  klockers                User[]       @relation("GroupKlocker")
+  klockers                User[]       @relation("GroupKlocker") // On delete cascade?
   @@unique([creatorId, name])
   @@map("groups")
 }
 
+// maybe change from / creator to like keeper or something
 // Maybe remove totalspeakingtime or add totalstatementcount
+// On delete setNull? Cascade? If neither creator nor group delete?
 model Meeting {
   id                      String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   createdAt               DateTime      @default(now())
-  creator                 User          @relation(fields: [creatorId], references: [id])
+  creator                 User          @relation(fields: [creatorId], references: [id]) // On delete setNull? cascade?
   creatorId               String        @db.Uuid
-  group                   Group?        @relation(fields: [groupId], references: [id])
+  group                   Group?        @relation(fields: [groupId], references: [id]) // On delete setNull? cascade?
   groupId                 String?       @db.Uuid
   title                   String
   startedAt               DateTime      @default(now())
