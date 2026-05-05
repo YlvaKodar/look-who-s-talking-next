@@ -36,7 +36,7 @@ model Group {
   id                      String             @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   createdAt               DateTime           @default(now())
   updatedAt               DateTime           @updatedAt
-  keeper                  User               @relation("GroupKeeper", fields: [keeperId], references: [id])
+  keeper                  User               @relation("GroupKeeper", fields: [keeperId], references: [id], onDelete: Restrict)
   keeperId                String             @db.Uuid
   name                    String
   description             String?
