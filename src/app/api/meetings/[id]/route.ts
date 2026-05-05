@@ -72,12 +72,12 @@ export async function DELETE(
 
     if (!meeting) return NextResponse.json({ error: "Meeting not found" }, { status: 404 });
 
-    if (session.user.role === "ADMIN" || (meeting.creatorId === session.user.id && !meeting.groupId) ){
+    if (session.user.role === "ADMIN" || (meeting.keeperId === session.user.id && !meeting.groupId) ){
         const deletedMeeting = await prisma.meeting.delete({
             where: { id }
         })
         return NextResponse.json(deletedMeeting, { status: 200});
     } else {
-        return NextResponse.json({error: "A meeting within a group may only be deleted by admin user. Other meetings may only be deleted by meeting creators."}, { status: 403 });
+        return NextResponse.json({error: "A meeting within a group may only be deleted by admin user. Other meetings may only be deleted by meeting keepers."}, { status: 403 });
     }
 }

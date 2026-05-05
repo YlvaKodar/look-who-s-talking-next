@@ -15,20 +15,20 @@ export async function GET( request: Request ) {
     const url = new URL(request.url)
     const status = url.searchParams.get("status");
 
-    if (status && status === "creator") {
+    if (status && status === "keeper") {
         const groups = await prisma.group.findMany({
-            where: {creatorId: session.user.id}
+            where: {keeperId: session.user.id}
         });
 
         return NextResponse.json(groups);
     }
 
-    if (status && status === "klocker") {
+    if (status && status === "clocker") {
         const groups = await prisma.group.findMany({
             where: {
-                klockers: {
+                clockers: {
                     some: {
-                        id: session.user.id}}
+                        userId: session.user.id}}
             }
         });
 
@@ -51,7 +51,7 @@ export async function POST(request: Request) {
     const newGroup = await prisma.group.create({
         data: {
             ...groupData,
-            creatorId: session.user.id
+            keeperId: session.user.id
         }
     });
 

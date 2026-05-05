@@ -11,7 +11,7 @@ export async function GET() {
         return NextResponse.json({error: "No such session"}, { status: 401 });
     }
     const meetings = await prisma.meeting.findMany({
-        where: {creatorId: session.user.id}
+        where: {keeperId: session.user.id}
     });
 
     return NextResponse.json(meetings);
@@ -29,7 +29,7 @@ export async function POST(request: Request) {
     const newMeeting = await prisma.meeting.create({
         data: {
             ...meetingData,
-            creatorId: session.user.id
+            keeperId: session.user.id
         }
     });
 

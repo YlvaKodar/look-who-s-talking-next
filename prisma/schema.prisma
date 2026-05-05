@@ -13,16 +13,16 @@ datasource db {
 }
 
 model User {
-  id                      String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  createdAt               DateTime    @default(now())
-  updatedAt               DateTime    @updatedAt
-  email                   String      @unique
-  emailVerified Boolean @default(false)
-  name          String  @unique
-  role          Role    @default(USER)
+  id                      String             @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  createdAt               DateTime           @default(now())
+  updatedAt               DateTime           @updatedAt
+  email                   String             @unique
+  emailVerified           Boolean            @default(false)
+  name                    String             @unique
+  role                    Role               @default(USER)
   meetings                Meeting[]
-  createdGroups           Group[]     @relation("GroupCreator")
-  clockerInGroups         Group[]     @relation("GroupKlocker")
+  keeperInGroups          Group[]            @relation("GroupKeeper")
+  clockerInGroups         GroupClocker[]     @relation("GroupClocker")
   sessions                Session[]
   accounts                Account[]
 
@@ -31,48 +31,53 @@ model User {
   @@map("users")
 }
 
-// maybe change from / creator to like keeper or something
-// MISTAKE CLOCKERS
+
 model Group {
-  id                      String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  createdAt               DateTime     @default(now())
-  updatedAt               DateTime     @updatedAt
-  creator                 User         @relation("GroupCreator", fields: [creatorId], references: [id])
-  creatorId               String       @db.Uuid
+  id                      String             @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  createdAt               DateTime           @default(now())
+  updatedAt               DateTime           @updatedAt
+  keeper                  User               @relation("GroupKeeper", fields: [keeperId], references: [id])
+  keeperId                String             @db.Uuid
   name                    String
   description             String?
   meetings                Meeting[]
-  klockers                User[]       @relation("GroupKlocker") // On delete cascade?
-  @@unique([creatorId, name])
+  clockers                GroupClocker[]
+  @@unique([keeperId, name])
   @@map("groups")
 }
 
-// maybe change from / creator to like keeper or something
-// Maybe remove totalspeakingtime or add totalstatementcount
-// On delete setNull? Cascade? If neither creator nor group delete?
 model Meeting {
-  id                      String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  createdAt               DateTime      @default(now())
-  creator                 User          @relation(fields: [creatorId], references: [id]) // On delete setNull? cascade?
-  creatorId               String        @db.Uuid
-  group                   Group?        @relation(fields: [groupId], references: [id]) // On delete setNull? cascade?
-  groupId                 String?       @db.Uuid
+  id                      String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  createdAt               DateTime         @default(now())
+  keeper                  User             @relation(fields: [keeperId], references: [id], onDelete: Restrict)
+  keeperId                String           @db.Uuid
+  group                   Group?           @relation(fields: [groupId], references: [id], onDelete: SetNull)
+  groupId                 String?          @db.Uuid
   title                   String
-  startedAt               DateTime      @default(now())
-  womenCount              Int           @default(0)
-  nonbinaryCount          Int           @default(0)
-  menCount                Int           @default(0)
-  totalSpeakingTime       Int           @default(0)
-  womenSpeakingTime       Int           @default(0)
-  nonbinarySpeakingTime   Int           @default(0)
-  menSpeakingTime         Int           @default(0)
-  womenStatementCount     Int           @default(0)
-  nonbinaryStatementCount Int           @default(0)
-  menStatementCount       Int           @default(0)
-  @@unique([creatorId, startedAt])
+  startedAt               DateTime         @default(now())
+  womenCount              Int              @default(0)
+  nonbinaryCount          Int              @default(0)
+  menCount                Int              @default(0)
+  womenSpeakingTime       Int              @default(0)
+  nonbinarySpeakingTime   Int              @default(0)
+  menSpeakingTime         Int              @default(0)
+  womenStatementCount     Int              @default(0)
+  nonbinaryStatementCount Int              @default(0)
+  menStatementCount       Int              @default(0)
+  @@unique([keeperId, startedAt])
   @@index([groupId])
   @@index([title])
   @@map("meetings")
+}
+
+model GroupClocker {
+  user      User     @relation("GroupClocker", fields: [userId], references: [id], onDelete: Cascade)
+  userId    String   @db.Uuid
+  group     Group    @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  groupId   String   @db.Uuid
+
+  @@id([userId, groupId])
+  @@map("group_clockers")
 }
 
 model Session {

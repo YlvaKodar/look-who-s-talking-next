@@ -26,6 +26,7 @@ export async function GET(
 
     return NextResponse.json(group);
 }
+
 export async function PUT(
     request: Request,
     { params }: { params: Promise<{ id: string }> }
@@ -37,7 +38,7 @@ export async function PUT(
     if(!session) return NextResponse.json({error: "No such session"}, { status: 401 });
 
     const { id } = await params;
-    const { creatorId, name, description, newClocker, removedClocker } = await request.json()
+    const { keeperId, name, description, newClocker, removedClocker } = await request.json()
 
     const group = await prisma.group.findUnique({
         where: { id },
@@ -45,10 +46,10 @@ export async function PUT(
 
     if (!group) return NextResponse.json({ error: "Group not found" }, { status: 404 });
 
-    if (group.creatorId !== session.user.id && session.user.role !== "ADMIN") return NextResponse.json({error: "THIS DECISION IS NOT UP TO YOU"}, { status: 403 });
+    if (group.keeperId !== session.user.id && session.user.role !== "ADMIN") return NextResponse.json({error: "THIS DECISION IS NOT UP TO YOU"}, { status: 403 });
 
     const data: GroupUpdateInput = {};
-    if (creatorId) data.creator = creatorId;
+    if (keeperId) data.keeper = keeperId;
     if (name) data.name = name;
     // if (description !== undefined) data.description = description;
     if (description) data.description = description;
@@ -59,16 +60,22 @@ export async function PUT(
     })
 
     if (newClocker) {
-        await prisma.group.update({
-            where: { id },
-            data: { klockers: { connect: { id: newClocker } } }
+        await prisma.groupClocker.create({
+            data: {
+                userId: newClocker,
+                groupId: id,
+            }
         })
     }
 
     if (removedClocker) {
-        await prisma.group.update({
-            where: { id },
-            data: { klockers: { disconnect: { id: removedClocker } } }
+        await prisma.groupClocker.delete({
+            where: {
+                userId_groupId: {
+                    userId: removedClocker,
+                    groupId: id,
+                }
+            }
         })
     }
 
@@ -93,7 +100,7 @@ export async function DELETE(
 
     if (!group) return NextResponse.json({ error: "Group not found" }, { status : 404 });
 
-    if (session.user.role === "ADMIN" || group.creatorId === session.user.id){
+    if (session.user.role === "ADMIN" || group.keeperId === session.user.id){
         const deletedGroup = await prisma.group.delete({
             where: { id },
         })

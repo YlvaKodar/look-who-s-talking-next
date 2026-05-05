@@ -41,7 +41,7 @@ async function main(){
         data: {
             createdAt: daysAgo(5),
             role: "ADMIN",
-            createdGroups: {
+            keeperInGroups: {
                 create: [
                     {
                         name: "Beehive",
@@ -50,7 +50,7 @@ async function main(){
             }
         },
         include: {
-            createdGroups: true
+            keeperInGroups: true
         }
     });
 
@@ -65,7 +65,6 @@ async function main(){
                         womenCount: 3,
                         nonbinaryCount: 3,
                         menCount: 3,
-                        totalSpeakingTime: 3000,
                         womenSpeakingTime: 1000,
                         nonbinarySpeakingTime: 1000,
                         menSpeakingTime: 1000,
@@ -75,7 +74,7 @@ async function main(){
                     }
                 ]
             },
-            createdGroups: {
+            keeperInGroups: {
                 create: [
                     {
                         name: "Ada's fanclub",
@@ -88,7 +87,7 @@ async function main(){
             }
         },
         include: {
-            createdGroups: true
+            keeperInGroups: true
         }
     });
 
@@ -103,7 +102,6 @@ async function main(){
                         womenCount: 3,
                         nonbinaryCount: 4,
                         menCount: 3,
-                        totalSpeakingTime: 3000,
                         womenSpeakingTime: 1000,
                         nonbinarySpeakingTime: 1000,
                         menSpeakingTime: 1000,
@@ -116,7 +114,6 @@ async function main(){
                         startedAt: daysAgo(1),
                         womenCount: 3,
                         nonbinaryCount: 3,
-                        totalSpeakingTime: 3000,
                         womenSpeakingTime: 2000,
                         nonbinarySpeakingTime: 1000,
                         womenStatementCount: 5,
@@ -136,52 +133,28 @@ async function main(){
         }
     });
 
-    const bookclub = ada.createdGroups.find(g => g.name === "Ada's bookclub");
-    const beehive = bee.createdGroups.find(g => g.name === "Beehive");
+    const bookclub = ada.keeperInGroups.find(g => g.name === "Ada's bookclub");
+    const beehive = bee.keeperInGroups.find(g => g.name === "Beehive");
 
-    await prisma.group.update({
-        where: {
-            creatorId_name: {
-                creatorId: bee.id,
-                name: "Beehive"
-            }
-        },
-        data: {
-            klockers: {
-                connect: [
-                    { id: ada.id },
-                    { id: hedy.id },
-                    { id: agatha.id },
-                ]
-            }
-        }
-    });
-
-    await prisma.group.update({
-        where: {
-            creatorId_name: {
-                creatorId: ada.id,
-                name: "Ada's bookclub"
-            }
-        },
-        data: {
-            klockers: {
-                connect: [
-                    { id: agatha.id },
-                ]
-            }
-        }
-    });
+    if (bookclub && beehive) {
+        await prisma.groupClocker.createMany({
+            data: [
+                { userId: ada.id, groupId: beehive.id },
+                { userId: hedy.id, groupId: beehive.id },
+                { userId: agatha.id, groupId: beehive.id },
+                { userId: agatha.id, groupId: bookclub.id },
+            ]
+        });
+    }
 
     await prisma.meeting.create({
         data: {
-            creatorId: agatha.id,
+            keeperId: agatha.id,
             groupId: beehive!.id,
             title: "Nursery rimes and how to use them",
             womenCount: 3,
             nonbinaryCount: 3,
             menCount: 3,
-            totalSpeakingTime: 3000,
             womenSpeakingTime: 1000,
             nonbinarySpeakingTime: 1000,
             menSpeakingTime: 1000,
@@ -194,13 +167,12 @@ async function main(){
         data: {
             createdAt: daysAgo(3),
             startedAt: daysAgo(3),
-            creatorId: agatha.id,
+            keeperId: agatha.id,
             groupId: bookclub!.id,
             title: "Archaeology for dummies",
             womenCount: 3,
             nonbinaryCount: 3,
             menCount: 3,
-            totalSpeakingTime: 3000,
             womenSpeakingTime: 1000,
             nonbinarySpeakingTime: 1000,
             menSpeakingTime: 1000,
