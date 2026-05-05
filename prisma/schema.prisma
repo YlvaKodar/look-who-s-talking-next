@@ -31,6 +31,7 @@ model User {
   @@map("users")
 }
 
+// maybe change from creator to like boss or something MISSTAKE CLOCKERS
 model Group {
   id                      String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   createdAt               DateTime     @default(now())
@@ -45,6 +46,7 @@ model Group {
   @@map("groups")
 }
 
+// Maybe remove totalspeakingtime or add totalstatementcount
 model Meeting {
   id                      String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   createdAt               DateTime      @default(now())
