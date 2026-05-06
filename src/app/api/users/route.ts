@@ -12,11 +12,16 @@ export async function GET( request: Request ) {
     }
 
     const url = new URL(request.url)
-    const name = url.searchParams.get("name");
+    const query = url.searchParams.get("q");
 
-    if (name) {
+    if (query) {
         const users = await prisma.user.findMany({
-            where: {name},
+            where: {
+                OR: [
+                    { name: { contains: query, mode: "insensitive" } },
+                    { email: { contains: query, mode: "insensitive" } }
+                ]
+            },
             select: {
                 id: true,
                 email: true,
@@ -26,19 +31,6 @@ export async function GET( request: Request ) {
         return NextResponse.json(users)
     }
 
-    const email = url.searchParams.get("email");
-
-    if (email) {
-        const user = await prisma.user.findUnique({
-            where: {email},
-            select: {
-                id: true,
-                email: true,
-                name: true,
-            }
-        })
-        return NextResponse.json(user)
-    }
 
     const users = await prisma.user.findMany({
         select: {

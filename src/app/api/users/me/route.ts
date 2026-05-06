@@ -7,74 +7,47 @@ import {UserUpdateInput} from "@/generated/prisma/models/User";
 
 export async function GET(
     request: Request,
-    { params }  : { params: Promise<{ id: string }> }
 ) {
     const session = await auth.api.getSession({ headers: await headers() });
 
     if (!session) return NextResponse.json({ error: "No such session" }, { status: 401 });
 
-    if (session.user.role !== "ADMIN") return NextResponse.json({error: "THIS DECISION IS NOT UP TO YOU"}, { status: 403 });
-
-    const { id } = await params;
-
     const user = await prisma.user.findUnique({
-        where: { id },
+        where: { id: session.user.id },
         select: {
             id: true,
             email: true,
             name: true,
-            role: true,
             createdAt: true,
-            updatedAt: true,
         }
     });
-
-    if (!user) {
-        return NextResponse.json({ error: "User not found" }, { status : 404 });
-    }
 
     return NextResponse.json(user);
 }
 
 export async function PUT(
     request: Request,
-    { params }  : { params: Promise<{ id: string }> }
-    ) {
+    ){
 
-    const session = await auth.api.getSession({ headers: await headers() });
+    const session = await auth.api.getSession({
+        headers: await headers()
+    });
 
-    if (!session) return NextResponse.json({ error: "No such session" }, { status: 401 });
+    if(!session) return NextResponse.json({error: "No such session"}, { status: 401 });
 
-    if (session.user.role !== "ADMIN") return NextResponse.json({error: "THIS DECISION IS NOT UP TO YOU"}, { status: 403 });
-
-    const { id } = await params;
-
-    const { email, name, role } = await request.json();
+    const { email, name } = await request.json();
 
     const data: UserUpdateInput = {};
     if (name) data.name = name;
     if (email) data.email = email;
 
-    if (role) {
-        if (role !== "ADMIN" && role !== "USER") return NextResponse.json({error: "Invalid role. Must be 'ADMIN' or 'USER'"}, { status: 400 });
-
-        if (id === session.user.id && role === "USER") {
-            const adminCount = await prisma.user.count({
-                where: { role: "ADMIN" }
-            });
-
-            if (adminCount === 1) return NextResponse.json({error: "A new admin must be assigned before this user's role can be updated."}, { status: 409 });
-        }
-
-        data.role = role;
-    }
-
     try {
         const updatedUser = await prisma.user.update({
-            where: { id },
+            where: { id: session.user.id },
             data
         })
         return NextResponse.json(updatedUser, {status: 200})
+
     } catch (error){
         if (error instanceof Prisma.PrismaClientKnownRequestError) {
             if (error.code === "P2025") return NextResponse.json({ error: "User not found" }, { status : 404 });
@@ -86,18 +59,15 @@ export async function PUT(
 
 export async function DELETE(
     request: Request,
-    { params }: { params: Promise<{ id: string }> }
 ) {
 
-    const session = await auth.api.getSession({ headers: await headers() });
+    const session = await auth.api.getSession({
+        headers: await headers()
+    });
 
     if(!session) return NextResponse.json({error: "No such session"}, { status: 401 });
 
-    if (session.user.role !== "ADMIN") return NextResponse.json({error: "THIS DECISION IS NOT UP TO YOU"}, { status: 403 });
-
-    const { id } = await params;
-
-    if (id === session.user.id){
+    if (session.user.role === "ADMIN"){
         const adminCount = await prisma.user.count({
             where: { role: "ADMIN" }
         });
@@ -107,8 +77,9 @@ export async function DELETE(
 
     try {
         const deletedUser = await prisma.user.delete({
-            where: { id }
+            where: { id: session.user.id }
         })
+
         return NextResponse.json(deletedUser, { status: 200});
 
     } catch (error) {
