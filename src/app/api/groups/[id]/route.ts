@@ -83,7 +83,7 @@ export async function DELETE(
         });
 
         if (!group) return NextResponse.json({ error: "Group not found" }, { status : 404 });
-        if (group.keeperId === session.user.id) return NextResponse.json({error: "THIS DECISION IS NOT UP TO YOU"}, { status: 403 });
+        if (group.keeperId !== session.user.id) return NextResponse.json({error: "THIS DECISION IS NOT UP TO YOU"}, { status: 403 });
     }
 
     try {
