@@ -4,6 +4,23 @@ import {NextResponse} from "next/server";
 import {prisma} from "@/lib/prisma";
 import {Prisma} from "@/generated/prisma/client";
 
+export async function GET (
+    request: Request,
+    { params }: { params: Promise<{ id: string }> }
+) {
+
+    const session = await auth.api.getSession({ headers: await headers() });
+    if(!session) return NextResponse.json({error: "No such session"}, { status: 401 });
+
+    const { id } = await params;
+
+    const clockers = await prisma.groupClocker.findMany({
+        where: {groupId: id}
+    })
+
+    return NextResponse.json(clockers)
+}
+
 export async function POST (
     request: Request,
     { params }: { params: Promise<{ id: string }> }
