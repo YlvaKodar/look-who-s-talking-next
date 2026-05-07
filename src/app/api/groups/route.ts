@@ -16,7 +16,6 @@ export async function GET( request: Request ) {
         const groups = await prisma.group.findMany({
             where: {keeperId: session.user.id}
         });
-
         return NextResponse.json(groups);
     }
 
