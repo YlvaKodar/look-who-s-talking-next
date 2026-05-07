@@ -32,16 +32,21 @@ export async function GET( request: Request ) {
         return NextResponse.json(groups);
     }
 
-    const groups = await prisma.group.findMany();
-
-    return NextResponse.json(groups);
+    if (session.user.role === "ADMIN") {
+        const groups = await prisma.group.findMany();
+        return NextResponse.json(groups);
+    }
+    return NextResponse.json({error: "No groups found for this user"}, { status: 403 })
 }
 
 export async function POST(request: Request) {
+
     const session = await auth.api.getSession({ headers: await headers() });
     if(!session) return NextResponse.json({error: "No such session"}, { status: 401 });
 
     const groupData = await request.json();
+
+    if (!groupData) return NextResponse.json({error: "No data provided"})
 
     try {
         const newGroup = await prisma.group.create({

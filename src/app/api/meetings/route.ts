@@ -5,6 +5,7 @@ import { prisma } from "@/lib/prisma";
 import {Prisma} from "@/generated/prisma/client";
 
 export async function GET() {
+
     const session = await auth.api.getSession({ headers: await headers() });
     if(!session) return NextResponse.json({error: "No such session"}, { status: 401 });
 
@@ -16,10 +17,12 @@ export async function GET() {
 }
 
 export async function POST(request: Request) {
+
     const session = await auth.api.getSession({ headers: await headers() });
     if(!session) return NextResponse.json({error: "No such session"}, { status: 401 });
 
     const meetingData = await request.json();
+    if (!meetingData) return NextResponse.json({error: "No data provided"})
 
     try {
         const newMeeting = await prisma.meeting.create({
