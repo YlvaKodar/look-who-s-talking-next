@@ -58,6 +58,6 @@ export async function POST(request: Request) {
             if (error.code === "P2011") return NextResponse.json({ error: "A required field is missing." }, { status : 400 });
             if (error.code === "P2003") return NextResponse.json({ error: "A referenced user or meeting does not exist." }, { status : 400 });
         }
-        return NextResponse.json({ error: "Ok, so ths didn't go as planned ..." }, { status: 500 })
+        return NextResponse.json({ error: "Ok, so this didn't go as planned ..." }, { status: 500 })
     }
 }
