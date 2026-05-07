@@ -36,6 +36,12 @@ export async function PUT(
     const { keeperId, name, description } = await request.json()
     const data: GroupUpdateInput = {};
 
+    if (keeperId) data.keeper = keeperId;
+    if (name) data.name = name;
+    if (description !== undefined) data.description = description;
+
+    if (!(Object.keys(data).length)) return NextResponse.json({error: "No data provided"})
+
     if (session.user.role !== "ADMIN") {
         const group = await prisma.group.findUnique({
             where: { id },
@@ -44,12 +50,6 @@ export async function PUT(
         if (!group) return NextResponse.json({ error: "Group not found" }, { status: 404 });
         if (group.keeperId !== session.user.id) return NextResponse.json({error: "THIS DECISION IS NOT UP TO YOU"}, { status: 403 });
     }
-
-    if (keeperId) data.keeper = keeperId;
-    if (name) data.name = name;
-    if (description !== undefined) data.description = description;
-
-    if (!(Object.keys(data).length)) return NextResponse.json({error: "No data provided"})
 
     try {
         const updatedGroup = await prisma.group.update({
