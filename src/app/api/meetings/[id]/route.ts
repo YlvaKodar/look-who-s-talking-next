@@ -36,8 +36,10 @@ export async function PUT(
     const { groupId, keeperId } = await request.json()
 
     const data: MeetingUpdateInput = {};
-    if (keeperId) data.keeper = keeperId;
-    if (groupId !== undefined) data.group = groupId;
+    if (keeperId) data.keeper = { connect: { id: keeperId } };
+    if (groupId !== undefined) {
+        data.group = groupId === null ? { disconnect: true } : { connect: { id: groupId } };
+    }
 
     if (!(Object.keys(data).length)) return NextResponse.json({error: "No data provided"})
 
@@ -58,7 +60,13 @@ export async function PUT(
         return NextResponse.json(updatedMeeting, { status: 200 });
     } catch(error) {
         if (error instanceof Prisma.PrismaClientKnownRequestError) {
-            if (error.code === "P2025") return NextResponse.json({ error: "Meeting not found" }, { status : 404 });
+            console.log('Error code:', error.code);
+            console.log('Error meta:', error.meta);
+            if (error.code === "P2025") {
+                if (error.meta?.model === "User") return NextResponse.json({ error: "The new keeper does not exist." }, { status: 400 });
+                if (error.meta?.model === "Group") return NextResponse.json({ error: "The new group does not exist." }, { status: 400 });
+                return NextResponse.json({ error: "Meeting not found" }, { status : 404 });
+            }
             if (error.code === "P2002") return NextResponse.json({ error: "The user may already keep a meeting starting at this time." }, { status : 409 });
             if (error.code === "P2003") return NextResponse.json({ error: "A referenced user or group does not exist." }, { status : 400 });
         }
