@@ -9,8 +9,8 @@ export async function GET(
     request: Request,
     { params }: { params: Promise<{ id: string }> }
 ) {
-    const session = await auth.api.getSession({ headers: await headers() });
 
+    const session = await auth.api.getSession({ headers: await headers() });
     if (!session) return NextResponse.json({ error: "No such session" }, { status: 401 });
 
     const { id } = await params;
@@ -30,7 +30,6 @@ export async function PUT(
 ){
 
     const session = await auth.api.getSession({ headers: await headers() });
-
     if (!session) return NextResponse.json({ error: "No such session" }, { status: 401 });
 
     const { id } = await params;
@@ -40,15 +39,14 @@ export async function PUT(
     if (keeperId) data.keeper = keeperId;
     if (groupId !== undefined) data.group = groupId;
 
+    if (!(Object.keys(data).length)) return NextResponse.json({error: "No data provided"})
+
     if (session.user.role !== "ADMIN") {
         const meeting = await prisma.meeting.findUnique({
             where: { id }
         });
-
         if (!meeting) return NextResponse.json({ error: "Meeting not found" }, { status : 404 });
-
         if (meeting.keeperId !== session.user.id) return NextResponse.json({error: "THIS DECISION IS NOT UP TO YOU"}, { status: 403 });
-
         if (meeting.groupId && data.group !== undefined) return NextResponse.json({error: "Only admin may update or remove existing meeting group."}, { status: 403 });
     }
 
@@ -58,13 +56,13 @@ export async function PUT(
             data
         });
         return NextResponse.json(updatedMeeting, { status: 200 });
-    }catch(error) {
+    } catch(error) {
         if (error instanceof Prisma.PrismaClientKnownRequestError) {
             if (error.code === "P2025") return NextResponse.json({ error: "Meeting not found" }, { status : 404 });
             if (error.code === "P2002") return NextResponse.json({ error: "The user may already keep a meeting starting at this time." }, { status : 409 });
             if (error.code === "P2003") return NextResponse.json({ error: "A referenced user or group does not exist." }, { status : 400 });
         }
-        return NextResponse.json({ error: "Ok, so ths didn't go as planned ..." }, { status: 500 })
+        return NextResponse.json({ error: "Ok, so this didn't go as planned ..." }, { status: 500 })
     }
 }
 
@@ -74,7 +72,6 @@ export async function DELETE(
 ) {
 
     const session = await auth.api.getSession({ headers: await headers() });
-
     if (!session) return NextResponse.json({ error: "No such session" }, { status: 401 });
 
     const { id } = await params;
@@ -85,9 +82,7 @@ export async function DELETE(
         });
 
         if (!meeting) return NextResponse.json({ error: "Meeting not found" }, { status : 404 });
-
         if (meeting.keeperId !== session.user.id) return NextResponse.json({error: "THIS DECISION IS NOT UP TO YOU"}, { status: 403 });
-
         if (meeting.groupId) return NextResponse.json({error: "A meeting within a group may only be deleted by admin user."}, { status: 403 });
     }
 
@@ -97,11 +92,11 @@ export async function DELETE(
         })
         return NextResponse.json(deletedMeeting, { status: 200});
 
-    }catch (error) {
+    } catch (error) {
         if (error instanceof Prisma.PrismaClientKnownRequestError) {
             if (error.code === "P2025") return NextResponse.json({ error: "Meeting not found" }, { status : 404 });
             if (error.code === "P2003") return NextResponse.json({ error: "Meeting cannot be deleted"}, { status : 409 });
         }
-        return NextResponse.json({ error: "Ok, so ths didn't go as planned ..." }, { status: 500 })
+        return NextResponse.json({ error: "Ok, so this didn't go as planned ..." }, { status: 500 })
     }
 }
