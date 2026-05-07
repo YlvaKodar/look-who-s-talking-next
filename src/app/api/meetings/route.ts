@@ -10,7 +10,10 @@ export async function GET() {
     if(!session) return NextResponse.json({error: "No such session"}, { status: 401 });
 
     const meetings = await prisma.meeting.findMany({
-        where: {keeperId: session.user.id}
+        where: {keeperId: session.user.id},
+        orderBy: {
+            startedAt: "asc"
+        }
     });
 
     return NextResponse.json(meetings);
@@ -39,6 +42,6 @@ export async function POST(request: Request) {
             if (error.code === "P2011") return NextResponse.json({ error: "A required field is missing." }, { status : 400 });
             if (error.code === "P2003") return NextResponse.json({ error: "A referenced user or group does not exist." }, { status : 400 });
         }
-        return NextResponse.json({ error: "Ok, so ths didn't go as planned ..." }, { status: 500 })
+        return NextResponse.json({ error: "Ok, so this didn't go as planned ..." }, { status: 500 })
     }
 }
