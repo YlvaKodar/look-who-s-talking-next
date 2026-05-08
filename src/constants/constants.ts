@@ -1,7 +1,6 @@
 //Temp file based on original JS app
-const CONFIG = {
+export const CONFIG = {
     THEME: {
-
         COLORS: {
             PRIMARY: '#281848',
             PRIMARY_HOVER: '#42277c',
@@ -84,4 +83,19 @@ const CONFIG = {
             Z_INDEX_ALERT: 10000,
         },
     }
+}
+
+export const STORAGE = {
+    ACTIVE_MEETING: 'activeMeeting',
+    SETUP_MEETING_DATA: 'setupMeetingData',
+    COLOR_THEME_PREFERENCE: 'userColorTheme'
+}
+
+export const MeetingSetupForm = {
+    meetingTitleLabel: "Name your meeting:",
+    startTimeLabel: "Date and time of the meeting:",
+    womenCountLabel: "How many women?",
+    nonbinaryCountLabel: "How many nonbinary?",
+    menCountLabel: "How many men?",
+    submitLabel: "Submit",
 }

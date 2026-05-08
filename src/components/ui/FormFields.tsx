@@ -1,9 +1,11 @@
 type InputFieldProps = {
     label: string;
     name: string;
-    type?: string;
+    type?: "text" | "number" | "date" | "email";
     placeholder?: string;
     required?: boolean;
+    min?: number;
+    defaultValue?: string | number;
 }
 
 export function InputField({
@@ -12,6 +14,8 @@ export function InputField({
     type = "text",
     placeholder,
     required,
+    min,
+    defaultValue,
                            }: InputFieldProps) {
     return (
      <div>
@@ -22,6 +26,8 @@ export function InputField({
          type={type}
          placeholder={placeholder}
          required={required}
+         min={min}
+         defaultValue={defaultValue}
          />
      </div>
     );

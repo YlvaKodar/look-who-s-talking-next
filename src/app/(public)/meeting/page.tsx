@@ -1,6 +1,4 @@
 
-
-
 export default function MeetingPage() {
     // <div id="meeting-screen" className="screen" style="display: none;">
     return (
