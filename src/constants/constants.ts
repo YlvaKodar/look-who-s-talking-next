@@ -45,7 +45,7 @@ export const CONFIG = {
             ACTIVE_BORDER_WIDTH: '3px'
         },
 
-        //Responsive breakpoints
+        // Responsive breakpoints
         BREAKPOINTS: {
             MOBILE: '600px'
         },
@@ -92,10 +92,17 @@ export const STORAGE = {
 }
 
 export const MeetingSetupForm = {
+    about: "About this meeting:",
     meetingTitleLabel: "Name your meeting:",
     startTimeLabel: "Date and time of the meeting:",
     womenCountLabel: "How many women?",
     nonbinaryCountLabel: "How many nonbinary?",
     menCountLabel: "How many men?",
-    submitLabel: "Submit",
+    submitLabel: "Start the meeting!",
+}
+
+export const Validation = {
+    meetingTitle: "Your meeting wants a title! Enter 3 to 30 characters.",
+    cannotBeNegative: "Can't be fewer than zero. Do a recount!",
+    minParticipants: "No meeting without at least 2 meeters. From separate meeting groups.",
 }

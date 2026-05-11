@@ -4,7 +4,7 @@ export type Participants = Record<Gender, number>
 
 export type ActiveMeeting = {
     title: string;
-    startedAt: string;
+    startedAt: Date;
     participants: Participants
     speakingData: SpeakingData
 }

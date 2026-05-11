@@ -2,7 +2,7 @@ import { ActiveMeeting, Participants, SpeakingData } from "@/types/meeting";
 
 export function createActiveMeeting(
     title: string,
-    startedAt: string,
+    startedAt: Date,
     womenCount: number,
     nonbinaryCount: number,
     menCount: number,

@@ -1,7 +1,7 @@
 type InputFieldProps = {
     label: string;
     name: string;
-    type?: "text" | "number" | "date" | "email";
+    type?: "text" | "number" | "date" | "email" | "password";
     placeholder?: string;
     required?: boolean;
     min?: number;
