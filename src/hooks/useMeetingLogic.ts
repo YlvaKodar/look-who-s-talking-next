@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 import { useTimer } from "@/hooks/useTimer";
 import { useMeetingStorage } from "@/hooks/useMeetingStorage";
-import { ActiveMeeting, Gender, Participants, SpeakingData } from "@/types/meeting";
+import { ActiveMeeting, Gender } from "@/types/meeting";
 
 
 export function useMeetingLogic() {
@@ -12,7 +12,7 @@ export function useMeetingLogic() {
     const { startTimer, stopTimer, spokenTime } = useTimer();
 
     const loadMeeting = () => {
-        setActiveMeeting(setup.load);
+        setActiveMeeting(setup.load());
     }
 
     useEffect(() => {
@@ -26,21 +26,30 @@ export function useMeetingLogic() {
     }
 
     const loggSpeaking = (time : number) => {
-        console.log( `Gender: ${currentSpeaker}, Time: ${time}` )
-        if (currentSpeaker === "women") activeMeeting?.speakingData.women.push(time)
-        if (currentSpeaker === "nonbinary") activeMeeting?.speakingData.nonbinary.push(time)
-        if (currentSpeaker === "men") activeMeeting?.speakingData.men.push(time)
+        if (time === 0) return
+        if (!currentSpeaker) return
+        if (!activeMeeting) return
 
-        if (activeMeeting) meeting.save(activeMeeting)
-        setActiveMeeting(activeMeeting)
+        console.log( `Gender: ${currentSpeaker}, Time: ${time}` )
+
+        const updatedMeeting: ActiveMeeting = {
+            ...activeMeeting,
+            speakingData: {
+                ...activeMeeting.speakingData,
+                [currentSpeaker] : [...activeMeeting.speakingData[currentSpeaker], time],
+            }
+        }
+        meeting.save(updatedMeeting)
+        setActiveMeeting(updatedMeeting)
     }
 
     const pauseSpeaking = () => {
-        loggSpeaking(spokenTime)
+        loggSpeaking(spokenTime);
         setCurrentSpeaker(null)
         stopTimer();
     }
     const endMeeting = () => {
+        loggSpeaking(spokenTime);
         stopTimer()
         if (activeMeeting) meeting.save(activeMeeting)
     }
