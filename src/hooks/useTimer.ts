@@ -7,7 +7,7 @@ export function useTimer() {
     const startTimeRef = useRef<number | null>(null)
 
     const startTimer = useCallback(() =>  {
-        stop()
+        stopTimer()
         startTimeRef.current = Date.now();
 
         intervalRef.current = setInterval(() => {

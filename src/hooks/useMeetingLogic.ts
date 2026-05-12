@@ -54,5 +54,7 @@ export function useMeetingLogic() {
         if (activeMeeting) meeting.save(activeMeeting)
     }
 
-    return { activeMeeting, currentSpeaker, startSpeaking, pauseSpeaking, endMeeting }
+    const formattedTime = `${String(Math.floor(spokenTime / 60)).padStart(2, '0')}:${String(Math.floor(spokenTime % 60)).padStart(2, '0')}`;
+
+    return { activeMeeting, currentSpeaker, startSpeaking, pauseSpeaking, endMeeting, formattedTime }
 }
