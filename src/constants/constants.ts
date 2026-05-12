@@ -85,10 +85,27 @@ export const CONFIG = {
     }
 }
 
+
+
 export const STORAGE = {
     ACTIVE_MEETING: 'activeMeeting',
     SETUP_MEETING_DATA: 'setupMeetingData',
     COLOR_THEME_PREFERENCE: 'userColorTheme'
+}
+
+// Trans. key prep: will be used in internationalization later.
+export const Genders = {
+    womenLabel: 'Women',
+    nonbinaryLabel: 'Nonbinary',
+    menlabel: "Men",
+    womenSpeakingButton: 'Woman speaking',
+    nonbinarySpeakingButton: 'Nonbinary speaking',
+    menSpeakingTime: 'Man speaking',
+}
+
+export const MeetingView = {
+    pauseButton: 'Pause timer',
+    endButton: 'End meeting',
 }
 
 export const MeetingSetupForm = {
