@@ -12,7 +12,7 @@ export function ActiveMeetingView() {
 
     function handleEnd() {
         endMeeting();
-        // router.push('/stats');
+        router.push('/stats');
     }
 
     if (!activeMeeting) {

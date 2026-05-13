@@ -102,8 +102,18 @@ export const Genders = {
     nonbinarySpeakingButton: 'Nonbinary speaking',
     menSpeakingTime: 'Man speaking',
 }
+export const StatsText = {
+    heading: 'Meeting statistics',
+    totalStatementCount: 'Total statement count: ',
+    totalSpeakingTime: 'Total speaking time: ',
+    participantCount: 'Participants count: ',
+    speakingTime: 'Speaking time: ',
+    statementCount: 'Statement count: ',
+    averageLength: 'Average statement length: ',
+    equalTimeShare: "Fair share of speaking time would have been "
+}
 
-export const MeetingView = {
+export const MeetingText = {
     pauseButton: 'Pause timer',
     endButton: 'End meeting',
 }

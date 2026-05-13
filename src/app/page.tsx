@@ -7,15 +7,23 @@
 //       </div>
 //   );
 // }
+"use client"
+import { useRouter } from "next/navigation";
 
-export default async function Home() {
+export default function Home() {
+    const router = useRouter();
+
+    const handeNewMeeting = async () => {
+        router.push("/setup");
+    }
+
     return (
         <div id="start-screen" className="screen">
             <h1 id="start_heading" className="primary">Look Who's Talking</h1>
             <h2 id="start_heading_second" className="secondary">Timing tool for mixed-gender conversations</h2>
 
             <div className="start-buttons-container">
-                <button id="new-meeting-btn">New meeting</button>
+                <button id="new-meeting-btn"  onClick={handeNewMeeting} >New meeting</button>
                 <button id="about-btn" className="secondary">About</button>
                 <button id="how-to-use-btn" className="tertiary">How to use</button>
             </div>

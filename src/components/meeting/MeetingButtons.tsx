@@ -1,6 +1,7 @@
 "use client"
 import { ActiveMeeting, Gender } from "@/types/meeting";
-import { MeetingView }  from "@/constants/constants";
+import { MeetingText }  from "@/constants/constants";
+import { getPresentGenders } from "@/util/meetingUtil";
 
 type SpeakerButtonProps = {
     meeting: ActiveMeeting,
@@ -9,8 +10,7 @@ type SpeakerButtonProps = {
 }
 
 export function SpeakerButtons ({ meeting, currentSpeaker, onStartSpeaking} : SpeakerButtonProps) {
-    const genders: Gender[] = ["women", "nonbinary", "men"]
-    const presentGenders = genders.filter((gender) => (meeting.participants[gender] > 0));
+    const presentGenders = getPresentGenders(meeting.participants)
 
     return (
         <div className="speaker-buttons">
@@ -39,7 +39,7 @@ export function PauseButton ({ onPause }: PauseButtonProps) {
                 key={"pause-meeting"}
                 className={"secondary"}
                 onClick={onPause}>
-                {MeetingView.pauseButton}
+                {MeetingText.pauseButton}
             </button>
         </>
     )
@@ -56,7 +56,7 @@ export function EndButton ({ onEnd }: EndButtonProps) {
                 key={"pause-meeting"}
                 className={"secondary"}
                 onClick={onEnd}>
-                {MeetingView.endButton}
+                {MeetingText.endButton}
             </button>
         </>
     )
