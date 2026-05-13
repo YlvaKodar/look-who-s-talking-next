@@ -1,16 +1,15 @@
 "use client"
 import { StatsText } from "@/constants/constants";
 import { ActiveMeeting, MeetingStats, GenderStats, Stats, Gender } from "@/types/meeting";
-import { getPresentGenders, createMeetingStats, getParticipantCount, getTotalTimeActiveMeeting, getFormattedTime } from "@/util/meetingUtil";
+import { getPresentGenders, createMeetingStats } from "@/util/meetingUtil";
 
 
 type TextStatsProps = {
-    meeting: ActiveMeeting;
+    meetingStats: MeetingStats;
+    presentGenders: Gender[];
 }
 
-export function TextStats({ meeting }: TextStatsProps) {
-    const presentGenders = getPresentGenders(meeting.participants);
-    const meetingStats: MeetingStats = createMeetingStats(meeting);
+export function TextStats({ meetingStats, presentGenders }: TextStatsProps) {
 
     return (
         <div className="text-stats">

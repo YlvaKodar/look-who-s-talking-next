@@ -1,18 +1,23 @@
 "use client"
 import { StatsText } from "@/constants/constants";
 import { TextStats } from "@/components/stats/TextStats";
+import { PieStats } from "@/components/stats/PieStats";
 import { useMeetingStorage } from "@/hooks/useMeetingStorage";
+import { createMeetingStats, getPresentGenders } from "@/util/meetingUtil";
+import { MeetingStats } from "@/types/meeting";
 
 export function StatsView() {
     const { meeting } = useMeetingStorage();
     const endedMeeting = meeting.load()
-
 
     if (!endedMeeting) {
         return (
             <p> ... </p>
         )
     }
+
+    const presentGenders = getPresentGenders(endedMeeting.participants);
+    const meetingStats: MeetingStats = createMeetingStats(endedMeeting);
 
     return(
         <div>
@@ -21,8 +26,9 @@ export function StatsView() {
             <div className="stats-container">
 
                 <div className="chart-container">
+                    <PieStats meetingStats={meetingStats} presentGenders={presentGenders} />
                 </div>
-                <TextStats meeting={endedMeeting}/>
+                <TextStats meetingStats={meetingStats} presentGenders={presentGenders} />
             </div>
 
             {/*<div id="stats-actions">*/}
