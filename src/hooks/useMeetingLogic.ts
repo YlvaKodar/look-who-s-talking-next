@@ -4,7 +4,7 @@ import { useTimer } from "@/hooks/useTimer";
 import { useMeetingStorage } from "@/hooks/useMeetingStorage";
 import { ActiveMeeting, Gender } from "@/types/meeting";
 
-
+// TODO: Last statement doesn't show in stats. Logged?
 export function useMeetingLogic() {
     const [activeMeeting, setActiveMeeting] = useState<ActiveMeeting | null>(null)
     const [currentSpeaker, setCurrentSpeaker] = useState<Gender | null>(null)

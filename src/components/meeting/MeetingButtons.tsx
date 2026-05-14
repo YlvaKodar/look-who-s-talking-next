@@ -1,6 +1,6 @@
 "use client"
 import { ActiveMeeting, Gender } from "@/types/meeting";
-import { MeetingText }  from "@/constants/constants";
+import {Genders, MeetingText} from "@/constants/constants";
 import { getPresentGenders } from "@/util/meetingUtil";
 
 type SpeakerButtonProps = {
@@ -12,6 +12,7 @@ type SpeakerButtonProps = {
 export function SpeakerButtons ({ meeting, currentSpeaker, onStartSpeaking} : SpeakerButtonProps) {
     const presentGenders = getPresentGenders(meeting.participants)
 
+
     return (
         <div className="speaker-buttons">
             {presentGenders.map(gender => (
@@ -20,7 +21,7 @@ export function SpeakerButtons ({ meeting, currentSpeaker, onStartSpeaking} : Sp
                 className={`speaker-btn ${gender} ${currentSpeaker === gender ? 'active' : ''}`}
                 onClick={() => onStartSpeaking(gender) }
                 >
-                    {gender}
+                    {Genders.buttonLabels[gender]}
                 </button>
             ))}
         </div>
