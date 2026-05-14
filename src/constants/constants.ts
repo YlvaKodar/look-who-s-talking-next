@@ -101,6 +101,16 @@ export const Genders = {
     womenSpeakingButton: 'Woman speaking',
     nonbinarySpeakingButton: 'Nonbinary speaking',
     menSpeakingTime: 'Man speaking',
+    chartLabels: {
+        women: 'Women',
+        nonbinary: 'Nobinary',
+        men: 'Men',
+    },
+    buttonLabels: {
+        women: 'Woman speaking',
+        nonbinary: 'Nonbinary speaking',
+        men: 'Man speaking',
+    }
 }
 export const StatsText = {
     heading: 'Meeting statistics',
@@ -110,7 +120,10 @@ export const StatsText = {
     speakingTime: 'Speaking time: ',
     statementCount: 'Statement count: ',
     averageLength: 'Average statement length: ',
-    equalTimeShare: "Fair share of speaking time would have been "
+    equalTimeShare: "Fair share of speaking time would have been ",
+    participantPie: 'Meeting participants:',
+    speakingtimePie: "Speaking time distribution:",
+    statementPie: "Statement distribution:",
 }
 
 export const MeetingText = {

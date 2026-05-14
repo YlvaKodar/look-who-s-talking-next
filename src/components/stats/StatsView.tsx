@@ -25,7 +25,7 @@ export function StatsView() {
 
             <div className="stats-container">
 
-                <div className="chart-container">
+                <div className="chart-container" >
                     <PieStats meetingStats={meetingStats} presentGenders={presentGenders} />
                 </div>
                 <TextStats meetingStats={meetingStats} presentGenders={presentGenders} />
