@@ -2,44 +2,54 @@
 
 @theme {
     --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-    --color-background: #f3f1e9;
-    --color-foreground: #090808;
-    --color-secondary: #090808;
-    --color-women: #c23a10;
-    --color-nonbinary: #410101;
-    --color-men: #af7610;
-}
-
-[data-theme="nautilus"] {
-    --color-background: #064262;
-    --color-foreground: #efe9dd;
-    --color-women: #031421;
-    --color-nonbinary: #188d8d;
-    --color-men: #6e4e1e;
+    --color-background-dark: oklch(0.802 0.096 82.548);
+    --color-background-light: oklch(0.902 0.096 82.548);
+    --color-foreground-dark: oklch(0.129 0 89.876);
+    --color-foreground-light: oklch(0.229 0 89.876);
+    --color-women-dark: oklch(0.546 0.179 35.76);
+    --color-women-light: oklch(0.556 0.179 35.76);
+    --color-nonbinary-dark: oklch(0.237 0.095 28.777);
+    --color-nonbinary-light: oklch(0.247 0.095 28.777);
+    --color-men-dark: oklch(0.61 0.125 74.12);
+    --color-men-light: oklch(0.71 0.125 74.12);
+    --breakpoint-ms: 44rem;
 }
 
 [data-theme="jamjar"] {
-    --color-background: #02231f;
-    --color-foreground: #efe9dd;
-    --color-women: #7c0505;
-    --color-nonbinary: #261d46;
-    --color-men: #ff8594;
+    --color-women-dark: oklch(0.184 0.036 242.087);
+    --color-women-light: oklch(0.284 0.036 242.087);
+    --color-nonbinary-dark: oklch(0.595 0.095 194.87);
+    --color-nonbinary-light: oklch(0.695 0.095 194.87);
+    --color-men-dark: oklch(0.439 0.077 74.368);
+    --color-men-light: oklch(0.539 0.077 74.368);
+}
+
+[data-theme="jamjar"] {
+    --color-women-dark: oklch(0.361 0.148 28.641);
+    --color-women-light: oklch(0.461 0.148 28.641);
+    --color-nonbinary-dark: oklch(0.265 0.074 290.581);
+    --color-nonbinary-light: oklch(0.365 0.074 290.581);
+    --color-men-dark: oklch(0.673 0.154 14.6);
+    --color-men-light: oklch(0.773 0.154 14.6);
 }
 
 [data-theme="lollipopguild"] {
-    --color-background: #e8cb92;
-    --color-foreground: #090c2d;
-    --color-women: #9a6a15;
-    --color-nonbinary: #700202;
-    --color-men: #093338;
+    --color-women-dark: oklch(0.561 0.111 75.406);
+    --color-women-light: oklch(0.661 0.111 75.406);
+    --color-nonbinary-dark: oklch(0.344 0.139 28.932);
+    --color-nonbinary-light: oklch(0.444 0.139 28.932);
+    --color-men-dark: oklch(0.286 0.045 206.7);
+    --color-men-light: oklch(0.386 0.045 206.7);
 }
 
+
 [data-theme="amber"] {
-    --color-background: #090808;
-    --color-foreground: #efe9dd;
-    --color-women: #c23a10;
-    --color-nonbinary: #410101;
-    --color-men: #af7610;
+    --color-women-dark: oklch(0.546 0.179 35.76);
+    --color-women-light: oklch(0.646 0.179 35.76);
+    --color-nonbinary-dark: oklch(0.237 0.095 28.777);
+    --color-nonbinary-light: oklch(0.337 0.095 28.777);
+    --color-men-dark: oklch(0.610 0.125 74.12);
+    --color-men-light: oklch(0.710 0.125 74.12);
 }
 
 /*!* ============================================*/

@@ -1,4 +1,4 @@
-import { PageContainer } from "@/ui/PaigeContainer";
+import { PageContainer } from "@/ui/Containers";
 import SetupView from "@/components/setup/SetupView";
 
 export default function SetupPage(){

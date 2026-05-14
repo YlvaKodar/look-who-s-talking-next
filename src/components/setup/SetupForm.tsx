@@ -1,6 +1,8 @@
 "use client"
 import { InputField } from "@/components/ui/FormFields";
+import { CommonButton } from "@/ui/Buttons";
 import { MeetingSetupForm } from "@/constants/constants";
+import { ButtonContainer } from "@/ui/Containers";
 import { H1, H2, H3, H4 } from "@/components/ui/Headings";
 import { useMeetingStorage } from "@/hooks/useMeetingStorage";
 import { useRouter } from "next/navigation";
@@ -17,7 +19,7 @@ type FormErrors = {
     totalCount?: string[];
 }
 
-export default function SetupMeetingForm (){
+export default function SetupForm (){
     const [errors, setErrors] = useState<FormErrors>({});
     const { setup } = useMeetingStorage();
     const router = useRouter();
@@ -70,7 +72,7 @@ export default function SetupMeetingForm (){
 
     return (
         <form onSubmit={handleSubmit}>
-            <div>
+
                 <H2>{MeetingSetupForm.about}</H2>
                 <InputField type="text" label={MeetingSetupForm.meetingTitleLabel} name="title" required/>
                 {errors?.title && <p>{errors?.title[0]}</p>}
@@ -81,10 +83,10 @@ export default function SetupMeetingForm (){
                 <InputField type="number" label={MeetingSetupForm.menCountLabel} name="menCount" min={0} defaultValue={0} required/>
                 {errors?.menCount && <p>{errors?.menCount[0]}</p>}
                 {errors?.totalCount && <p>{errors?.totalCount[0]}</p>}
-            </div>
-            <div>
-                <button type="submit">{MeetingSetupForm.submitLabel}</button>
-            </div>
+
+            <ButtonContainer>
+                <CommonButton type="submit">{MeetingSetupForm.submitLabel}</CommonButton>
+            </ButtonContainer>
         </form>
     )
 }

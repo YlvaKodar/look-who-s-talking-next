@@ -1,5 +1,5 @@
 "use client"
-import { PageContainer } from "@/ui/PaigeContainer";
+import { PageContainer } from "@/ui/Containers";
 import LogInForm from "@/components/auth/LogInForm";
 
 export default function LogInPage() {

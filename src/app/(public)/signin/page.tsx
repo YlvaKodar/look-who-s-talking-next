@@ -1,5 +1,5 @@
 "use client"
-import { PageContainer } from "@/ui/PaigeContainer";
+import { PageContainer } from "@/ui/Containers";
 import RegisterForm from "@/components/auth/RegisterForm";
 
 export default function SignInPage(){

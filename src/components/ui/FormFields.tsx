@@ -33,7 +33,7 @@ export function InputField({
          defaultValue={defaultValue}
          className={`
           w-full rounded-md border border-foreground
-          bg-background px-3 py-2
+          bg-background-light px-3 py-2
           text-foreground placeholder:text-foreground/40
           focus:ring-2 focus:ring-foreground/30
         `}
