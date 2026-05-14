@@ -18,8 +18,11 @@ export function InputField({
     defaultValue,
                            }: InputFieldProps) {
     return (
-     <div>
-         <label htmlFor={name}>{label}</label>
+     <div className="flex flex-col gap-1.5 w-full md:max-w-sm">
+         <label
+             htmlFor={name}
+             className={`text-sm font-medium text-foreground`}
+         >{label}</label>
          <input
          id={name}
          name={name}
@@ -28,6 +31,12 @@ export function InputField({
          required={required}
          min={min}
          defaultValue={defaultValue}
+         className={`
+          w-full rounded-md border border-foreground
+          bg-background px-3 py-2
+          text-foreground placeholder:text-foreground/40
+          focus:ring-2 focus:ring-foreground/30
+        `}
          />
      </div>
     );

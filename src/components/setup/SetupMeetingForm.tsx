@@ -1,6 +1,7 @@
 "use client"
 import { InputField } from "@/components/ui/FormFields";
 import { MeetingSetupForm } from "@/constants/constants";
+import { H1, H2, H3, H4 } from "@/components/ui/Headings";
 import { useMeetingStorage } from "@/hooks/useMeetingStorage";
 import { useRouter } from "next/navigation";
 import { createActiveMeeting } from "@/util/meetingUtil";
@@ -70,7 +71,7 @@ export default function SetupMeetingForm (){
     return (
         <form onSubmit={handleSubmit}>
             <div>
-                <h2 id="setup_form_head_1" className="secondary">{MeetingSetupForm.about}</h2>
+                <H2>{MeetingSetupForm.about}</H2>
                 <InputField type="text" label={MeetingSetupForm.meetingTitleLabel} name="title" required/>
                 {errors?.title && <p>{errors?.title[0]}</p>}
                 <InputField type="number" label={MeetingSetupForm.womenCountLabel} name="womenCount" min={0} defaultValue={0} required/>

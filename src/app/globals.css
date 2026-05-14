@@ -1,4 +1,46 @@
-/*@import "tailwindcss";*/
+@import "tailwindcss";
+
+@theme {
+    --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    --color-background: #f3f1e9;
+    --color-foreground: #090808;
+    --color-secondary: #090808;
+    --color-women: #c23a10;
+    --color-nonbinary: #410101;
+    --color-men: #af7610;
+}
+
+[data-theme="nautilus"] {
+    --color-background: #064262;
+    --color-foreground: #efe9dd;
+    --color-women: #031421;
+    --color-nonbinary: #188d8d;
+    --color-men: #6e4e1e;
+}
+
+[data-theme="jamjar"] {
+    --color-background: #02231f;
+    --color-foreground: #efe9dd;
+    --color-women: #7c0505;
+    --color-nonbinary: #261d46;
+    --color-men: #ff8594;
+}
+
+[data-theme="lollipopguild"] {
+    --color-background: #e8cb92;
+    --color-foreground: #090c2d;
+    --color-women: #9a6a15;
+    --color-nonbinary: #700202;
+    --color-men: #093338;
+}
+
+[data-theme="amber"] {
+    --color-background: #090808;
+    --color-foreground: #efe9dd;
+    --color-women: #c23a10;
+    --color-nonbinary: #410101;
+    --color-men: #af7610;
+}
 
 /*!* ============================================*/
 /*   BASE STYLES*/

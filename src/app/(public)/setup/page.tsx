@@ -1,11 +1,11 @@
-import SetupMeetingForm  from "@/components/setup/SetupMeetingForm";
+import { PageContainer } from "@/ui/PaigeContainer";
+import SetupView from "@/components/setup/SetupView";
 
 export default function SetupPage(){
 
     return (
-        <div >
-            <h1 id="setup_heading" className="primary">Let's set it up!</h1>
-            <SetupMeetingForm/>
-        </div>
+        <PageContainer>
+            <SetupView />
+        </PageContainer>
     )
 }

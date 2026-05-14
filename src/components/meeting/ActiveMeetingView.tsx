@@ -1,5 +1,5 @@
 "use client"
-
+import { H1, H2, H3, H4 } from "@/components/ui/Headings";
 import { SpeakerButtons, PauseButton, EndButton } from "@/components/meeting/MeetingButtons";
 import { TimerDisplay } from "@/components/meeting/TimerDisplay";
 import { useMeetingLogic } from "@/hooks/useMeetingLogic";
@@ -23,7 +23,7 @@ export function ActiveMeetingView() {
 
     return (
         <div>
-            <h1 id="meeting-title" className="primary">{activeMeeting.title}</h1>
+            <H1>{activeMeeting.title}</H1>
             <div id="meeting-controls-container">
                 <div>
                     <TimerDisplay formatedTime={formattedTime} />

@@ -1,11 +1,13 @@
 "use client"
+import { PageContainer } from "@/ui/PaigeContainer";
 import {ActiveMeetingView} from "@/components/meeting/ActiveMeetingView";
 
 export default function MeetingPage() {
-
     return (
-        <div>
-            <ActiveMeetingView/>
-        </div>
+        <PageContainer>
+            <div>
+                <ActiveMeetingView/>
+            </div>
+        </PageContainer>
     )
 }
