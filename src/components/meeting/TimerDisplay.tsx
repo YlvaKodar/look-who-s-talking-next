@@ -7,7 +7,18 @@ type SpeakerButtonProps = {
 export function TimerDisplay({formatedTime}: SpeakerButtonProps) {
     return (
         <>
-            <div id="timer-display" className="primary">{formatedTime}</div>
+            <div className={
+               `w-full
+                py-4 px-6
+                rounded-md
+                border-2 border-foreground-dark
+                bg-background-light
+                text-center text-foreground-dark text-4xl font-timerOpt
+                `
+                }
+                >
+            {formatedTime}
+            </div>
         </>
     )
 }

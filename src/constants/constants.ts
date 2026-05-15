@@ -82,6 +82,21 @@ export const CONFIG = {
             Z_INDEX_OVERLAY: 9999,
             Z_INDEX_ALERT: 10000,
         },
+    },
+
+    VARIANTS: {
+        women: {
+            base: "bg-women-dark border-2 border-women-light text-background-light hover:bg-women-light",
+            active: "bg-women-light border-2 border-women-dark text-background-light scale-102"
+        },
+        nonbinary: {
+            base: "bg-nonbinary-dark border-2  border-nonbinary-light text-background-light hover:bg-nonbinary-light",
+            active: "bg-nonbinary-light border-2 border-nonbinary-dark text-background-light scale-102"
+        },
+        men: {
+            base: "bg-men-dark border-2  border-men-light text-background-light hover:bg-men-light",
+            active: "bg-men-light border-2 border-men-dark text-background-light scale-102"
+        }
     }
 }
 
@@ -97,7 +112,7 @@ export const STORAGE = {
 export const Genders = {
     womenLabel: 'Women',
     nonbinaryLabel: 'Nonbinary',
-    menlabel: "Men",
+    menLabel: "Men",
     womenSpeakingButton: 'Woman speaking',
     nonbinarySpeakingButton: 'Nonbinary speaking',
     menSpeakingTime: 'Man speaking',

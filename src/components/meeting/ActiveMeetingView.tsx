@@ -1,5 +1,6 @@
 "use client"
 import { H1, H2, H3, H4 } from "@/components/ui/Headings";
+import { ButtonContainer } from "@/ui/Containers";
 import { SpeakerButtons, PauseButton, EndButton } from "@/components/meeting/MeetingButtons";
 import { TimerDisplay } from "@/components/meeting/TimerDisplay";
 import { useMeetingLogic } from "@/hooks/useMeetingLogic";
@@ -22,19 +23,19 @@ export function ActiveMeetingView() {
     }
 
     return (
-        <div>
+        <div className="w-full max-w-md mx-auto ">
             <H1>{activeMeeting.title}</H1>
-            <div id="meeting-controls-container">
-                <div>
+            <div className="meeting-controls-container">
+                <div className="flex mx-auto">
                     <TimerDisplay formatedTime={formattedTime} />
                 </div>
-                <div>
+                <div className="w-full py-4">
                     <SpeakerButtons meeting={ activeMeeting } currentSpeaker={ currentSpeaker } onStartSpeaking={ startSpeaking }/>
                 </div>
-                <div className="control-buttons">
+                <ButtonContainer>
                     <PauseButton onPause={ pauseSpeaking }/>
                     <EndButton onEnd={ handleEnd } />
-                </div>
+                </ButtonContainer>
             </div>
         </div>
     )

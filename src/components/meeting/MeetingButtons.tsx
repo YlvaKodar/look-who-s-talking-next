@@ -2,28 +2,50 @@
 import { ActiveMeeting, Gender } from "@/types/meeting";
 import {Genders, MeetingText} from "@/constants/constants";
 import { getPresentGenders } from "@/util/meetingUtil";
+import { CommonButton } from "@/ui/Buttons";
+import { CONFIG } from "@/constants/constants"
 
 type SpeakerButtonProps = {
     meeting: ActiveMeeting,
     currentSpeaker: Gender | null,
     onStartSpeaking: (gender: Gender) => void
 }
+// <div className="flex flex-col w-full gap-x-5">
+const variants = {
+    women: {
+        base: CONFIG.VARIANTS.women.base,
+        active: CONFIG.VARIANTS.women.active
+    },
+    nonbinary: {
+        base: CONFIG.VARIANTS.nonbinary.base,
+        active: CONFIG.VARIANTS.nonbinary.active
+    },
+    men: {
+        base: CONFIG.VARIANTS.men.base,
+        active: CONFIG.VARIANTS.men.active
+    }
+}
 
 export function SpeakerButtons ({ meeting, currentSpeaker, onStartSpeaking} : SpeakerButtonProps) {
     const presentGenders = getPresentGenders(meeting.participants)
 
-
     return (
-        <div className="speaker-buttons">
-            {presentGenders.map(gender => (
-                <button
-                key={gender}
-                className={`speaker-btn ${gender} ${currentSpeaker === gender ? 'active' : ''}`}
-                onClick={() => onStartSpeaking(gender) }
-                >
-                    {Genders.buttonLabels[gender]}
-                </button>
-            ))}
+        <div className="flex flex-col w-full gap-y-3">
+            {presentGenders.map(gender => {
+                const isActive = currentSpeaker === gender
+                return (
+                    <button
+                        key={gender}
+                        className={`
+                            py-2 rounded-md w-full transition-all
+                            ${isActive ? variants[gender].active : variants[gender].base}
+                        `}
+                        onClick={() => onStartSpeaking(gender)}
+                    >
+                        {Genders.buttonLabels[gender]}
+                    </button>
+                )
+            })}
         </div>
     )
 }
@@ -36,12 +58,12 @@ export function PauseButton ({ onPause }: PauseButtonProps) {
 
     return (
         <>
-            <button
+            <CommonButton
                 key={"pause-meeting"}
-                className={"secondary"}
+                variant={"secondary"}
                 onClick={onPause}>
                 {MeetingText.pauseButton}
-            </button>
+            </CommonButton>
         </>
     )
 }
@@ -53,12 +75,12 @@ export function EndButton ({ onEnd }: EndButtonProps) {
 
     return (
         <>
-            <button
+            <CommonButton
                 key={"pause-meeting"}
-                className={"secondary"}
+                variant={"secondary"}
                 onClick={onEnd}>
                 {MeetingText.endButton}
-            </button>
+            </CommonButton>
         </>
     )
 }

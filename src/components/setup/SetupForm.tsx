@@ -1,6 +1,7 @@
 "use client"
 import { InputField } from "@/components/ui/FormFields";
 import { CommonButton } from "@/ui/Buttons";
+import { ThemePicker } from "@/components/setup/ThemePicker";
 import { SetupText } from "@/constants/constants";
 import { ButtonContainer } from "@/ui/Containers";
 import { H1, H2, H3, H4 } from "@/components/ui/Headings";
@@ -83,6 +84,8 @@ export default function SetupForm (){
                 <InputField type="number" label={SetupText.menCountLabel} name="menCount" min={0} defaultValue={0} required/>
                 {errors?.menCount && <p>{errors?.menCount[0]}</p>}
                 {errors?.totalCount && <p>{errors?.totalCount[0]}</p>}
+
+            <ThemePicker/>
 
             <ButtonContainer>
                 <CommonButton type="submit">{SetupText.submitLabel}</CommonButton>

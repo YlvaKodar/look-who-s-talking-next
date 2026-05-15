@@ -12,7 +12,7 @@ export function CommonButton({ variant = "primary", className, children, ...prop
     return (
         <button
             className={`
-        px-4 py-2 rounded-md font-medium w-full
+        py-2 rounded-md font-medium w-full
         cursor-pointer
         disabled:opacity-50 disabled:cursor-not-allowed
         ${variants[variant]}
@@ -23,4 +23,68 @@ export function CommonButton({ variant = "primary", className, children, ...prop
             {children}
         </button>
     )
+}
+
+interface Option<T> {
+    value: T;
+    label: string;
+    description?: string;
+}
+
+interface RadioButtonsProps<T extends string> {
+    options: Option<T>[];
+    value: T;
+    onChange: (value: T) => void;
+    name: string;
+}
+
+export function RadioButtons<T extends string>({
+                                        options,
+                                        value,
+                                        onChange,
+                                        name,
+                                    }: RadioButtonsProps<T>) {
+    return (
+        <div className="flex flex-col gap-2.5">
+            {options.map((option) => {
+                const isSelected = value === option.value;
+                return (
+                    <label
+                        key={option.value}
+                        className={`flex cursor-pointer items-center gap-3 rounded-md border px-3.5 py-2.5 transition-colors ${
+                            isSelected
+                                ? "border-foreground-dark bg-background-light"
+                                : "border-foreground-light bg-background-dark hover:bg-background-light"
+                        }`}
+                    >
+                        <input
+                            type="radio"
+                            name={name}
+                            value={option.value}
+                            checked={isSelected}
+                            onChange={() => onChange(option.value)}
+                            className="sr-only"
+                        />
+                        <div
+                            className={`flex h-4.5 w-4.5 shrink-0 items-center justify-center rounded-full border-2 transition-colors ${
+                                isSelected ? "border-foreground-dark" : "border-foreground-light"
+                            }`}
+                        >
+                            {isSelected && (
+                                <div className="h-2 w-2 rounded-full bg-foreground-dark" />
+                            )}
+                        </div>
+                        <div>
+              <span className="text-sm font-medium text-foreground-dark">
+                {option.label}
+              </span>
+                            {option.description && (
+                                <p className="text-xs text-foreground-light">{option.description}</p>
+                            )}
+                        </div>
+                    </label>
+                );
+            })}
+        </div>
+    );
 }
