@@ -126,12 +126,17 @@ export const StatsText = {
     statementPie: "Statement distribution:",
 }
 
+export const Common = {
+    title: "Look who's talking!",
+    description: "Timing tool for mixed-gender conversations",
+}
+
 export const MeetingText = {
     pauseButton: 'Pause timer',
     endButton: 'End meeting',
 }
 
-export const MeetingSetupForm = {
+export const SetupText = {
     about: "About this meeting:",
     meetingTitleLabel: "Name your meeting:",
     startTimeLabel: "Date and time of the meeting:",

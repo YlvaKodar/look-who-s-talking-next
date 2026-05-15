@@ -1,7 +1,7 @@
 "use client"
 import { InputField } from "@/components/ui/FormFields";
 import { CommonButton } from "@/ui/Buttons";
-import { MeetingSetupForm } from "@/constants/constants";
+import { SetupText } from "@/constants/constants";
 import { ButtonContainer } from "@/ui/Containers";
 import { H1, H2, H3, H4 } from "@/components/ui/Headings";
 import { useMeetingStorage } from "@/hooks/useMeetingStorage";
@@ -73,19 +73,19 @@ export default function SetupForm (){
     return (
         <form onSubmit={handleSubmit}>
 
-                <H2>{MeetingSetupForm.about}</H2>
-                <InputField type="text" label={MeetingSetupForm.meetingTitleLabel} name="title" required/>
+                <H2>{SetupText.about}</H2>
+                <InputField type="text" label={SetupText.meetingTitleLabel} name="title" required/>
                 {errors?.title && <p>{errors?.title[0]}</p>}
-                <InputField type="number" label={MeetingSetupForm.womenCountLabel} name="womenCount" min={0} defaultValue={0} required/>
+                <InputField type="number" label={SetupText.womenCountLabel} name="womenCount" min={0} defaultValue={0} required/>
                 {errors?.womenCount && <p>{errors?.womenCount[0]}</p>}
-                <InputField type="number" label={MeetingSetupForm.nonbinaryCountLabel} name="nonbinaryCount" min={0} defaultValue={0} required/>
+                <InputField type="number" label={SetupText.nonbinaryCountLabel} name="nonbinaryCount" min={0} defaultValue={0} required/>
                 {errors?.nonbinaryCount && <p>{errors?.nonbinaryCount[0]}</p>}
-                <InputField type="number" label={MeetingSetupForm.menCountLabel} name="menCount" min={0} defaultValue={0} required/>
+                <InputField type="number" label={SetupText.menCountLabel} name="menCount" min={0} defaultValue={0} required/>
                 {errors?.menCount && <p>{errors?.menCount[0]}</p>}
                 {errors?.totalCount && <p>{errors?.totalCount[0]}</p>}
 
             <ButtonContainer>
-                <CommonButton type="submit">{MeetingSetupForm.submitLabel}</CommonButton>
+                <CommonButton type="submit">{SetupText.submitLabel}</CommonButton>
             </ButtonContainer>
         </form>
     )
