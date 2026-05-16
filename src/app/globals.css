@@ -28,7 +28,12 @@
     --color-nonbinary-light: oklch(0.695 0.095 194.87);
     --color-men-dark: oklch(0.439 0.077 74.368);
     --color-men-light: oklch(0.539 0.077 74.368);
+
+    /*--color-nonbinary-dark: oklch(0.685 0.144 243.108);*/
+    /*--color-men-dark: oklch(0.871 0.145 85.886);*/
+
 }
+
 
 [data-theme="jamjar"] {
     --color-women-dark: oklch(0.361 0.148 28.641);

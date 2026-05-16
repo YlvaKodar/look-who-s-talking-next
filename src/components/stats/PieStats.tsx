@@ -1,5 +1,6 @@
 "use client"
 import { Pie } from 'react-chartjs-2';
+import { H1, H2, H3, H4 } from "@/components/ui/Headings";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import {Gender, MeetingStats} from '@/types/meeting';
 import { Genders, StatsText } from "@/constants/constants";
@@ -18,16 +19,15 @@ export function PieStats({ meetingStats, presentGenders }: ChartStatsProps) {
     const speakingData = presentGenders.map(gender =>  meetingStats.genderStats[gender].speakingTime );
     const statementData = presentGenders.map(gender =>  meetingStats.genderStats[gender].statementCount );
 
-
     return (
-        <div>
-            <div >
+        <div className={`w-full flex flex-col gap-8 mx-auto`}>
+            <div className={`w-full flex flex-col items-center`}>
                 <PieBakery label={ StatsText.participantPie } labels={ labels } dataArray={ participantData } />
             </div>
-            <div >
+            <div className={`w-full flex flex-col items-center`}>
                 <PieBakery label={ StatsText.speakingtimePie } labels={ labels } dataArray={ speakingData } />
             </div>
-            <div >
+            <div className={`w-full flex flex-col items-center`}>
                 <PieBakery label={ StatsText.statementPie } labels={ labels } dataArray={ statementData } />
             </div>
         </div>
@@ -39,8 +39,14 @@ type PieIngredients = {
     labels: string[];
     dataArray: number[];
 }
+
 function PieBakery({label, labels, dataArray}: PieIngredients) {
 
+    function getCssVariable(variable: string): string {
+        return getComputedStyle(document.documentElement)
+            .getPropertyValue(variable)
+            .trim();
+    }
 
     const data = {
         labels: labels,
@@ -48,24 +54,40 @@ function PieBakery({label, labels, dataArray}: PieIngredients) {
             label: label,
             data: dataArray,
             backgroundColor: [
-                'rgb(255, 99, 132)',
-                'rgb(54, 162, 235)',
-                'rgb(255, 205, 86)'
+                getCssVariable('--color-women-dark'),
+                getCssVariable('--color-nonbinary-dark'),
+                getCssVariable('--color-men-dark'),
+            ],
+            borderColor: [
+                getCssVariable('--color-background-dark'),
             ],
             hoverOffset: 4
         }]
     };
 
-    const config = {
-        type: 'pie',
-        data: data,
+    const options = {
+        plugins: {
+            legend: {
+                position: 'bottom' as const,
+                labels: {
+                    font: {
+                        size: 15,
+                        weight: 'normal' as const,
+                    },
+                    color: getCssVariable('--color-foreground-dark'),
+                    boxWidth: 15,
+                    padding: 8
+                }
+            }
+        }
     };
 
-
     return (
-        <div style={{ width: '20%' }}>
-            <h3>{label}</h3>
-            <Pie data={data} />
+        <div className={`flex flex-col items-center`} >
+            <H4>{label}</H4>
+            <div className={`w-full`}>
+                <Pie data={data} options={options} />
+            </div>
         </div>
     )
 }

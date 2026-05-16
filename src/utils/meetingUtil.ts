@@ -1,5 +1,4 @@
 import { ActiveMeeting, Participants, SpeakingData, Gender, MeetingStats, GenderStats, Stats } from "@/types/meeting";
-import {parts} from "effect/Duration";
 
 const genders: Gender[] = ["women", "nonbinary", "men"];
 

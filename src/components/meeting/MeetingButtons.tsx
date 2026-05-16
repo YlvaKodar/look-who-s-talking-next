@@ -1,7 +1,7 @@
 "use client"
 import { ActiveMeeting, Gender } from "@/types/meeting";
 import {Genders, MeetingText} from "@/constants/constants";
-import { getPresentGenders } from "@/util/meetingUtil";
+import { getPresentGenders } from "../../utils/meetingUtil";
 import { CommonButton } from "@/ui/Buttons";
 import { CONFIG } from "@/constants/constants"
 
@@ -60,7 +60,7 @@ export function PauseButton ({ onPause }: PauseButtonProps) {
         <>
             <CommonButton
                 key={"pause-meeting"}
-                variant={"secondary"}
+                variant={"tertiary"}
                 onClick={onPause}>
                 {MeetingText.pauseButton}
             </CommonButton>
@@ -77,7 +77,7 @@ export function EndButton ({ onEnd }: EndButtonProps) {
         <>
             <CommonButton
                 key={"pause-meeting"}
-                variant={"secondary"}
+                variant={"tertiary"}
                 onClick={onEnd}>
                 {MeetingText.endButton}
             </CommonButton>

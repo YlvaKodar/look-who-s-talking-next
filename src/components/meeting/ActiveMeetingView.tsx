@@ -23,10 +23,10 @@ export function ActiveMeetingView() {
     }
 
     return (
-        <div className="w-full max-w-md mx-auto ">
+        <div className={`rounded-md w-full border border-foreground-dark, bg-background-light py-2  px-6 max-w-md mx-auto `}>
             <H1>{activeMeeting.title}</H1>
-            <div className="meeting-controls-container">
-                <div className="flex mx-auto">
+            <div >
+                <div className={`flex mx-auto py-2 `}>
                     <TimerDisplay formatedTime={formattedTime} />
                 </div>
                 <div className="w-full py-4">

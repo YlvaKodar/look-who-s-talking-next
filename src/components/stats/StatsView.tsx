@@ -1,9 +1,10 @@
 "use client"
+import { H1, H2, H3, H4 } from "@/components/ui/Headings";
 import { StatsText } from "@/constants/constants";
-import { TextStats } from "@/components/stats/TextStats";
-import { PieStats } from "@/components/stats/PieStats";
+import { StatsPresentation } from "@/components/stats/StatsPresentation";
+
 import { useMeetingStorage } from "@/hooks/useMeetingStorage";
-import { createMeetingStats, getPresentGenders } from "@/util/meetingUtil";
+import { createMeetingStats, getPresentGenders } from "../../utils/meetingUtil";
 import { MeetingStats } from "@/types/meeting";
 
 export function StatsView() {
@@ -21,14 +22,14 @@ export function StatsView() {
 
     return(
         <div>
-            <h1 id="stats_heading" className="primary">{StatsText.heading}</h1>
+            <H1>{StatsText.heading}</H1>
 
             <div className="stats-container">
 
-                <div className="chart-container" >
-                    <PieStats meetingStats={meetingStats} presentGenders={presentGenders} />
-                </div>
-                <TextStats meetingStats={meetingStats} presentGenders={presentGenders} />
+
+
+
+                <StatsPresentation meetingStats={meetingStats} presentGenders={presentGenders} />
             </div>
 
             {/*<div id="stats-actions">*/}
