@@ -152,6 +152,7 @@ export const MeetingText = {
 }
 
 export const SetupText = {
+    heading: "Let's set it up!",
     about: "About this meeting:",
     meetingTitleLabel: "Name your meeting:",
     colorSchemeLabel: "Pick a color scheme?",
@@ -162,6 +163,10 @@ export const SetupText = {
     submitLabel: "Start the meeting!",
 }
 
+export const StartText = {
+    heading: "Look Who's Talking",
+    about: "Timing tool for mixed-gender conversations",
+}
 export const Validation = {
     meetingTitle: "Your meeting wants a title! Enter 3 to 30 characters.",
     cannotBeNegative: "Can't be fewer than zero. Do a recount!",

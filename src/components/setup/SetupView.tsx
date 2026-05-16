@@ -1,13 +1,14 @@
 "use client"
-import { H1, H2, H3, H4 } from "@/components/ui/Headings";
+import { H1 } from "@/components/ui/Headings";
 import SetupForm  from "@/components/setup/SetupForm";
+import { SetupText } from "@/constants/constants";
 
 
 export default function SetupView(){
 
     return (
         <div >
-            <H1>Let's set it up!</H1>
+            <H1>{SetupText.heading}</H1>
             <SetupForm/>
         </div>
     )
