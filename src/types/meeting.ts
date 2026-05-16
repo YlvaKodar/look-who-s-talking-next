@@ -27,8 +27,24 @@ export type MeetingStats = {
 export type ActiveMeeting = {
     title: string;
     startedAt: Date;
+    groupId?: string;
     participants: Participants
     speakingData: SpeakingData
+}
+
+export type MeetingData = {
+    groupId?: string;
+    title: string;
+    startedAt: Date;
+    womenCount: number;
+    nonbinaryCount: number;
+    menCount: number;
+    womenSpeakingTime: number;
+    nonbinarySpeakingTime: number;
+    menSpeakingTime : number;
+    womenStatementCount: number;
+    nonbinaryStatementCount: number;
+    menStatementCount: number;
 }
 
 export type PastMeeting = {
@@ -41,11 +57,9 @@ export type PastMeeting = {
     womenCount: number;
     nonbinaryCount: number;
     menCount: number;
-    totalSpeakingTime: number;
     womenSpeakingTime: number;
     nonbinarySpeakingTime: number;
     menSpeakingTime : number;
-    totalStatementCount: number;
     womenStatementCount: number;
     nonbinaryStatementCount: number;
     menStatementCount: number;

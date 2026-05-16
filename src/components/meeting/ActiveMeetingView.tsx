@@ -1,17 +1,43 @@
 "use client"
-import { H1, H2, H3, H4 } from "@/components/ui/Headings";
+import { H1 } from "@/components/ui/Headings";
 import { ButtonContainer } from "@/ui/Containers";
 import { SpeakerButtons, PauseButton, EndButton } from "@/components/meeting/MeetingButtons";
 import { TimerDisplay } from "@/components/meeting/TimerDisplay";
 import { useMeetingLogic } from "@/hooks/useMeetingLogic";
 import { useRouter } from "next/navigation";
+import { authClient} from "@/lib/auth-client";
+import { createMeetingData } from "@/utils/meetingUtil";
 
 export function ActiveMeetingView() {
     const { activeMeeting, currentSpeaker, startSpeaking, pauseSpeaking, endMeeting, formattedTime } = useMeetingLogic()
     const router = useRouter();
+    const { data: session } = authClient.useSession();
 
-    function handleEnd() {
+    async function handleEnd() {
         endMeeting();
+
+
+
+        //Todo: give chance to change stuff if not okay?
+        if (session && activeMeeting) {
+            const meetingData = createMeetingData(activeMeeting);
+
+            try {
+
+                const result = await fetch("/api/meetings", {
+                    method: "POST",
+                    body: JSON.stringify(meetingData),
+                })
+
+                if (!result.ok) {
+                    const error = await result.json();
+                    console.error(error.code, error.error );
+                }
+
+            } catch (error) {
+                console.error(error);
+            }
+        }
         router.push('/stats');
     }
 

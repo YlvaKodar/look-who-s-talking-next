@@ -30,7 +30,7 @@
       "@/constants/*": ["src/constants/*"],
       "@/types/*": ["src/types/*"],
       "@/hooks/*": ["src/hooks/*"],
-      "@/util/*": ["src/util/*"]
+      "@/utils/*": ["src/utils/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],

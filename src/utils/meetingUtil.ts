@@ -1,4 +1,4 @@
-import { ActiveMeeting, Participants, SpeakingData, Gender, MeetingStats, GenderStats, Stats } from "@/types/meeting";
+import { ActiveMeeting, Participants, SpeakingData, Gender, MeetingStats, GenderStats, Stats, MeetingData } from "@/types/meeting";
 
 const genders: Gender[] = ["women", "nonbinary", "men"];
 
@@ -78,6 +78,25 @@ function createStats(
         averageStatementLengthString,
         equalShare,
         equalShareString
+    }
+}
+
+export function createMeetingData(
+    activeMeeting: ActiveMeeting,
+): MeetingData {
+    return {
+        groupId: activeMeeting.groupId,
+        title: activeMeeting.title,
+        startedAt: activeMeeting.startedAt,
+        womenCount: activeMeeting.participants.women,
+        nonbinaryCount: activeMeeting.participants.nonbinary,
+        menCount: activeMeeting.participants.men,
+        womenSpeakingTime: getGenderSpeakingTime(activeMeeting.speakingData.women),
+        nonbinarySpeakingTime: getGenderSpeakingTime(activeMeeting.speakingData.nonbinary),
+        menSpeakingTime: getGenderSpeakingTime(activeMeeting.speakingData.men),
+        womenStatementCount: activeMeeting.speakingData.women.length,
+        nonbinaryStatementCount: activeMeeting.speakingData.nonbinary.length,
+        menStatementCount: activeMeeting.speakingData.men.length,
     }
 }
 
