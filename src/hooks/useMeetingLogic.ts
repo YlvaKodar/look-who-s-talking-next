@@ -4,39 +4,40 @@ import { useTimer } from "@/hooks/useTimer";
 import { useMeetingStorage } from "@/hooks/useMeetingStorage";
 import { ActiveMeeting, Gender } from "@/types/meeting";
 
-// TODO: Last statement doesn't show in stats. Logged?
 export function useMeetingLogic() {
     const [activeMeeting, setActiveMeeting] = useState<ActiveMeeting | null>(null)
     const [currentSpeaker, setCurrentSpeaker] = useState<Gender | null>(null)
     const { setup, meeting } = useMeetingStorage()
-    const { startTimer, stopTimer, spokenTime } = useTimer();
+    const { startTimer, stopTimer, tickingSec } = useTimer();
 
     const loadMeeting = () => {
-        setActiveMeeting(setup.load());
+        if (!setup.isLoaded) return null;
+        setActiveMeeting(setup.storedValue);
     }
 
     useEffect(() => {
         loadMeeting()
-    }, []);
+    }, [setup.isLoaded]);
 
     const startSpeaking = (gender: Gender) => {
-        loggSpeaking(spokenTime);
+        const statementTime = stopTimer()
+        loggSpeaking(statementTime, currentSpeaker, activeMeeting);
         setCurrentSpeaker(gender)
         startTimer();
     }
 
-    const loggSpeaking = (time : number) => {
+    const loggSpeaking = (time : number, gender: Gender | null, theMeeting: ActiveMeeting | null ) => {
         if (time === 0) return
-        if (!currentSpeaker) return
-        if (!activeMeeting) return
+        if (!gender) return
+        if (!theMeeting) return
 
-        console.log( `Gender: ${currentSpeaker}, Time: ${time}` )
+        console.log( `Gender: ${gender}, Time: ${time}` )
 
         const updatedMeeting: ActiveMeeting = {
-            ...activeMeeting,
+            ...theMeeting,
             speakingData: {
-                ...activeMeeting.speakingData,
-                [currentSpeaker] : [...activeMeeting.speakingData[currentSpeaker], time],
+                ...theMeeting.speakingData,
+                [gender] : [...theMeeting.speakingData[gender], time],
             }
         }
         meeting.save(updatedMeeting)
@@ -44,17 +45,17 @@ export function useMeetingLogic() {
     }
 
     const pauseSpeaking = () => {
-        loggSpeaking(spokenTime);
+        const statementTime = stopTimer()
+        loggSpeaking(statementTime, currentSpeaker, activeMeeting);
         setCurrentSpeaker(null)
-        stopTimer();
-    }
-    const endMeeting = () => {
-        loggSpeaking(spokenTime);
-        stopTimer()
-        if (activeMeeting) meeting.save(activeMeeting)
     }
 
-    const formattedTime = `${String(Math.floor(spokenTime / 60)).padStart(2, '0')}:${String(Math.floor(spokenTime % 60)).padStart(2, '0')}`;
+    const endMeeting = () => {
+        const statementTime = stopTimer()
+        loggSpeaking(statementTime, currentSpeaker, activeMeeting);
+    }
+
+    const formattedTime = `${String(Math.floor(tickingSec / 60)).padStart(2, '0')}:${String(Math.floor(tickingSec % 60)).padStart(2, '0')}`;
 
     return { activeMeeting, currentSpeaker, startSpeaking, pauseSpeaking, endMeeting, formattedTime }
 }

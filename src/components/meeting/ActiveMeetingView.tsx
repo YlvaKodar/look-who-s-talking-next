@@ -10,7 +10,6 @@ export function ActiveMeetingView() {
     const { activeMeeting, currentSpeaker, startSpeaking, pauseSpeaking, endMeeting, formattedTime } = useMeetingLogic()
     const router = useRouter();
 
-
     function handleEnd() {
         endMeeting();
         router.push('/stats');
