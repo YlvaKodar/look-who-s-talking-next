@@ -1,10 +1,10 @@
+"use client"
 const variants = {
     primary: "text-foreground-dark",
     women: "text-women-dark",
     nonbinary: "text-nonbinary-dark",
     men: "text-men-dark"
 }
-
 
 type HeadingProps = {
     color?: "primary" | "women" | "nonbinary" | "men"

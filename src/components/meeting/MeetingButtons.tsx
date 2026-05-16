@@ -10,7 +10,7 @@ type SpeakerButtonProps = {
     currentSpeaker: Gender | null,
     onStartSpeaking: (gender: Gender) => void
 }
-// <div className="flex flex-col w-full gap-x-5">
+
 const variants = {
     women: {
         base: CONFIG.VARIANTS.women.base,

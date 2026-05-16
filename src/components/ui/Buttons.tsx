@@ -1,4 +1,4 @@
-
+"use client"
 type CommonButtonProps = {
     variant?: "primary" | "secondary" | "tertiary"
 } & React.ComponentProps<"button">
