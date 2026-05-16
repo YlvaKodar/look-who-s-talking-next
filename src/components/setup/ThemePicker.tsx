@@ -2,19 +2,17 @@
 import { H1, H2, H3, H4 } from "@/components/ui/Headings";
 import { ButtonContainer } from "@/ui/Containers";
 import { RadioButtons } from "@/ui/Buttons";
-import { CONFIG, Genders } from "@/constants/constants"
+import { CONFIG, Genders, SetupText } from "@/constants/constants"
 import { useState } from "react";
 
 export function ThemePicker() {
-    const [selectedTheme, setSelectedTheme] = useState<Theme>("amber");
-    const setTheme = (theme: Theme) => {
-        setSelectedTheme(theme);
-        document.documentElement.setAttribute("data-theme", theme)
+    const [selectedScheme, setSelectedScheme] = useState("amber");
+    const setScheme = (scheme: string) => {
+        setSelectedScheme(scheme);
+        document.documentElement.setAttribute("data-theme", scheme);
     }
 
-    type Theme = "jamjar" | "nautilus" | "lollipopguild" | "amber";
-
-    const themes = [
+    const schemes = [
         {value: "jamjar", label: "Jam Jar"},
         {value: "nautilus", label: "Nautilus"},
         {value: "amber", label: "Amber"},
@@ -24,13 +22,14 @@ export function ThemePicker() {
     return (
         <div>
             <div>
-                <H3>Pick a color theme?</H3>
-                <Preview/>
+                <H3>{SetupText.colorSchemeLabel}</H3>
+                <div className={`py-2 rounded-md w-full border border-foreground-dark, bg-background-light px-2`}>
+                    <H4>{SetupText.schemePreview}</H4>
+                    <Preview/>
+                </div>
             </div>
-            <div>
-                <RadioButtons<Theme> options={themes} value={selectedTheme} onChange={setTheme} name="themes" />
-                {/*<button onClick={() => setTheme("nautilus")}>Nautilus</button>*/}
-                {/*<button onClick={() => setTheme("jamjar")}>Jamjar</button>*/}
+            <div className={`pt-3`}>
+                <RadioButtons options={schemes} value={selectedScheme} onChange={setScheme} name="schemes" />
             </div>
         </div>
     )

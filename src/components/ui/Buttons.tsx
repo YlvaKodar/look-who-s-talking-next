@@ -25,25 +25,25 @@ export function CommonButton({ variant = "primary", className, children, ...prop
     )
 }
 
-interface Option<T> {
-    value: T;
+type Option = {
+    value: string;
     label: string;
     description?: string;
 }
 
-interface RadioButtonsProps<T extends string> {
-    options: Option<T>[];
-    value: T;
-    onChange: (value: T) => void;
+type RadioButtonsProps = {
+    options: Option[];
+    value: string;
+    onChange: (value: string) => void;
     name: string;
 }
 
-export function RadioButtons<T extends string>({
+export function RadioButtons({
                                         options,
                                         value,
                                         onChange,
                                         name,
-                                    }: RadioButtonsProps<T>) {
+                                    }: RadioButtonsProps) {
     return (
         <div className="flex flex-col gap-2.5">
             {options.map((option) => {

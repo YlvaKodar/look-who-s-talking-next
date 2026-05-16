@@ -154,7 +154,8 @@ export const MeetingText = {
 export const SetupText = {
     about: "About this meeting:",
     meetingTitleLabel: "Name your meeting:",
-    startTimeLabel: "Date and time of the meeting:",
+    colorSchemeLabel: "Pick a color scheme?",
+    schemePreview: "Preview:",
     womenCountLabel: "How many women?",
     nonbinaryCountLabel: "How many nonbinary?",
     menCountLabel: "How many men?",
