@@ -5,7 +5,7 @@ import { RadioButtons } from "@/ui/Buttons";
 import { CONFIG, Genders, SetupText } from "@/constants/constants"
 import { useState } from "react";
 
-export function ThemePicker() {
+export function SchemePicker() {
     const [selectedScheme, setSelectedScheme] = useState("amber");
     const setScheme = (scheme: string) => {
         setSelectedScheme(scheme);
