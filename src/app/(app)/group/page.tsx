@@ -1,9 +1,8 @@
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
-import {DashboardView} from "@/components/dashboard/DashboardView";
 
-export default async function DashboardPage() {
+export default async function GroupPage() {
     const session = await auth.api.getSession({
         headers: await headers()
     });
@@ -13,6 +12,6 @@ export default async function DashboardPage() {
     }
 
     return (
-        <DashboardView />
+       <div>Hej grupp.</div>
     );
 }

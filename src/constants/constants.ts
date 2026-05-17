@@ -177,6 +177,19 @@ export const StartText = {
     useWithAccountHeading: "Use with account",
     useWithAccountText: "With the account, you can create meeting groups and access statistics from past meetings.",
 }
+
+export const DashboardText = {
+    heading: "Dashboard",
+    headingGroups: "Groups",
+    myGroups: "My groups",
+    keeperGroups: "Keeper",
+    klockerGroups: "Clocker",
+    createNewGroup: "New group",
+
+    headingMeetings: "Meetings",
+    headingMe: "Me!",
+
+}
 export const Validation = {
     meetingTitle: "Your meeting wants a title! Enter 3 to 30 characters.",
     cannotBeNegative: "Can't be fewer than zero. Do a recount!",
