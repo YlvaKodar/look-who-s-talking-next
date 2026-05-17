@@ -3,6 +3,8 @@ import { NextResponse } from "next/server";
 import { headers } from "next/headers";
 import { prisma } from "@/lib/prisma";
 import {Prisma} from "@/generated/prisma/client";
+import { GroupListItem } from "@/types/group"
+
 
 export async function GET( request: Request ) {
 
@@ -13,26 +15,61 @@ export async function GET( request: Request ) {
     const status = url.searchParams.get("status");
 
     if (status && status === "keeper") {
-        const groups = await prisma.group.findMany({
-            where: {keeperId: session.user.id}
+        const rawGroups = await prisma.group.findMany({
+            where: {keeperId: session.user.id},
+            select: {
+                id: true,
+                name: true,
+                description: true,
+            }
         });
+
+        const groups: GroupListItem[] = rawGroups.map(group => ({
+            id: group.id,
+            name: group.name,
+            description: group.description
+        }));
+
         return NextResponse.json(groups);
     }
 
     if (status && status === "clocker") {
-        const groups = await prisma.group.findMany({
+        const rawGroups = await prisma.group.findMany({
             where: {
                 clockers: {
                     some: {
                         userId: session.user.id}}
+            },
+            select: {
+                id: true,
+                name: true,
+                description: true,
             }
         });
+        const groups: GroupListItem[] = rawGroups.map(group => ({
+            id: group.id,
+            name: group.name,
+            description: group.description
+        }));
 
         return NextResponse.json(groups);
     }
 
     if (session.user.role === "ADMIN") {
-        const groups = await prisma.group.findMany();
+        const rawGroups = await prisma.group.findMany({
+            select: {
+                id: true,
+                name: true,
+                description: true,
+            }
+        });
+
+        const groups: GroupListItem[] = rawGroups.map(group => ({
+            id: group.id,
+            name: group.name,
+            description: group.description
+        }));
+
         return NextResponse.json(groups);
     }
     return NextResponse.json({error: "No groups found for this user"}, { status: 403 })

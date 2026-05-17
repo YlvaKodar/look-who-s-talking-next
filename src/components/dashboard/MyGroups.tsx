@@ -1,46 +1,70 @@
 "use client"
-import { authClient} from "@/lib/auth-client";
-import { H2, H3, H4 } from "@/ui/Headings"
+import { H1, H3 } from "@/ui/Headings"
 import { CommonButton } from "@/ui/Buttons";
 import { DashboardText } from "@/constants/constants";
-import {ButtonContainer} from "@/ui/Containers";
 import { useState } from "react";
+import { List } from "@/ui/Lists";
+import { GroupListItem } from "@/types/group"
+import { ChevronIcon } from "@/ui/Common";
 
 export function MyGroups() {
-    const [showGroupButtons, setShowGroupButtons] = useState<boolean>(false);
-    type Toggle = "keeper" | "clocker";
-    const [toggleGroups, setToggleGroups] = useState<Toggle>("keeper");
+    const [showClocker, setShowClocker] = useState<boolean>(false);
+    const [showKeeper, setShowKeeper] = useState<boolean>(false);
+    const [keeperGroups, setKeeperGroups] = useState<GroupListItem[]>([]);
+    const [clockerGroups, setClockerGroups] = useState<GroupListItem[]>([]);
 
+    async function fetchGroups(status: string) {
+        try {
+            const result = await fetch(`/api/groups?status=${status}`);
+            if (!result.ok) {
+                const error = await result.json();
+                console.error(error.code, error.error);
+                return;
+            }
+            const groups: GroupListItem[] = await result.json();
+            status === "keeper" ? setKeeperGroups(groups) : setClockerGroups(groups);
 
+        } catch (error) {
+            console.error(error);
+        }
+    }
 
     return (
-        <div>
+        <div className={`rounded-md w-full border border-foreground-dark, bg-background-light py-2  px-6 max-w-md mx-auto `}>
             <div>
-                <H2>{DashboardText.headingGroups}</H2>
-                <ButtonContainer>
-                    <CommonButton onClick={() => setShowGroupButtons((prev => !prev) )}>{DashboardText.myGroups}</CommonButton>
+                <H1>{DashboardText.headingGroups}</H1>
                     <CommonButton>{DashboardText.createNewGroup}</CommonButton>
-                </ButtonContainer>
             </div>
-            {showGroupButtons && (
-                <div>
-                    <ButtonContainer>
-                        <CommonButton>{DashboardText.keeperGroups}</CommonButton>
-                        <CommonButton>{DashboardText.klockerGroups}</CommonButton>
-                    </ButtonContainer>
-
-                    {toggleGroups === "keeper" && (
-                        <div></div>
-
-                    )}
-
-                    {toggleGroups === "clocker" && (
-                            <div></div>
-                        )
-                    }
-
+            <div>
+                <div onClick={() => { setShowKeeper(prevState => !prevState); fetchGroups("keeper"); }}>
+                    <H3>{DashboardText.keeperGroups} <ChevronIcon isOpen={showKeeper}/></H3>
                 </div>
-            )}
+
+                {showKeeper && (
+                    <List
+                        items={keeperGroups.map((group) => ({
+                            text: group.name,
+                            description: group.description,
+                            redirect: `/groups/${group.id}`,
+                        }))}
+                    />
+                )}
+
+                <div onClick={() => { setShowClocker(prevState => !prevState); fetchGroups("clocker"); }}>
+                    <H3>{DashboardText.clockerGroups}<ChevronIcon isOpen={showClocker}/></H3>
+                </div>
+
+                { showClocker && (
+                    <List
+                        items={clockerGroups.map((group) => ({
+                            text: group.name,
+                            description: group.description,
+                            redirect: `/groups/${group.id}`,
+                        }))}
+                    />
+                )
+                }
+            </div>
         </div>
     )
 }

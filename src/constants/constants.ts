@@ -182,8 +182,8 @@ export const DashboardText = {
     heading: "Dashboard",
     headingGroups: "Groups",
     myGroups: "My groups",
-    keeperGroups: "Keeper",
-    klockerGroups: "Clocker",
+    keeperGroups: "My keeper groups",
+    clockerGroups: "My clocker groups",
     createNewGroup: "New group",
 
     headingMeetings: "Meetings",
