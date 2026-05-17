@@ -32,6 +32,12 @@ export type ActiveMeeting = {
     speakingData: SpeakingData
 }
 
+export type MeetingListItem = {
+    id: string
+    title: string
+    startedAt: Date
+}
+
 export type MeetingData = {
     groupId?: string;
     title: string;

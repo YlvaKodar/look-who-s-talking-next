@@ -186,7 +186,9 @@ export const DashboardText = {
     clockerGroups: "My clocker groups",
     createNewGroup: "New group",
 
+
     headingMeetings: "Meetings",
+
     headingMe: "Me!",
 
 }

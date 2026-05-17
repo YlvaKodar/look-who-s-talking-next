@@ -3,6 +3,7 @@ import {headers} from "next/headers";
 import {NextResponse} from "next/server";
 import {prisma} from "@/lib/prisma";
 import {Prisma} from "@/generated/prisma/client";
+import { UserListItem } from "@/types/user";
 
 export async function GET (
     request: Request,
@@ -14,9 +15,22 @@ export async function GET (
 
     const { id } = await params;
 
-    const clockers = await prisma.groupClocker.findMany({
-        where: {groupId: id}
+    const rawClockers = await prisma.groupClocker.findMany({
+        where: {groupId: id},
+        include: {
+            user: {
+                select: {
+                    id: true,
+                    name: true,
+                }
+            }
+        }
     })
+
+    const clockers: UserListItem[] = rawClockers.map(clocker => ({
+        id: clocker.user.id,
+        name: clocker.user.name,
+    }));
 
     return NextResponse.json(clockers)
 }
