@@ -127,6 +127,7 @@ export const Genders = {
         men: 'Man speaking',
     }
 }
+
 export const StatsText = {
     heading: 'Meeting statistics',
     totalStatementCount: 'Total statement count: ',
@@ -166,6 +167,15 @@ export const SetupText = {
 export const StartText = {
     heading: "Look Who's Talking",
     about: "Timing tool for mixed-gender conversations",
+    useWithoutLoginHeading: "Start timing!",
+    useWithoutLoginText: "Create a meeting and start timing! No account needed!",
+    newMeetingButton: "New meeting",
+    howToUseButton: "How to use",
+    aboutButton: "About",
+    loginButton: "Log in",
+    signupButton: "Sign up",
+    useWithAccountHeading: "Use with account",
+    useWithAccountText: "With the account, you can create meeting groups and access statistics from past meetings.",
 }
 export const Validation = {
     meetingTitle: "Your meeting wants a title! Enter 3 to 30 characters.",

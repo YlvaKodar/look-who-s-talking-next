@@ -1,5 +1,5 @@
 "use client"
-import { H1, H3 } from "@/components/ui/Headings";
+import { H1, H3, H4 } from "@/components/ui/Headings";
 import { CommonButton } from "@/ui/Buttons";
 import { ButtonContainer } from "@/ui/Containers";
 import { useRouter } from "next/navigation";
@@ -8,19 +8,28 @@ import { StartText } from "@/constants/constants";
 export default function StartView() {
     const router = useRouter();
 
-    const handeNewMeeting = async () => {
-        router.push("/setup");
-    }
-
     return (
         <div>
             <H1>{StartText.heading}</H1>
             <H3>{StartText.about}</H3>
-            <ButtonContainer>
-                <CommonButton id="new-meeting-btn" variant="primary" onClick={handeNewMeeting} >New meeting</CommonButton>
-                <CommonButton id="about-btn" variant="secondary">About</CommonButton>
-                <CommonButton id="how-to-use-btn" variant="primary">How to use</CommonButton>
-            </ButtonContainer>
+            <div>
+                <H4>{StartText.useWithoutLoginHeading}</H4>
+                <p>{StartText.useWithoutLoginText}</p>
+                <ButtonContainer>
+                    <CommonButton variant="primary" onClick={() => router.push("/setup")}>{StartText.newMeetingButton}</CommonButton>
+                    <CommonButton variant="secondary">{StartText.aboutButton}</CommonButton>
+                    <CommonButton variant="primary">{StartText.howToUseButton}</CommonButton>
+                </ButtonContainer>
+            </div>
+
+            <div>
+                <H4>{StartText.useWithAccountHeading}</H4>
+                <p>{StartText.useWithAccountText}</p>
+                <ButtonContainer>
+                    <CommonButton variant="secondary" onClick={() =>  router.push("/login")}>{StartText.loginButton}</CommonButton>
+                    <CommonButton variant="secondary" onClick={() => router.push("/signin")} >{StartText.signupButton}</CommonButton>
+                </ButtonContainer>
+            </div>
         </div>
     );
 }
