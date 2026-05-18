@@ -11,6 +11,7 @@ import { ChevronIcon } from "@/ui/Common";
 import { useParams } from 'next/navigation';
 import {GroupPageItem} from "@/types/group";
 import {ListButtonContainer, ListItemContainer} from "@/ui/Containers";
+import { Tooltip } from "@/ui/Common";
 
 
 export function GroupView() {

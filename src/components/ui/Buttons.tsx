@@ -26,10 +26,11 @@ export function CommonButton({ variant = "primary", className, children, ...prop
     )
 }
 
-export function ListButton({ variant = "primary", className, children, ...props }: CommonButtonProps) {
+export function ListButton({ variant = "primary",  className, children, ...props }: CommonButtonProps) {
     return (
         <button
             className={`
+        relative group
         px-1 rounded-md font-extralight
         cursor-pointer
         ${variants[variant]}

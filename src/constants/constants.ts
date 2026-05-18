@@ -189,6 +189,8 @@ export const DashboardText = {
     dateLabel: "Created: ",
     meetingsInGroup: "Meetings in this group ",
     clockersInGroup: "Clockers in this group ",
+    createNewGroupMeeting: "Create new meeting",
+    goToGroup: "Go to group",
 
     headingMeetings: "Meetings",
 

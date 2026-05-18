@@ -1,6 +1,8 @@
 "use client"
 import {H3} from "@/ui/Headings";
 import { useRouter } from "next/navigation";
+import { ListItemContainer } from "@/ui/Containers";
+import { Tooltip } from "@/ui/Common";
 
 type ListItemProps = {
     children: React.ReactNode;
@@ -40,24 +42,11 @@ export const List = ({
 const ListItem = ({ children, description }: ListItemProps) => {
     const router = useRouter();
     return (
-        <div className={`relative group w-full`}>
-            <div className={`w-full cursor-default`}
-            >
+        <div className={`w-full`}>
+            <ListItemContainer>
                 {children}
-            </div>
-            {description && <Tooltip description={description} />}
+                {description && <Tooltip label={description}/>}
+            </ListItemContainer>
         </div>
     )
 }
-
-const Tooltip = ({ description }: { description: string }) => (
-    <div className={`absolute left-0 top-full mt-1 z-10
-        bg-foreground-dark text-background-light text-sm
-        px-2 py-1 rounded
-        invisible group-hover:visible
-        opacity-0 group-hover:opacity-100
-        transition-opacity duration-200
-        whitespace-nowrap`}>
-        {description}
-    </div>
-)

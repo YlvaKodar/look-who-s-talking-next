@@ -5,11 +5,11 @@ import { ListItemContainer, ListButtonContainer } from "@/ui/Containers";
 import { DashboardText } from "@/constants/constants";
 import { useState } from "react";
 import { List } from "@/ui/Lists";
+import { Tooltip } from "@/ui/Common";
 import { GroupListItem } from "@/types/group"
 import { ChevronIcon } from "@/ui/Common";
 import { useRouter } from "next/navigation";
 
-//Todo: new meeting
 export function MyGroups() {
     const [showClocker, setShowClocker] = useState<boolean>(false);
     const [showKeeper, setShowKeeper] = useState<boolean>(false);
@@ -34,6 +34,23 @@ export function MyGroups() {
         }
     }
 
+    const GroupList = ({ group }: { group: GroupListItem[] })=> {
+        return (
+            <List
+                items={group.map((group) => ({
+                    children:
+                        <>
+                            <div className={`relative group`}>{group.name}  {group.description && <Tooltip label={group.description} />} </div>
+                            <ListButtonContainer>
+                                <ListButton onClick={() => router.push(`/group/${group.id}`) }>{"->"} <Tooltip label={DashboardText.goToGroup} /> </ListButton>
+                                <ListButton onClick={() => router.push(`/setup?groupId=${group.id}&groupName=${group.name}`, ) }>{"New meeting"} <Tooltip label={DashboardText.createNewGroupMeeting}  /> </ListButton>
+                            </ListButtonContainer>
+                        </>,
+                }))}
+            />
+        )
+    }
+
     return (
         <div className={`rounded-md w-full border border-foreground-dark, bg-background-light py-2  px-6 max-w-md mx-auto `}>
             <div>
@@ -46,19 +63,7 @@ export function MyGroups() {
                 </div>
 
                 {showKeeper && (
-                    <List
-                        items={keeperGroups.map((group) => ({
-                            children: <ListItemContainer>
-                                        <div className={`flex flex-row w-full`}>{group.name}
-                                            <ListButtonContainer>
-                                                <ListButton onClick={() => router.push(`/group/${group.id}`) }>{"Go to"}</ListButton>
-                                                <ListButton onClick={() => router.push(`/setup?groupId=${group.id}&groupName=${group.name}`, ) }>{"New meeting"}</ListButton>
-                                            </ListButtonContainer>
-                                        </div>
-                                    </ListItemContainer>,
-                            description: group.description,
-                        }))}
-                    />
+                    <GroupList group={keeperGroups}/>
                 )}
 
                 <div onClick={() => { setShowClocker(prevState => !prevState); fetchGroups("clocker"); }}>
@@ -66,21 +71,8 @@ export function MyGroups() {
                 </div>
 
                 { showClocker && (
-                    <List
-                        items={clockerGroups.map((group) => ({
-                            children: <ListItemContainer>
-                                <div className={`flex flex-row w-full`}>{group.name}
-                                    <ListButtonContainer>
-                                        <ListButton onClick={() => router.push(`/group/${group.id}`) }>{"Go to"}</ListButton>
-                                        <ListButton>{"New meeting"}</ListButton>
-                                    </ListButtonContainer>
-                                </div>
-                            </ListItemContainer>,
-                            description: group.description,
-                        }))}
-                    />
-                )
-                }
+                    <GroupList group={clockerGroups}/>
+                )}
             </div>
         </div>
     )
