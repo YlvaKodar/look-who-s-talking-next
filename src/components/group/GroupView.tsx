@@ -1,5 +1,5 @@
 "use client"
-import {authClient, useSession} from "@/lib/auth-client";
+import { useSession } from "@/lib/auth-client";
 import { H1, H3 } from "@/ui/Headings"
 import {CommonButton, ListButton} from "@/ui/Buttons";
 import { DashboardText } from "@/constants/constants";
@@ -8,11 +8,9 @@ import { List } from "@/ui/Lists";
 import { MeetingListItem } from "@/types/meeting"
 import { UserListItem } from "@/types/user";
 import { ChevronIcon } from "@/ui/Common";
-import { useParams } from 'next/navigation';
-import {GroupPageItem} from "@/types/group";
-import {ListButtonContainer, ListItemContainer} from "@/ui/Containers";
-import { Tooltip } from "@/ui/Common";
-
+import { useParams, useRouter} from 'next/navigation';
+import { GroupPageItem } from "@/types/group";
+import { ListButtonContainer, ListItemContainer } from "@/ui/Containers";
 
 export function GroupView() {
     const {data: session} = useSession();
@@ -24,9 +22,9 @@ export function GroupView() {
     const [noMeetings, setNoMeetings] = useState<boolean>(false);
     const [noClockers, setNoClockers] = useState<boolean>(false);
     const [isKeeper, setIsKeeper] = useState<boolean>(false);
-
     const [clockers, setClockers] = useState<UserListItem[]>([]);
     const [meetings, setMeetings] = useState<MeetingListItem[]>([]);
+    const router = useRouter();
 
     useEffect(() => {
         async function fetchGroup() {
@@ -87,6 +85,7 @@ export function GroupView() {
             <p> ... </p>
         )
     }
+
     return (
         <div className={`rounded-md w-full border border-foreground-dark, bg-background-light py-2  px-6 max-w-md mx-auto `}>
             <div>
@@ -94,7 +93,7 @@ export function GroupView() {
                 <H3>{group?.description}</H3>
                 <p>{DashboardText.keeperLabel} {group?.keeper.name}</p>
                 <p>{DashboardText.dateLabel} {group?.createdAt.toString()}</p>
-                <CommonButton>{DashboardText.createNewGroup}</CommonButton>
+                <CommonButton onClick={() => router.push(`/setup?groupId=${group?.id}&groupName=${group?.name}`, ) }>{DashboardText.createNewGroupMeeting}</CommonButton>
             </div>
             <div>
                 <div onClick={() => { setShowMeetings(prevState => !prevState); fetchMeetings() }}>
@@ -119,17 +118,15 @@ export function GroupView() {
                 {showClockers && clockers.length > 0 && (
                     <List
                         items={clockers.map((clocker) => ({
-                            children: <ListItemContainer>
-                                <div className={`flex flex-row w-full`}>{clocker.name}
+                            children: <>
+                                {clocker.name}
                                     { isKeeper && (
                                         <ListButtonContainer>
                                             <ListButton onClick={() => console.log("add remove") }>{"Remove"}</ListButton>
                                         </ListButtonContainer>
-                                        )
+                                    )
                                     }
-
-                                </div>
-                            </ListItemContainer>,
+                            </>
                         }))}
                     />
                 )}
