@@ -5,6 +5,7 @@ const genders: Gender[] = ["women", "nonbinary", "men"];
 export function createActiveMeeting(
     title: string,
     startedAt: Date,
+    groupId: string | undefined,
     womenCount: number,
     nonbinaryCount: number,
     menCount: number,
@@ -25,6 +26,7 @@ export function createActiveMeeting(
     return {
         title,
         startedAt,
+        groupId,
         participants,
         speakingData,
     };

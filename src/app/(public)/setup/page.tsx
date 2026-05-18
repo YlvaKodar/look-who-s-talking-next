@@ -1,8 +1,11 @@
 import SetupView from "@/components/setup/SetupView";
 
-export default function SetupPage(){
-
+type SearchParams = {
+    searchParams: Promise<{ groupId?: string; groupName?: string }>;
+};
+export default async function SetupPage({ searchParams }: SearchParams){
+    const { groupId, groupName } = await searchParams;
     return (
-        <SetupView />
+        <SetupView groupId={groupId} groupName={groupName} />
     )
 }

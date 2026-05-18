@@ -16,8 +16,6 @@ export function ActiveMeetingView() {
     async function handleEnd() {
         endMeeting();
 
-
-
         //Todo: give chance to change stuff if not okay?
         if (session && activeMeeting) {
             const meetingData = createMeetingData(activeMeeting);

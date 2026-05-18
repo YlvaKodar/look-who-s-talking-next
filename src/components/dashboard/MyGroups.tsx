@@ -52,7 +52,7 @@ export function MyGroups() {
                                         <div className={`flex flex-row w-full`}>{group.name}
                                             <ListButtonContainer>
                                                 <ListButton onClick={() => router.push(`/group/${group.id}`) }>{"Go to"}</ListButton>
-                                                <ListButton>{"New meeting"}</ListButton>
+                                                <ListButton onClick={() => router.push(`/setup?groupId=${group.id}&groupName=${group.name}`, ) }>{"New meeting"}</ListButton>
                                             </ListButtonContainer>
                                         </div>
                                     </ListItemContainer>,

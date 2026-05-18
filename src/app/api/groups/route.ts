@@ -55,6 +55,33 @@ export async function GET( request: Request ) {
         return NextResponse.json(groups);
     }
 
+    if (status && status === "myGroups") {
+        const rawGroups = await prisma.group.findMany({
+            where: {
+                OR: [
+                    { keeperId: session.user.id },
+                    {
+                        clockers: {
+                            some: { userId: session.user.id }
+                        }
+                    }
+                ]
+            },
+            select: {
+                id: true,
+                name: true,
+                description: true,
+            }
+        });
+        const groups: GroupListItem[] = rawGroups.map(group => ({
+            id: group.id,
+            name: group.name,
+            description: group.description
+        }));
+
+        return NextResponse.json(groups);
+    }
+
     if (session.user.role === "ADMIN") {
         const rawGroups = await prisma.group.findMany({
             select: {

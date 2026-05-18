@@ -2,14 +2,25 @@
 import { H1 } from "@/components/ui/Headings";
 import SetupForm  from "@/components/setup/SetupForm";
 import { SetupText } from "@/constants/constants";
+import {authClient} from "@/lib/auth-client";
 
+type SetupViewProps = {
+    groupId?: string;
+    groupName?: string;
+}
 
-export default function SetupView(){
+export default function SetupView({ groupId, groupName }: SetupViewProps) {
+    const { data: session } = authClient.useSession();
 
     return (
         <div >
             <H1>{SetupText.heading}</H1>
-            <SetupForm/>
+            {session && (
+                <SetupForm groupId={groupId} groupName={groupName} />
+            )}
+            {!session && (
+                <SetupForm/>
+            )}
         </div>
     )
 }
