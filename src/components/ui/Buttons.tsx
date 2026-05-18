@@ -26,6 +26,26 @@ export function CommonButton({ variant = "primary", className, children, ...prop
     )
 }
 
+export function ListButton({ variant = "primary", className, children, ...props }: CommonButtonProps) {
+    return (
+        <button
+            className={`
+        px-1 rounded-md font-extralight
+        cursor-pointer
+        ${variants[variant]}
+        ${className ?? ""}
+      `}
+            {...props}
+        >
+            {children}
+        </button>
+    )
+}
+
+
+
+
+
 type Option = {
     value: string;
     label: string;

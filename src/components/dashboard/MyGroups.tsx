@@ -1,17 +1,22 @@
 "use client"
 import { H1, H3 } from "@/ui/Headings"
-import { CommonButton } from "@/ui/Buttons";
+import { CommonButton, ListButton } from "@/ui/Buttons";
+import { ListItemContainer, ListButtonContainer } from "@/ui/Containers";
 import { DashboardText } from "@/constants/constants";
 import { useState } from "react";
 import { List } from "@/ui/Lists";
 import { GroupListItem } from "@/types/group"
 import { ChevronIcon } from "@/ui/Common";
+import { useRouter } from "next/navigation";
 
+//Todo: new meeting
 export function MyGroups() {
     const [showClocker, setShowClocker] = useState<boolean>(false);
     const [showKeeper, setShowKeeper] = useState<boolean>(false);
     const [keeperGroups, setKeeperGroups] = useState<GroupListItem[]>([]);
     const [clockerGroups, setClockerGroups] = useState<GroupListItem[]>([]);
+    const router = useRouter();
+
 
     async function fetchGroups(status: string) {
         try {
@@ -43,9 +48,15 @@ export function MyGroups() {
                 {showKeeper && (
                     <List
                         items={keeperGroups.map((group) => ({
-                            text: group.name,
+                            children: <ListItemContainer>
+                                        <div className={`flex flex-row w-full`}>{group.name}
+                                            <ListButtonContainer>
+                                                <ListButton onClick={() => router.push(`/group/${group.id}`) }>{"Go to"}</ListButton>
+                                                <ListButton>{"New meeting"}</ListButton>
+                                            </ListButtonContainer>
+                                        </div>
+                                    </ListItemContainer>,
                             description: group.description,
-                            redirect: `/group/${group.id}`,
                         }))}
                     />
                 )}
@@ -57,9 +68,15 @@ export function MyGroups() {
                 { showClocker && (
                     <List
                         items={clockerGroups.map((group) => ({
-                            text: group.name,
+                            children: <ListItemContainer>
+                                <div className={`flex flex-row w-full`}>{group.name}
+                                    <ListButtonContainer>
+                                        <ListButton onClick={() => router.push(`/group/${group.id}`) }>{"Go to"}</ListButton>
+                                        <ListButton>{"New meeting"}</ListButton>
+                                    </ListButtonContainer>
+                                </div>
+                            </ListItemContainer>,
                             description: group.description,
-                            redirect: `/group/${group.id}`,
                         }))}
                     />
                 )

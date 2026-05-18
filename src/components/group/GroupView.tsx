@@ -1,6 +1,7 @@
 "use client"
+import {authClient, useSession} from "@/lib/auth-client";
 import { H1, H3 } from "@/ui/Headings"
-import { CommonButton } from "@/ui/Buttons";
+import {CommonButton, ListButton} from "@/ui/Buttons";
 import { DashboardText } from "@/constants/constants";
 import { useState, useEffect } from "react";
 import { List } from "@/ui/Lists";
@@ -9,16 +10,19 @@ import { UserListItem } from "@/types/user";
 import { ChevronIcon } from "@/ui/Common";
 import { useParams } from 'next/navigation';
 import {GroupPageItem} from "@/types/group";
+import {ListButtonContainer, ListItemContainer} from "@/ui/Containers";
 
 
 export function GroupView() {
+    const {data: session} = useSession();
     const { id } = useParams();
     const [loading, setLoading] = useState<boolean>(true);
     const [group, setGroup] = useState<GroupPageItem | null>(null);
     const [showClockers, setShowClockers] = useState<boolean>(false);
     const [showMeetings, setShowMeetings] = useState<boolean>(false);
-    const [meetingLoaded, setMeetingLoaded] = useState<boolean>(false);
-    const [clockersLoaded, setClockersLoaded] = useState<boolean>(false);
+    const [noMeetings, setNoMeetings] = useState<boolean>(false);
+    const [noClockers, setNoClockers] = useState<boolean>(false);
+    const [isKeeper, setIsKeeper] = useState<boolean>(false);
 
     const [clockers, setClockers] = useState<UserListItem[]>([]);
     const [meetings, setMeetings] = useState<MeetingListItem[]>([]);
@@ -32,8 +36,9 @@ export function GroupView() {
                     console.error(error.code, error.error);
                     return;
                 }
-                const group = await result.json();
+                const group: GroupPageItem = await result.json();
                 setGroup(group);
+                setIsKeeper(session?.user.id === group?.keeper.id)
             } catch (error) {
                 console.error(error);
             } finally {
@@ -54,11 +59,10 @@ export function GroupView() {
             }
             const clockers: UserListItem[] = await result.json();
             setClockers(clockers);
-
+            setNoClockers(clockers.length === 0);
         } catch (error) {
             console.error(error);
         }
-        setClockersLoaded(true);
     }
 
     async function fetchMeetings() {
@@ -71,11 +75,10 @@ export function GroupView() {
             }
             const meetings: MeetingListItem[] = await result.json();
             setMeetings(meetings);
-
+            setNoMeetings(meetings.length === 0);
         } catch (error) {
             console.error(error);
         }
-        setMeetingLoaded(true);
     }
 
     if (loading) {
@@ -96,15 +99,15 @@ export function GroupView() {
                 <div onClick={() => { setShowMeetings(prevState => !prevState); fetchMeetings() }}>
                     <H3>{DashboardText.meetingsInGroup} <ChevronIcon isOpen={showMeetings}/></H3>
                 </div>
-                { showMeetings && meetings.length < 0 && (
+                { showMeetings && meetings.length > 0 && (
                     <List
                         items={meetings.map((meeting) => ({
-                            text: meeting.title,
+                            children: <ListItemContainer>{meeting.title}</ListItemContainer>,
                             description: (meeting.startedAt).toString(),
                         }))}
                     />
                 )}
-                { showMeetings && meetingLoaded && meetings.length === 0 && (
+                { showMeetings && noMeetings && (
                     <p>No meetings in this group.</p>
                 )}
 
@@ -115,11 +118,21 @@ export function GroupView() {
                 {showClockers && clockers.length > 0 && (
                     <List
                         items={clockers.map((clocker) => ({
-                            text: clocker.name,
+                            children: <ListItemContainer>
+                                <div className={`flex flex-row w-full`}>{clocker.name}
+                                    { isKeeper && (
+                                        <ListButtonContainer>
+                                            <ListButton onClick={() => console.log("add remove") }>{"Remove"}</ListButton>
+                                        </ListButtonContainer>
+                                        )
+                                    }
+
+                                </div>
+                            </ListItemContainer>,
                         }))}
                     />
                 )}
-                {showClockers && clockersLoaded && clockers.length === 0 && (
+                {showClockers && noClockers && (
                     <p>No clockers in this group.</p>
                 )}
 

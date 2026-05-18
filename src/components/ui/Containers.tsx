@@ -13,3 +13,17 @@ export function ButtonContainer({ children }: { children: React.ReactNode }) {
         </div>
     )
 }
+export function ListItemContainer({ children }: { children: React.ReactNode }) {
+    return (
+        <div className="flex flex-row gap-4 px-1 align-middle ">
+            {children}
+        </div>
+    )
+}
+export function ListButtonContainer({ children }: { children: React.ReactNode }) {
+    return (
+        <div className="flex flex-row gap-4 px-1 align-middle ">
+            {children}
+        </div>
+    )
+}
