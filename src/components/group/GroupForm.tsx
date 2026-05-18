@@ -13,7 +13,7 @@ type FormErrors = {
     name?: string[];
     description?: string[];
 }
-//TODO: redirect
+
 export default function GroupForm() {
     const [errors, setErrors] = useState<FormErrors>({});
     const [apiError, setApiError] = useState<string | null>(null);
@@ -22,6 +22,7 @@ export default function GroupForm() {
     async function handleSubmit (e: SyntheticEvent<HTMLFormElement>) {
         e.preventDefault();
         setApiError(null);
+        setErrors({});
         const data = new FormData(e.target as HTMLFormElement);
         const name = data.get("name") as string;
         const description = data.get("description") as string;
@@ -53,7 +54,8 @@ export default function GroupForm() {
                 setApiError(error.error ?? "Error! Alert! DANGER!");
             }
 
-            router.push("/dashboard");
+            router.push("/dashboard")
+            router.refresh();
 
         } catch (error) {
             setApiError("Fnurr på tråden!");
@@ -67,7 +69,7 @@ export default function GroupForm() {
             {apiError && <p role="alert">{apiError}</p>}
             <InputField type="text" label={GroupText.nameLabel} name="name" required/>
             {errors?.name && <p>{errors?.name[0]}</p>}
-            <InputField type="text" label={GroupText.descriptionLabel} name="description" required/>
+            <InputField type="text" label={GroupText.descriptionLabel} name="description"/>
             {errors?.description && <p>{errors?.description[0]}</p>}
             <ButtonContainer>
                 <CommonButton type="submit" >{GroupText.submitLabel}</CommonButton>
