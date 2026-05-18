@@ -1,14 +1,14 @@
 "use client"
 import { H1 } from "@/components/ui/Headings";
 import { ButtonContainer } from "@/ui/Containers";
-import { SpeakerButtons, PauseButton, EndButton } from "@/components/meeting/MeetingButtons";
-import { TimerDisplay } from "@/components/meeting/TimerDisplay";
+import { SpeakerButtons, PauseButton, EndButton } from "@/components/timer/TimerButtons";
+import { TimerDisplay } from "@/components/timer/TimerDisplay";
 import { useMeetingLogic } from "@/hooks/useMeetingLogic";
 import { useRouter } from "next/navigation";
 import { authClient} from "@/lib/auth-client";
 import { createMeetingData } from "@/utils/meetingUtil";
 
-export function ActiveMeetingView() {
+export function TimerView() {
     const { activeMeeting, currentSpeaker, startSpeaking, pauseSpeaking, endMeeting, formattedTime } = useMeetingLogic()
     const router = useRouter();
     const { data: session } = authClient.useSession();
@@ -21,9 +21,9 @@ export function ActiveMeetingView() {
             const meetingData = createMeetingData(activeMeeting);
 
             try {
-
                 const result = await fetch("/api/meetings", {
                     method: "POST",
+                    headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(meetingData),
                 })
 

@@ -1,5 +1,5 @@
 "use client"
-import { authClient} from "@/lib/auth-client";
+import { authClient } from "@/lib/auth-client";
 import { InputField, SelectField } from "@/components/ui/FormFields";
 import { CommonButton } from "@/ui/Buttons";
 import { SchemePicker } from "@/components/setup/SchemePicker";

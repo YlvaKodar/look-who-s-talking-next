@@ -32,3 +32,9 @@ export const SetupMeetingFormSchema = z.object({
     }
 );
 export type SetupMeetingFormData = z.infer<typeof SetupMeetingFormSchema>;
+
+export const GroupFormSchema = z.object({
+    name: z.string().min(3, { message: Validation.groupName }).max(30, { message: Validation.meetingTitle } ).trim(),
+    description: z.string().max(60, { message: Validation.meetingTitle } ).trim(),
+});
+export type GroupFormData = z.infer<typeof GroupFormSchema>;

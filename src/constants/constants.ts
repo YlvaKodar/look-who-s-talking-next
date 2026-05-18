@@ -196,8 +196,17 @@ export const DashboardText = {
 
     headingMe: "Me!",
 }
+
+export const GroupText = {
+    formHeading: "Create new group!",
+    nameLabel: "Name your group",
+    descriptionLabel: "Want to add a description?",
+    submitLabel: "Make it happen!",
+}
 export const Validation = {
     meetingTitle: "Your meeting wants a title! Enter 3 to 30 characters.",
     cannotBeNegative: "Can't be fewer than zero. Do a recount!",
     minParticipants: "No meeting without at least 2 meeters. From separate meeting groups.",
+    groupName: "Your group needs a name! Enter 3 to 30 characters.",
+    groupDescription: "Your group description cannot be over 30 characters.",
 }

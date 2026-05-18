@@ -1,7 +1,7 @@
-import {ActiveMeetingView} from "@/components/meeting/ActiveMeetingView";
+import {TimerView} from "@/components/timer/TimerView";
 
 export default function MeetingPage() {
     return (
-        <ActiveMeetingView/>
+        <TimerView/>
     )
 }

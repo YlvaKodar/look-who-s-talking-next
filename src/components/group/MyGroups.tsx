@@ -9,11 +9,13 @@ import { Tooltip } from "@/ui/Common";
 import { GroupListItem } from "@/types/group"
 import { ChevronIcon } from "@/ui/Common";
 import { useRouter } from "next/navigation";
+import GroupForm from "@/components/group/GroupForm";
 
 export function MyGroups() {
     const [showClocker, setShowClocker] = useState<boolean>(false);
     const [showKeeper, setShowKeeper] = useState<boolean>(false);
     const [keeperGroups, setKeeperGroups] = useState<GroupListItem[]>([]);
+    const [showNewGroup, setShowNewGroup] = useState<boolean>(false);
     const [clockerGroups, setClockerGroups] = useState<GroupListItem[]>([]);
     const router = useRouter();
 
@@ -55,7 +57,7 @@ export function MyGroups() {
         <div className={`rounded-md w-full border border-foreground-dark, bg-background-light py-2  px-6 max-w-md mx-auto `}>
             <div>
                 <H1>{DashboardText.headingGroups}</H1>
-                    <CommonButton>{DashboardText.createNewGroup}</CommonButton>
+                    <CommonButton onClick={() => setShowNewGroup(prevState => !prevState) }>{DashboardText.createNewGroup}</CommonButton>
             </div>
             <div>
                 <div onClick={() => { setShowKeeper(prevState => !prevState); fetchGroups("keeper"); }}>
@@ -74,6 +76,9 @@ export function MyGroups() {
                     <GroupList group={clockerGroups}/>
                 )}
             </div>
+            { showNewGroup && (
+                <GroupForm/>
+            )}
         </div>
     )
 }
