@@ -45,7 +45,7 @@ export function MyGroups() {
                         items={keeperGroups.map((group) => ({
                             text: group.name,
                             description: group.description,
-                            redirect: `/groups/${group.id}`,
+                            redirect: `/group/${group.id}`,
                         }))}
                     />
                 )}
@@ -59,7 +59,7 @@ export function MyGroups() {
                         items={clockerGroups.map((group) => ({
                             text: group.name,
                             description: group.description,
-                            redirect: `/groups/${group.id}`,
+                            redirect: `/group/${group.id}`,
                         }))}
                     />
                 )

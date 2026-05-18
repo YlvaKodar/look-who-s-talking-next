@@ -2,8 +2,10 @@ import { auth } from "@/lib/auth";
 import { NextResponse } from "next/server";
 import { headers } from "next/headers";
 import { prisma } from "@/lib/prisma";
-import {GroupUpdateInput} from "@/generated/prisma/models/Group";
-import {Prisma} from "@/generated/prisma/client";
+import { GroupUpdateInput } from "@/generated/prisma/models/Group";
+import { Prisma } from "@/generated/prisma/client";
+import { GroupPageItem } from "@/types/group";
+import {UserListItem} from "@/types/user";
 
 export async function GET(
     request: Request,
@@ -15,9 +17,32 @@ export async function GET(
 
     const { id } = await params;
 
-    const group = await prisma.group.findUnique({
-        where: { id }
+    const rawGroup = await prisma.group.findUnique({
+        where: { id },
+        select: {
+            id: true,
+            name: true,
+            description: true,
+            createdAt: true,
+            keeper: {
+                select: {
+                    id: true,
+                    name: true,
+                }
+            }
+        },
     });
+
+    let group: GroupPageItem | undefined = undefined;
+    if (rawGroup) {
+
+        const keeper: UserListItem = { id: rawGroup.keeper.id, name: rawGroup.keeper.name };
+
+        group = {
+            ...rawGroup,
+            keeper: keeper,
+        }
+    }
 
     if (!group) return NextResponse.json({ error: "Group not found" }, { status : 404 });
 

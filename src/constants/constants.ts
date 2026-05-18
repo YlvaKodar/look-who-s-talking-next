@@ -185,12 +185,14 @@ export const DashboardText = {
     keeperGroups: "My keeper groups",
     clockerGroups: "My clocker groups",
     createNewGroup: "New group",
-
+    keeperLabel: "Keeper: ",
+    dateLabel: "Created: ",
+    meetingsInGroup: "Meetings in this group ",
+    clockersInGroup: "Clockers in this group ",
 
     headingMeetings: "Meetings",
 
     headingMe: "Me!",
-
 }
 export const Validation = {
     meetingTitle: "Your meeting wants a title! Enter 3 to 30 characters.",
