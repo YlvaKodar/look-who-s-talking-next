@@ -6,6 +6,7 @@ export function createCurrentMeeting(
     title: string,
     startedAt: Date,
     groupId: string | undefined,
+    groupName: string | undefined,
     womenCount: number,
     nonbinaryCount: number,
     menCount: number,
@@ -27,6 +28,7 @@ export function createCurrentMeeting(
         title,
         startedAt,
         groupId,
+        groupName,
         participants,
         speakingData,
     };

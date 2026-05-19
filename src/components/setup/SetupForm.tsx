@@ -39,6 +39,7 @@ export default function SetupForm ({groupId, groupName}: SetupFormProps) {
         const data = new FormData(e.target as HTMLFormElement);
         const title = data.get("title") as string;
         const groupId = data.get("groupId") as string;
+        const groupName = data.get("groupName") as string;
         const startedAt = new Date();
         const womenCount = Number(data.get("womenCount")) || 0;
         const nonbinaryCount = Number(data.get("nonbinaryCount")) || 0;
@@ -71,13 +72,14 @@ export default function SetupForm ({groupId, groupName}: SetupFormProps) {
             title,
             startedAt,
             groupId,
+            groupName,
             womenCount,
             nonbinaryCount,
             menCount,
         );
 
         setup.save(activeMeeting)
-        router.push('/meeting')
+        router.push('/timer')
     };
 
 
@@ -101,7 +103,10 @@ export default function SetupForm ({groupId, groupName}: SetupFormProps) {
             )}
 
             { !showSelectGroups && (
-                <input type="hidden" name="groupId" value={groupId} />
+                <>
+                    <input type="hidden" name="groupId" value={groupId} />
+                    <input type="hidden" name="groupName" value={groupName} />
+                </>
             )}
 
             <InputField type="text" label={SetupText.meetingTitleLabel} name="title" required/>
@@ -126,6 +131,8 @@ export default function SetupForm ({groupId, groupName}: SetupFormProps) {
 
 function GroupSelector () {
     const [options, setOptions] = useState<{value: string, label: string}[]>([]);
+    const [selected, setSelected] = useState<{value: string, label: string} | null>(null);
+
     let placeholder = "Meeting group?";
 
     useEffect(() => {
@@ -155,9 +162,16 @@ function GroupSelector () {
                 label="Grupp"
                 name="groupId"
                 options={options}
-                placeholder={placeholder}
+                placeholder="Meeting group?"
                 defaultValue={""}
+                onChange={(e) => {
+                    const opt = options.find(o => o.value === e.target.value) ?? null;
+                    setSelected(opt);
+                }}
             />
+            {selected && (
+                <input type="hidden" name="groupName" value={selected.label} />
+            )}
         </>
-    )
+    );
 }

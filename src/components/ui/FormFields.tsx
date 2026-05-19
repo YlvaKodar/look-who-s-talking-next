@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect, useRef } from "react";
+import {useState, useEffect, useRef, ChangeEvent} from "react";
 
 type InputFieldProps = {
     label: string;
@@ -52,6 +52,7 @@ type SelectFieldProps = {
     placeholder?: string;
     required?: boolean;
     defaultValue?: string;
+    onChange?: (e: ChangeEvent<HTMLSelectElement>) => void;
 }
 
 export function SelectField({
@@ -61,6 +62,7 @@ export function SelectField({
                                 placeholder,
                                 required,
                                 defaultValue,
+                                onChange,
                             }: SelectFieldProps) {
     return (
         <div className="flex flex-col gap-1.5 w-full md:max-w-sm">
@@ -73,6 +75,7 @@ export function SelectField({
                 name={name}
                 required={required}
                 defaultValue={defaultValue ?? ""}
+                onChange={onChange}
                 className={`
                     w-full rounded-md border border-foreground
                     bg-background-light px-3 py-2

@@ -35,6 +35,7 @@ export type CurrentMeeting = {
     title: string;
     startedAt: Date;
     groupId?: string;
+    groupName?: string;
     participants: Participants
     speakingData: SpeakingData
 }

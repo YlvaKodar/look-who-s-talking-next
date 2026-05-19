@@ -1,6 +1,5 @@
 "use client"
 import { H1, H2, H3, H4 } from "@/components/ui/Headings";
-import { StatsText } from "@/constants/constants";
 import { StatsPresentation } from "@/components/stats/StatsPresentation";
 import { useMeetingStorage } from "@/hooks/useMeetingStorage";
 import { createCurrentMeetingStats, getPresentGenders } from "@/utils/meetingUtil";
@@ -19,11 +18,12 @@ export function StatsView() {
     }
     const presentGenders = getPresentGenders(endedMeeting.participants);
     const meetingStats: MeetingStats = createCurrentMeetingStats(endedMeeting);
+    const startedAt = new Date(endedMeeting.startedAt).toLocaleDateString("sv-SE");
 
     return(
         <div>
             <H1>{endedMeeting.title}</H1>
-            <H3>{endedMeeting.startedAt.toLocaleDateString("sv-SE")}</H3>
+            <H3>{startedAt}</H3>
             <StatsPresentation meetingStats={meetingStats} presentGenders={presentGenders} />
 
             {/*<div id="stats-actions">*/}
