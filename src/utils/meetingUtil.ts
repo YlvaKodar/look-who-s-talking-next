@@ -104,10 +104,10 @@ export function createMeetingData(
 
 export function createPastMeetingStats(
     id: string,
-    name: string,
+    title: string,
     groupName: string,
     keeperName: string,
-    createdAt: Date,
+    startedAt: string,
     womenCount: number,
     womenSpeakingTime: number,
     womenStatementCount: number,
@@ -118,7 +118,6 @@ export function createPastMeetingStats(
     menSpeakingTime: number,
     menStatementCount: number,
 ): MeetingStats {
-    const date = createdAt.toISOString();
     const totalParticipantCount = menCount + womenCount + nonbinaryCount;
     const totalSpeakingTime = menSpeakingTime + womenSpeakingTime + nonbinarySpeakingTime;
     const totalSpeakingTimeString = getFormattedTime(totalSpeakingTime);
@@ -165,10 +164,10 @@ export function createPastMeetingStats(
 
     return {
         id,
-        name,
+        title: title,
         groupName,
         keeperName,
-        createdAt: date,
+        startedAt,
         totalParticipantCount,
         totalSpeakingTime,
         totalSpeakingTimeString,

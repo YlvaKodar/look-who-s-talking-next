@@ -153,6 +153,7 @@ export const MeetingText = {
     headingMeeting: 'Meetings',
     createNewMeeting: 'New meeting',
     myMeetings: 'My meetings',
+    goToMeeting: "See meeting",
 }
 
 export const SetupText = {

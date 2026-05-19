@@ -10,6 +10,6 @@ export type GroupPageItem = {
     id: string,
     name: string,
     keeper: UserListItem,
-    createdAt: Date,
+    createdAt: string,
     description?: string | null,
 }

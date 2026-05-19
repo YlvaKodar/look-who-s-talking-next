@@ -16,12 +16,12 @@ export type Stats = {
 
 export type MeetingStats = {
     id?: string;
-    name?: string;
+    title?: string;
     groupId?: string;
     groupName?: string;
     keeperId?: string;
     keeperName?: string;
-    createdAt?: string;
+    startedAt?: string;
     totalParticipantCount: number,
     totalSpeakingTime: number,
     totalSpeakingTimeString: string,
@@ -42,28 +42,10 @@ export type CurrentMeeting = {
 export type MeetingListItem = {
     id: string
     title: string
-    startedAt: Date
+    startedAt: string
 }
 
 export type MeetingData = {
-    groupId?: string;
-    title: string;
-    startedAt: Date;
-    womenCount: number;
-    nonbinaryCount: number;
-    menCount: number;
-    womenSpeakingTime: number;
-    nonbinarySpeakingTime: number;
-    menSpeakingTime : number;
-    womenStatementCount: number;
-    nonbinaryStatementCount: number;
-    menStatementCount: number;
-}
-
-export type PastMeeting = {
-    id: string;
-    createdAt: Date;
-    keeperId: string;
     groupId?: string;
     title: string;
     startedAt: Date;

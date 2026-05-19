@@ -31,7 +31,7 @@ function getCachedGroup(id: string) {
             if (!rawGroup) return null;
 
             const keeper: UserListItem = { id: rawGroup.keeper.id, name: rawGroup.keeper.name };
-            return { ...rawGroup, keeper } as GroupPageItem;
+            return { ...rawGroup, createdAt: rawGroup.createdAt.toLocaleDateString("sv-SE") ,keeper } as GroupPageItem;
         },
         [`group-${id}`],
         { tags: [`group-${id}`], revalidate: 300 }

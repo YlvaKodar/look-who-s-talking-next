@@ -17,13 +17,13 @@ export function StatsView() {
             <p> ... </p>
         )
     }
-
     const presentGenders = getPresentGenders(endedMeeting.participants);
     const meetingStats: MeetingStats = createCurrentMeetingStats(endedMeeting);
 
     return(
         <div>
-            <H1>{StatsText.heading}</H1>
+            <H1>{endedMeeting.title}</H1>
+            <H3>{endedMeeting.startedAt.toLocaleDateString("sv-SE")}</H3>
             <StatsPresentation meetingStats={meetingStats} presentGenders={presentGenders} />
 
             {/*<div id="stats-actions">*/}

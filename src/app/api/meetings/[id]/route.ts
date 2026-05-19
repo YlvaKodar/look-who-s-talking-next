@@ -27,7 +27,7 @@ function getCachedMeeting(id: string) {
                 raw.title,
                 raw.group?.name ?? "",
                 raw.keeper.name,
-                raw.createdAt,
+                raw.startedAt.toLocaleDateString("sv-SE"),
                 raw.womenCount,
                 raw.womenSpeakingTime,
                 raw.womenStatementCount,
@@ -55,8 +55,8 @@ export async function GET(
     const { id } = await params;
 
     try {
-        const meetings = await getCachedMeeting(id);
-        return NextResponse.json(meetings);
+        const meeting = await getCachedMeeting(id);
+        return NextResponse.json(meeting);
     } catch (error) {
         return NextResponse.json({ error: "Ok, so this didn't go as planned ..." }, { status: 500 });
     }

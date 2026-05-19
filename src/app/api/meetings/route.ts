@@ -25,7 +25,7 @@ function getCachedMeetings(userId: string) {
             return rawMeetings.map((meeting) => ({
                 id: meeting.id,
                 title: meeting.title,
-                startedAt: meeting.startedAt
+                startedAt: meeting.startedAt.toLocaleDateString("sv-SE")
             })) as MeetingListItem[];
         },
         [`meetings-${userId}`],

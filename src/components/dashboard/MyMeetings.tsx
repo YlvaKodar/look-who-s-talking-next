@@ -8,7 +8,6 @@ import { ChevronIcon } from "@/ui/Common";
 import { useRouter } from "next/navigation";
 import {useState} from "react";
 import {MeetingListItem} from "@/types/meeting";
-import {GroupListItem} from "@/types/group";
 import {H1, H3} from "@/ui/Headings";
 
 export function MyMeetings() {
@@ -39,10 +38,10 @@ export function MyMeetings() {
                     children:
                         <>
                             <div className={`relative group`}>{meeting.title} {<Tooltip
-                                label={meeting.startedAt.toString()}/>}</div>
+                                label={meeting.startedAt}/>}</div>
                             <ListButtonContainer>
                                 <ListButton onClick={() => router.push(`/meeting/${meeting.id}`)}>{"->"} <Tooltip
-                                    label={GroupText.goToGroup}/> </ListButton>
+                                    label={MeetingText.goToMeeting}/> </ListButton>
                             </ListButtonContainer>
                         </>,
                 }))}
