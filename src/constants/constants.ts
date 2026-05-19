@@ -150,6 +150,9 @@ export const Common = {
 export const MeetingText = {
     pauseButton: 'Pause timer',
     endButton: 'End meeting',
+    headingMeeting: 'Meetings',
+    createNewMeeting: 'New meeting',
+    myMeetings: 'My meetings',
 }
 
 export const SetupText = {

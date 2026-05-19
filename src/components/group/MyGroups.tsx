@@ -1,7 +1,7 @@
 "use client"
 import { H1, H3 } from "@/ui/Headings"
 import { CommonButton, ListButton } from "@/ui/Buttons";
-import { ListItemContainer, ListButtonContainer } from "@/ui/Containers";
+import { ListButtonContainer } from "@/ui/Containers";
 import { GroupText } from "@/constants/constants";
 import { useState } from "react";
 import { List } from "@/ui/Lists";
@@ -59,6 +59,9 @@ export function MyGroups() {
                 <H1>{GroupText.headingGroups}</H1>
                     <CommonButton onClick={() => setShowNewGroup(prevState => !prevState) }>{GroupText.createNewGroup}</CommonButton>
             </div>
+            { showNewGroup && (
+                <GroupForm/>
+            )}
             <div>
                 <div onClick={() => { setShowKeeper(prevState => !prevState); fetchGroups("keeper"); }}>
                     <H3>{GroupText.keeperGroups} <ChevronIcon isOpen={showKeeper}/></H3>
@@ -76,9 +79,6 @@ export function MyGroups() {
                     <GroupList group={clockerGroups}/>
                 )}
             </div>
-            { showNewGroup && (
-                <GroupForm/>
-            )}
         </div>
     )
 }

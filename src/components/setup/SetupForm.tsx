@@ -126,7 +126,7 @@ export default function SetupForm ({groupId, groupName}: SetupFormProps) {
 
 function GroupSelector () {
     const [options, setOptions] = useState<{value: string, label: string}[]>([]);
-    let placeholder = "";
+    let placeholder = "Meeting group?";
 
     useEffect(() => {
         async function fetchGroups() {
@@ -156,6 +156,7 @@ function GroupSelector () {
                 name="groupId"
                 options={options}
                 placeholder={placeholder}
+                defaultValue={""}
             />
         </>
     )

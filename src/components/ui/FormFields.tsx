@@ -81,7 +81,7 @@ export function SelectField({
                 `}
             >
                 {placeholder && (
-                    <option value="" disabled>{placeholder}</option>
+                    <option value="">{placeholder ?? ""}</option>
                 )}
                 {options.map((option) => (
                     <option key={option.value} value={option.value}>

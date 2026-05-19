@@ -1,9 +1,65 @@
 "use client"
+import { CommonButton, ListButton } from "@/ui/Buttons";
+import { ListButtonContainer } from "@/ui/Containers";
+import {GroupText, MeetingText} from "@/constants/constants";
+import { List } from "@/ui/Lists";
+import { Tooltip } from "@/ui/Common";
+import { ChevronIcon } from "@/ui/Common";
+import { useRouter } from "next/navigation";
+import {useState} from "react";
+import {MeetingListItem} from "@/types/meeting";
+import {GroupListItem} from "@/types/group";
+import {H1, H3} from "@/ui/Headings";
 
 export function MyMeetings() {
+    const [showMeetings, setShowMeetings] = useState<boolean>(false);
+    const [meetings, setMeetings] = useState<MeetingListItem[]>([]);
+    const router = useRouter();
+
+    async function fetchMeetings() {
+        try {
+            const result = await fetch(`/api/meetings`);
+            if (!result.ok) {
+                const error = await result.json();
+                console.error(error.code, error.error);
+                return;
+            }
+            const meetings: MeetingListItem[] = await result.json();
+            setMeetings(meetings);
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    const MeetingList = ({ meetings }: { meetings: MeetingListItem[] })=> {
+        return (
+            <List
+                items={meetings.map((meeting) => ({
+                    children:
+                        <>
+                            <div className={`relative group`}>{meeting.title} {<Tooltip
+                                label={meeting.startedAt.toString()}/>}</div>
+                            <ListButtonContainer>
+                                <ListButton onClick={() => router.push(`/meeting/${meeting.id}`)}>{"->"} <Tooltip
+                                    label={GroupText.goToGroup}/> </ListButton>
+                            </ListButtonContainer>
+                        </>,
+                }))}
+            />
+        )
+    }
+
     return (
-        <div>
-            Hello MyMeetings!
+        <div className={`rounded-md w-full border border-foreground-dark, bg-background-light py-2  px-6 max-w-md mx-auto `}>
+            <H1>{MeetingText.headingMeeting}</H1>
+            <CommonButton onClick={() => router.push(`/setup`)}>{MeetingText.createNewMeeting}</CommonButton>
+
+            <div onClick={() => { setShowMeetings(prevState => !prevState); fetchMeetings(); }}>
+                <H3>{MeetingText.myMeetings} <ChevronIcon isOpen={showMeetings}/></H3>
+            </div>
+            {showMeetings && (
+                <MeetingList meetings={meetings} />
+            )}
         </div>
     )
 }
