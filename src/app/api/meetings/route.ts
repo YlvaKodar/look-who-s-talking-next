@@ -25,7 +25,7 @@ export async function POST(request: Request) {
     if(!session) return NextResponse.json({error: "No such session"}, { status: 401 });
 
     const meetingData = await request.json();
-    if (!meetingData) return NextResponse.json({error: "No data provided"})
+    if (!meetingData) return NextResponse.json({ error: "No data provided" }, { status: 400 });
 
     try {
         const newMeeting = await prisma.meeting.create({

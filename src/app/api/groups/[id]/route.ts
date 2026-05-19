@@ -6,47 +6,52 @@ import { GroupUpdateInput } from "@/generated/prisma/models/Group";
 import { Prisma } from "@/generated/prisma/client";
 import { GroupPageItem } from "@/types/group";
 import {UserListItem} from "@/types/user";
+import { revalidateTag } from 'next/cache';
+import { unstable_cache } from 'next/cache';
 
+function getCachedGroup(id: string) {
+    return unstable_cache(
+        async () => {
+            const rawGroup = await prisma.group.findUnique({
+                where: { id },
+                select: {
+                    id: true,
+                    name: true,
+                    description: true,
+                    createdAt: true,
+                    keeper: {
+                        select: {
+                            id: true,
+                            name: true,
+                        }
+                    }
+                },
+            });
+
+            if (!rawGroup) return null;
+
+            const keeper: UserListItem = { id: rawGroup.keeper.id, name: rawGroup.keeper.name };
+            return { ...rawGroup, keeper } as GroupPageItem;
+        },
+        [`group-${id}`],
+        { tags: [`group-${id}`], revalidate: 300 }
+    )()
+}
 export async function GET(
     request: Request,
     { params }  : { params: Promise<{ id: string }> }
 ) {
-
     const session = await auth.api.getSession({ headers: await headers() });
     if (!session) return NextResponse.json({ error: "No such session" }, { status: 401 });
 
     const { id } = await params;
-
-    const rawGroup = await prisma.group.findUnique({
-        where: { id },
-        select: {
-            id: true,
-            name: true,
-            description: true,
-            createdAt: true,
-            keeper: {
-                select: {
-                    id: true,
-                    name: true,
-                }
-            }
-        },
-    });
-
-    let group: GroupPageItem | undefined = undefined;
-    if (rawGroup) {
-
-        const keeper: UserListItem = { id: rawGroup.keeper.id, name: rawGroup.keeper.name };
-
-        group = {
-            ...rawGroup,
-            keeper: keeper,
-        }
+    try {
+        const group = await getCachedGroup(id);
+        if (!group) return NextResponse.json({ error: "Group not found" }, { status: 404 });
+        return NextResponse.json(group);
+    } catch (error) {
+        return NextResponse.json({ error: "Ok, so this didn't go as planned ..." }, { status: 500 });
     }
-
-    if (!group) return NextResponse.json({ error: "Group not found" }, { status : 404 });
-
-    return NextResponse.json(group);
 }
 
 export async function PUT(
@@ -65,7 +70,7 @@ export async function PUT(
     if (name) data.name = name;
     if (description !== undefined) data.description = description;
 
-    if (!(Object.keys(data).length)) return NextResponse.json({error: "No data provided"})
+    if (!(Object.keys(data).length)) return NextResponse.json({ error: "No data provided" }, { status: 400 });
 
     if (session.user.role !== "ADMIN") {
         const group = await prisma.group.findUnique({
@@ -81,6 +86,13 @@ export async function PUT(
             where: { id },
             data
         })
+        if (session.user.role !== "ADMIN") {
+            revalidateTag(`groups-keeper-${session.user.id}`);
+            revalidateTag(`groups-myGroups-${session.user.id}`);
+        } else {
+            revalidateTag(`groups-all`);
+        }
+        revalidateTag(`group-${id}`)
         return NextResponse.json(updatedGroup, { status: 200 });
     } catch(error) {
         if (error instanceof Prisma.PrismaClientKnownRequestError) {
@@ -114,8 +126,15 @@ export async function DELETE(
     try {
         const deletedGroup = await prisma.group.delete({
             where: { id },
-        })
-        return NextResponse.json(deletedGroup, { status: 200 });
+        });
+        if (session.user.role !== "ADMIN") {
+            revalidateTag(`groups-keeper-${session.user.id}`);
+            revalidateTag(`groups-myGroups-${session.user.id}`);
+        } else {
+            revalidateTag(`groups-all`);
+        }
+        revalidateTag(`group-${id}`);
+        return NextResponse.json({ message: "Group deleted"}, {status: 200});
     } catch (error) {
         if (error instanceof Prisma.PrismaClientKnownRequestError) {
             if (error.code === "P2025") return NextResponse.json({ error: "Group not found" }, { status : 404 });

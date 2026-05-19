@@ -5,7 +5,7 @@ import {prisma} from "@/lib/prisma";
 import {Prisma} from "@/generated/prisma/client";
 import { UserListItem } from "@/types/user";
 import { unstable_cache } from 'next/cache';
-import { revalidateTag } from 'next/cache'
+import { revalidateTag } from 'next/cache';
 
 function getCachedClockers(id: string){
     return unstable_cache(
@@ -59,7 +59,7 @@ export async function POST (
     if (!session) return NextResponse.json({ error: "No such session" }, { status: 401 });
 
     const { add }: { add?: string[] } = await request.json();
-    if (!(add?.length)) return NextResponse.json({error: "No data provided"})
+    if (!(add?.length)) return NextResponse.json({ error: "No data provided" }, { status: 400 });
 
     const { id } = await params;
 
@@ -72,7 +72,7 @@ export async function POST (
             skipDuplicates: true,
         })
 
-        revalidateTag(`group-clockers-${id}`)
+        revalidateTag(`group-clockers-${id}`);
         return NextResponse.json({message: "Clockers added: " +newClockers.count}, {status: 200});
 
     } catch (error){
@@ -121,6 +121,6 @@ export async function DELETE (
         return NextResponse.json({ message: "Clockers removed", count: removedClockers.count }, {status: 200});
 
     } catch (error){
-        return NextResponse.json({ error: "Ok, so this didn't go as planned ..." }, { status: 500 })
+        return NextResponse.json({ error: "Ok, so this didn't go as planned ..." }, { status: 500 });
     }
 }

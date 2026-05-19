@@ -41,7 +41,7 @@ export async function PUT(
         data.group = groupId === null ? { disconnect: true } : { connect: { id: groupId } };
     }
 
-    if (!(Object.keys(data).length)) return NextResponse.json({error: "No data provided"})
+    if (!(Object.keys(data).length)) return NextResponse.json({ error: "No data provided" }, { status: 400 });
 
     if (session.user.role !== "ADMIN") {
         const meeting = await prisma.meeting.findUnique({

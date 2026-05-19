@@ -63,7 +63,7 @@ export async function PUT(
         data.role = role;
     }
 
-    if (!(Object.keys(data).length)) return NextResponse.json({error: "No data provided"})
+    if (!(Object.keys(data).length)) return NextResponse.json({ error: "No data provided" }, { status: 400 });
 
     try {
         const updatedUser = await prisma.user.update({

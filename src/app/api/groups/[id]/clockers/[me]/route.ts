@@ -3,6 +3,7 @@ import {headers} from "next/headers";
 import {NextResponse} from "next/server";
 import {prisma} from "@/lib/prisma";
 import {Prisma} from "@/generated/prisma/client";
+import { revalidateTag } from 'next/cache';
 
 export async function DELETE(
     request: Request,
@@ -21,8 +22,10 @@ export async function DELETE(
                     groupId: id,
                 }
             }
-        })
-        return NextResponse.json(removedClocker, {status: 200});
+        });
+        revalidateTag(`groups-myGroups-${session.user.id}`);
+        revalidateTag(`group-clockers-${id}`);
+        return NextResponse.json({ message: "Clocker removed"}, {status: 200});
 
     } catch(error) {
         if (error instanceof Prisma.PrismaClientKnownRequestError) {
