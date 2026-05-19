@@ -26,12 +26,12 @@ export function CommonButton({ variant = "primary", className, children, ...prop
     )
 }
 
-export function ListButton({ variant = "primary",  className, children, ...props }: CommonButtonProps) {
+export function ListButton({ variant = "secondary",  className, children, ...props }: CommonButtonProps) {
     return (
         <button
             className={`
         relative group
-        px-1 rounded-md font-extralight
+        ml-3 text-xs px-2 py-1 rounded font-extralight
         cursor-pointer
         ${variants[variant]}
         ${className ?? ""}
@@ -42,10 +42,6 @@ export function ListButton({ variant = "primary",  className, children, ...props
         </button>
     )
 }
-
-
-
-
 
 type Option = {
     value: string;

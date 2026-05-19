@@ -25,7 +25,7 @@ export function TimerView() {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(meetingData),
-                })
+                });
 
                 if (!result.ok) {
                     const error = await result.json();

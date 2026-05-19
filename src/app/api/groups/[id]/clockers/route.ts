@@ -22,6 +22,7 @@ export async function GET (
                 select: {
                     id: true,
                     name: true,
+                    email: true,
                 }
             }
         }
@@ -30,6 +31,7 @@ export async function GET (
     const clockers: UserListItem[] = rawClockers.map(clocker => ({
         id: clocker.user.id,
         name: clocker.user.name,
+        email: clocker.user.email,
     }));
 
     return NextResponse.json(clockers)
@@ -57,7 +59,7 @@ export async function POST (
             skipDuplicates: true,
         })
 
-        return NextResponse.json("Clockers added: " + newClockers.count, {status: 200});
+        return NextResponse.json({message: "Clockers added: " +newClockers.count}, {status: 200});
 
     } catch (error){
         if (error instanceof Prisma.PrismaClientKnownRequestError) {
@@ -78,7 +80,7 @@ export async function DELETE (
     if (!session) return NextResponse.json({ error: "No such session" }, { status: 401 });
 
     const { remove }: { remove?: string[] } = await request.json();
-    if (!(remove?.length)) return NextResponse.json({error: "No data provided"})
+    if (!(remove?.length)) return NextResponse.json({ error: "No data provided" }, { status: 400 });
 
     const { id } = await params;
 
@@ -101,7 +103,7 @@ export async function DELETE (
 
         if (removedClockers.count === 0) return NextResponse.json({ error: "No matching clockers found" }, { status: 404 });
 
-        return NextResponse.json( "Clockers removed: " + removedClockers.count, {status: 200});
+        return NextResponse.json({ message: "Clockers removed", count: removedClockers.count }, {status: 200});
 
     } catch (error){
         return NextResponse.json({ error: "Ok, so this didn't go as planned ..." }, { status: 500 })

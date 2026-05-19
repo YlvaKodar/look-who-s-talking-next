@@ -180,28 +180,29 @@ export const StartText = {
 
 export const DashboardText = {
     heading: "Dashboard",
+    headingMeetings: "Meetings",
+    headingMe: "Me!",
+}
+
+export const GroupText = {
+    keeperLabel: "Keeper: ",
+    dateLabel: "Created: ",
+    meetingsInGroup: "Meetings in this group ",
+    clockersInGroup: "Clockers in this group ",
+    formHeading: "Create new group!",
+    nameLabel: "Name your group",
+    descriptionLabel: "Want to add a description?",
+    submitLabel: "Make it happen!",
+    createNewGroupMeeting: "Create new meeting",
     headingGroups: "Groups",
     myGroups: "My groups",
     keeperGroups: "My keeper groups",
     clockerGroups: "My clocker groups",
     createNewGroup: "New group",
-    keeperLabel: "Keeper: ",
-    dateLabel: "Created: ",
-    meetingsInGroup: "Meetings in this group ",
-    clockersInGroup: "Clockers in this group ",
-    createNewGroupMeeting: "Create new meeting",
     goToGroup: "Go to group",
-
-    headingMeetings: "Meetings",
-
-    headingMe: "Me!",
-}
-
-export const GroupText = {
-    formHeading: "Create new group!",
-    nameLabel: "Name your group",
-    descriptionLabel: "Want to add a description?",
-    submitLabel: "Make it happen!",
+    addClockers: "Add clockers",
+    searchClockers: "Search by name or email",
+    removeClocker: "Remove clocker",
 }
 export const Validation = {
     meetingTitle: "Your meeting wants a title! Enter 3 to 30 characters.",

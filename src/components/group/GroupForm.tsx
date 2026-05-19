@@ -54,7 +54,8 @@ export default function GroupForm() {
                 setApiError(error.error ?? "Error! Alert! DANGER!");
             }
 
-            router.push("/dashboard")
+            const group = await res.json();
+            router.push(`/group/${group.id}`);
             router.refresh();
 
         } catch (error) {

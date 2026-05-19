@@ -2,6 +2,7 @@ import { auth } from "@/lib/auth";
 import { NextResponse } from "next/server";
 import { headers } from "next/headers";
 import { prisma } from "@/lib/prisma";
+import { UserListItem } from "@/types/user";
 
 export async function GET( request: Request ) {
 
@@ -10,14 +11,21 @@ export async function GET( request: Request ) {
 
     const url = new URL(request.url)
     const query = url.searchParams.get("q");
+    const excludeParam = url.searchParams.get("exclude");
+    const excludeIds = excludeParam ? excludeParam.split(",") : [];
 
     if (query) {
-        const users = await prisma.user.findMany({
+        const rawUsers = await prisma.user.findMany({
             where: {
-                OR: [
-                    { name: { contains: query, mode: "insensitive" } },
-                    { email: { contains: query, mode: "insensitive" } }
-                ]
+                ...(query && {
+                    OR: [
+                        { name: { contains: query, mode: "insensitive" } },
+                        { email: { contains: query, mode: "insensitive" } },
+                    ],
+                }),
+                NOT: {
+                    id: { in: excludeIds },
+                },
             },
             select: {
                 id: true,
@@ -25,15 +33,28 @@ export async function GET( request: Request ) {
                 name: true,
             }
         })
-        return NextResponse.json(users)
+
+        const users: UserListItem[] = rawUsers.map(user => ({
+            id: user.id,
+            name: user.name,
+            email: user.email,
+        }));
+        return NextResponse.json(users);
     }
 
-    const users = await prisma.user.findMany({
+    const rawUsers = await prisma.user.findMany({
         select: {
             id: true,
             email: true,
             name: true,
         }
     });
+
+    const users: UserListItem[] = rawUsers.map(user => ({
+        id: user.id,
+        name: user.name,
+        email: user.email,
+    }));
+
     return NextResponse.json(users);
 }
