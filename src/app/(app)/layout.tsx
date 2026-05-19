@@ -1,4 +1,6 @@
 import { PageContainer } from "@/ui/Containers";
+import { Header } from "@/components/Headers";
+
 export default function PublicLayout({
                                          children,
                                      }: {
@@ -6,10 +8,8 @@ export default function PublicLayout({
 }) {
     return (
         <div className="min-h-screen flex flex-col">
+                 <Header />
 
-            <header className="p-4 text-center border-b border-foreground/10">
-                 Temp header
-            </header>
             <main className="flex-1 items-center">
                 <PageContainer>
                     {children}

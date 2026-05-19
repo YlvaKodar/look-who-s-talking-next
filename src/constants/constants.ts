@@ -143,8 +143,10 @@ export const StatsText = {
 }
 
 export const Common = {
-    title: "Look who's talking!",
+    title: "LOOK WHO'S TALKING!",
     description: "Timing tool for mixed-gender conversations",
+    logOut: "Log out",
+    greeting: "Meetee ",
 }
 
 export const MeetingText = {

@@ -8,8 +8,8 @@
 @theme {
     --font-family: var(--font-geist-sans, ui-sans-serif, system-ui, sans-serif);
     --font-mono: var(--font-geist-mono, ui-monospace, "Courier New", monospace);
-    --color-background-dark: oklch(0.879 0.117 97.619);
-    --color-background-light: oklch(0.933 0.106 108.297);
+    --color-background-dark: oklch(0.933 0.106 108.297);
+    --color-background-light: oklch(0.956 0.074 107.729);
     --color-foreground-dark: oklch(0.129 0 89.876);
     --color-foreground-light: oklch(0.229 0 89.876);
     --color-women-dark: oklch(0.546 0.179 35.76);

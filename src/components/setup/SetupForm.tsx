@@ -31,8 +31,14 @@ export default function SetupForm ({groupId, groupName}: SetupFormProps) {
     const [errors, setErrors] = useState<FormErrors>({});
     const [showSelectGroups, setShowSelectGroups] = useState<boolean>(groupId === undefined);
     const { setup } = useMeetingStorage();
-    const { data: session } = authClient.useSession();
+    const { data: session, isPending } = authClient.useSession();
     const router = useRouter();
+
+    if (isPending) {
+        return (
+            <p>...</p>
+        )
+    }
 
     const handleSubmit = (e: SyntheticEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -132,11 +138,14 @@ export default function SetupForm ({groupId, groupName}: SetupFormProps) {
 function GroupSelector () {
     const [options, setOptions] = useState<{value: string, label: string}[]>([]);
     const [selected, setSelected] = useState<{value: string, label: string} | null>(null);
+    const { data: session } = authClient.useSession();
 
     let placeholder = "Meeting group?";
 
     useEffect(() => {
+
         async function fetchGroups() {
+            if (!session) return;
             try {
                 const result = await fetch(`/api/groups?status=myGroups`);
                 if (!result.ok) {
@@ -154,7 +163,7 @@ function GroupSelector () {
             }
         }
         fetchGroups()
-    }, []);
+    }, [session]);
 
     return (
         <>
