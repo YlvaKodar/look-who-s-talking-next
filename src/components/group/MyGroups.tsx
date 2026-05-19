@@ -12,6 +12,7 @@ import { useRouter } from "next/navigation";
 import GroupForm from "@/components/group/GroupForm";
 
 export function MyGroups() {
+    const [show, setShow] = useState<boolean>(false)
     const [showClocker, setShowClocker] = useState<boolean>(false);
     const [showKeeper, setShowKeeper] = useState<boolean>(false);
     const [keeperGroups, setKeeperGroups] = useState<GroupListItem[]>([]);
@@ -55,30 +56,34 @@ export function MyGroups() {
 
     return (
         <div className={`rounded-md w-full border border-foreground-dark, bg-background-light py-2  px-6 max-w-md mx-auto `}>
-            <div>
-                <H1>{GroupText.headingGroups}</H1>
+            <div onClick={() => setShow(!show)}>
+                <H1>{GroupText.headingGroups} <ChevronIcon isOpen={show}/></H1>
+            </div>
+            { show && (
+                <>
                     <CommonButton onClick={() => setShowNewGroup(prevState => !prevState) }>{GroupText.createNewGroup}</CommonButton>
-            </div>
-            { showNewGroup && (
-                <GroupForm/>
+                    { showNewGroup && (
+                        <GroupForm/>
+                    )}
+                    <div>
+                        <div onClick={() => { setShowKeeper(prevState => !prevState); fetchGroups("keeper"); }}>
+                            <H3>{GroupText.keeperGroups} <ChevronIcon isOpen={showKeeper}/></H3>
+                        </div>
+
+                        {showKeeper && (
+                            <GroupList group={keeperGroups}/>
+                        )}
+
+                        <div onClick={() => { setShowClocker(prevState => !prevState); fetchGroups("clocker"); }}>
+                            <H3>{GroupText.clockerGroups}<ChevronIcon isOpen={showClocker}/></H3>
+                        </div>
+
+                        { showClocker && (
+                            <GroupList group={clockerGroups}/>
+                        )}
+                    </div>
+                </>
             )}
-            <div>
-                <div onClick={() => { setShowKeeper(prevState => !prevState); fetchGroups("keeper"); }}>
-                    <H3>{GroupText.keeperGroups} <ChevronIcon isOpen={showKeeper}/></H3>
-                </div>
-
-                {showKeeper && (
-                    <GroupList group={keeperGroups}/>
-                )}
-
-                <div onClick={() => { setShowClocker(prevState => !prevState); fetchGroups("clocker"); }}>
-                    <H3>{GroupText.clockerGroups}<ChevronIcon isOpen={showClocker}/></H3>
-                </div>
-
-                { showClocker && (
-                    <GroupList group={clockerGroups}/>
-                )}
-            </div>
         </div>
     )
 }

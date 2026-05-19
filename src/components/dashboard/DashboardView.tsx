@@ -10,7 +10,7 @@ export function DashboardView() {
     const { data: session } = authClient.useSession();
 
     return (
-        <div>
+        <div className={`w-full flex flex-col gap-y-4 max-w-md mx-auto `}>
             <div>
                 <MyGroups />
             </div>

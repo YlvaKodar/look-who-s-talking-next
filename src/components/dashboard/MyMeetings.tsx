@@ -12,6 +12,7 @@ import {GroupListItem} from "@/types/group";
 import {H1, H3} from "@/ui/Headings";
 
 export function MyMeetings() {
+    const [show, setShow] = useState(false);
     const [showMeetings, setShowMeetings] = useState<boolean>(false);
     const [meetings, setMeetings] = useState<MeetingListItem[]>([]);
     const router = useRouter();
@@ -51,14 +52,19 @@ export function MyMeetings() {
 
     return (
         <div className={`rounded-md w-full border border-foreground-dark, bg-background-light py-2  px-6 max-w-md mx-auto `}>
-            <H1>{MeetingText.headingMeeting}</H1>
-            <CommonButton onClick={() => router.push(`/setup`)}>{MeetingText.createNewMeeting}</CommonButton>
-
-            <div onClick={() => { setShowMeetings(prevState => !prevState); fetchMeetings(); }}>
-                <H3>{MeetingText.myMeetings} <ChevronIcon isOpen={showMeetings}/></H3>
+            <div onClick={() => setShow(!show)}>
+                <H1>{MeetingText.headingMeeting} <ChevronIcon isOpen={show}/></H1>
             </div>
-            {showMeetings && (
-                <MeetingList meetings={meetings} />
+            {show && (
+                <>
+                    <CommonButton onClick={() => router.push(`/setup`)}>{MeetingText.createNewMeeting}</CommonButton>
+                    <div onClick={() => { setShowMeetings(prevState => !prevState); fetchMeetings(); }}>
+                        <H3>{MeetingText.myMeetings} <ChevronIcon isOpen={showMeetings}/></H3>
+                    </div>
+                    {showMeetings && (
+                        <MeetingList meetings={meetings} />
+                    )}
+                </>
             )}
         </div>
     )
