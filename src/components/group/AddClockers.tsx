@@ -1,11 +1,10 @@
 "use client"
 import { SearchField } from "@/components/ui/FormFields";
-import {JSX, SyntheticEvent, useEffect, useState} from "react";
+import { SyntheticEvent, useState} from "react";
 import { UserListItem } from "@/types/user";
 import {ListButtonContainer} from "@/ui/Containers";
 import { CommonButton, ListButton } from "@/ui/Buttons";
 import {List} from "@/ui/Lists";
-import {AppRouterInstance} from "next/dist/shared/lib/app-router-context.shared-runtime";
 import {ParamValue} from "next/dist/server/request/params";
 import {GroupText} from "@/constants/constants";
 
@@ -13,11 +12,11 @@ interface AddClockersProps {
     groupId: ParamValue;
     exclude: UserListItem[];
     showAddClockers: boolean;
-    router: AppRouterInstance;
+    onSuccess: () => Promise<void>;
 }
 
 //TODO: Prettier exclude.
-export function AddClockers({groupId, exclude, showAddClockers, router}: AddClockersProps){
+export function AddClockers({groupId, exclude, showAddClockers, onSuccess}: AddClockersProps){
     const [show, setShow] = useState(showAddClockers);
     const [apiError, setApiError] = useState<string | null>(null);
     const [clockersToAdd, setClockersToAdd] = useState<UserListItem[]>([]);
@@ -37,9 +36,10 @@ export function AddClockers({groupId, exclude, showAddClockers, router}: AddCloc
                 const error = await res.json();
                 console.error(error.code, error.error );
                 setApiError(error.error ?? "Error! Alert! DANGER!");
+                return;
             }
             setShow(false);
-            router.refresh();
+            await onSuccess();
         } catch (error) {
             setApiError("Fnurr på tråden!");
             console.error(error);

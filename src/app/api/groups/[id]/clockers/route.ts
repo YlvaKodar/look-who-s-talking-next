@@ -1,9 +1,40 @@
 import {auth} from "@/lib/auth";
 import {headers} from "next/headers";
-import {NextResponse} from "next/server";
+import {NextRequest, NextResponse} from "next/server";
 import {prisma} from "@/lib/prisma";
 import {Prisma} from "@/generated/prisma/client";
 import { UserListItem } from "@/types/user";
+import { unstable_cache } from 'next/cache';
+import { revalidateTag } from 'next/cache'
+
+function getCachedClockers(id: string){
+    return unstable_cache(
+            async () => {
+                const rawClockers = await prisma.groupClocker.findMany({
+                    where: {groupId: id},
+                    include: {
+                        user: {
+                            select: {
+                                id: true,
+                                name: true,
+                                email: true,
+                            }
+                        }
+                    }
+                })
+
+                const clockers: UserListItem[] = rawClockers.map(clocker => ({
+                    id: clocker.user.id,
+                    name: clocker.user.name,
+                    email: clocker.user.email,
+                }));
+
+                return clockers;
+            },
+            [`group-clockers-${id}`],
+            { tags: [`group-clockers-${id}`], revalidate: 300 }
+    )()
+}
 
 export async function GET (
     request: Request,
@@ -14,25 +45,7 @@ export async function GET (
     if(!session) return NextResponse.json({error: "No such session"}, { status: 401 });
 
     const { id } = await params;
-
-    const rawClockers = await prisma.groupClocker.findMany({
-        where: {groupId: id},
-        include: {
-            user: {
-                select: {
-                    id: true,
-                    name: true,
-                    email: true,
-                }
-            }
-        }
-    })
-
-    const clockers: UserListItem[] = rawClockers.map(clocker => ({
-        id: clocker.user.id,
-        name: clocker.user.name,
-        email: clocker.user.email,
-    }));
+    const clockers = await getCachedClockers(id);
 
     return NextResponse.json(clockers)
 }
@@ -59,6 +72,7 @@ export async function POST (
             skipDuplicates: true,
         })
 
+        revalidateTag(`group-clockers-${id}`)
         return NextResponse.json({message: "Clockers added: " +newClockers.count}, {status: 200});
 
     } catch (error){
@@ -103,6 +117,7 @@ export async function DELETE (
 
         if (removedClockers.count === 0) return NextResponse.json({ error: "No matching clockers found" }, { status: 404 });
 
+        revalidateTag(`group-clockers-${id}`)
         return NextResponse.json({ message: "Clockers removed", count: removedClockers.count }, {status: 200});
 
     } catch (error){

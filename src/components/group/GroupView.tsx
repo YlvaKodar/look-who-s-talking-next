@@ -161,7 +161,7 @@ export function GroupView() {
                             <H3>{GroupText.addClockers}<ChevronIcon isOpen={showAddClockers}/></H3>
                         </div>
                         { showAddClockers && (
-                            <AddClockers groupId={id} showAddClockers={showAddClockers} router={router} exclude={clockers}/>
+                            <AddClockers groupId={id} showAddClockers={showAddClockers} exclude={clockers} onSuccess={fetchClockers}/>
                         )}
                     </>
                 )}
