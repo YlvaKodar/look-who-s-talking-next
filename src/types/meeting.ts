@@ -15,6 +15,13 @@ export type Stats = {
 }
 
 export type MeetingStats = {
+    id?: string;
+    name?: string;
+    groupId?: string;
+    groupName?: string;
+    keeperId?: string;
+    keeperName?: string;
+    createdAt?: string;
     totalParticipantCount: number,
     totalSpeakingTime: number,
     totalSpeakingTimeString: string,
@@ -24,7 +31,7 @@ export type MeetingStats = {
     genderStats: GenderStats,
 }
 
-export type ActiveMeeting = {
+export type CurrentMeeting = {
     title: string;
     startedAt: Date;
     groupId?: string;

@@ -1,12 +1,12 @@
 "use client"
-import { ActiveMeeting, Gender } from "@/types/meeting";
+import { CurrentMeeting, Gender } from "@/types/meeting";
 import {Genders, MeetingText} from "@/constants/constants";
-import { getPresentGenders } from "../../utils/meetingUtil";
+import { getPresentGenders } from "@/utils/meetingUtil";
 import { CommonButton } from "@/ui/Buttons";
 import { CONFIG } from "@/constants/constants"
 
 type SpeakerButtonProps = {
-    meeting: ActiveMeeting,
+    meeting: CurrentMeeting,
     currentSpeaker: Gender | null,
     onStartSpeaking: (gender: Gender) => void
 }

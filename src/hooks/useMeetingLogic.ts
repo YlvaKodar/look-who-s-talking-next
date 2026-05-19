@@ -2,10 +2,10 @@
 import { useState, useEffect } from 'react';
 import { useTimer } from "@/hooks/useTimer";
 import { useMeetingStorage } from "@/hooks/useMeetingStorage";
-import { ActiveMeeting, Gender } from "@/types/meeting";
+import { CurrentMeeting, Gender } from "@/types/meeting";
 
 export function useMeetingLogic() {
-    const [activeMeeting, setActiveMeeting] = useState<ActiveMeeting | null>(null)
+    const [activeMeeting, setActiveMeeting] = useState<CurrentMeeting | null>(null)
     const [currentSpeaker, setCurrentSpeaker] = useState<Gender | null>(null)
     const { setup, meeting } = useMeetingStorage()
     const { startTimer, stopTimer, tickingSec } = useTimer();
@@ -26,14 +26,14 @@ export function useMeetingLogic() {
         startTimer();
     }
 
-    const loggSpeaking = (time : number, gender: Gender | null, theMeeting: ActiveMeeting | null ) => {
+    const loggSpeaking = (time : number, gender: Gender | null, theMeeting: CurrentMeeting | null ) => {
         if (time === 0) return
         if (!gender) return
         if (!theMeeting) return
 
         console.log( `Gender: ${gender}, Time: ${time}` )
 
-        const updatedMeeting: ActiveMeeting = {
+        const updatedMeeting: CurrentMeeting = {
             ...theMeeting,
             speakingData: {
                 ...theMeeting.speakingData,

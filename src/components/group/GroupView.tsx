@@ -85,7 +85,6 @@ export function GroupView() {
     async function removeClocker(clockerId: string) {
 
         try {
-            const remove: string[] = [clockerId];
             const result = await fetch(`/api/groups/${id}/clockers`, {
                 method: "DELETE",
                 headers: {"Content-Type": "application/json"},

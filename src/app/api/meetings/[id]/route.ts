@@ -3,7 +3,46 @@ import { NextResponse } from "next/server";
 import { headers } from "next/headers";
 import { prisma } from "@/lib/prisma";
 import {Prisma} from "@/generated/prisma/client";
+import { unstable_cache } from 'next/cache';
+import { revalidateTag } from 'next/cache';
 import {MeetingUpdateInput} from "@/generated/prisma/models/Meeting";
+import {createPastMeetingStats} from "@/utils/meetingUtil";
+
+
+function getCachedMeeting(id: string) {
+    return unstable_cache(
+        async () => {
+            const raw = await prisma.meeting.findUnique({
+                where: { id },
+                include: {
+                    group: { select: { name: true } },
+                    keeper: { select: { name: true } },
+                }
+            });
+
+            if (!raw) return null;
+
+            return createPastMeetingStats(
+                raw.id,
+                raw.title,
+                raw.group?.name ?? "",
+                raw.keeper.name,
+                raw.createdAt,
+                raw.womenCount,
+                raw.womenSpeakingTime,
+                raw.womenStatementCount,
+                raw.nonbinaryCount,
+                raw.nonbinarySpeakingTime,
+                raw.nonbinaryStatementCount,
+                raw.menCount,
+                raw.menSpeakingTime,
+                raw.menStatementCount,
+            );
+        },
+        [`meeting-${id}`],
+        { tags: [`meeting-${id}`]}
+    )()
+}
 
 export async function GET(
     request: Request,
@@ -15,13 +54,12 @@ export async function GET(
 
     const { id } = await params;
 
-    const meeting = await prisma.meeting.findUnique({
-        where: { id }
-    });
-
-    if (!meeting) return NextResponse.json({ error: "Meeting not found" }, { status: 404 });
-
-    return NextResponse.json(meeting);
+    try {
+        const meetings = await getCachedMeeting(id);
+        return NextResponse.json(meetings);
+    } catch (error) {
+        return NextResponse.json({ error: "Ok, so this didn't go as planned ..." }, { status: 500 });
+    }
 }
 
 export async function PUT(
@@ -53,11 +91,12 @@ export async function PUT(
     }
 
     try {
-        const updatedMeeting = await prisma.meeting.update({
+        await prisma.meeting.update({
             where: { id },
             data
         });
-        return NextResponse.json(updatedMeeting, { status: 200 });
+        revalidateTag(`meeting-${id}`)
+        return NextResponse.json({message: "Meeting updated!"}, { status: 200 });
     } catch(error) {
         if (error instanceof Prisma.PrismaClientKnownRequestError) {
             console.log('Error code:', error.code);
@@ -95,10 +134,11 @@ export async function DELETE(
     }
 
     try {
-        const deletedMeeting = await prisma.meeting.delete({
+        await prisma.meeting.delete({
             where: { id }
         })
-        return NextResponse.json(deletedMeeting, { status: 200});
+        revalidateTag(`meeting-${id}`)
+        return NextResponse.json({message: "Meeting updated!"}, { status: 200});
 
     } catch (error) {
         if (error instanceof Prisma.PrismaClientKnownRequestError) {

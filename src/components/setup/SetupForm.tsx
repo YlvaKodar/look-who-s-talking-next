@@ -8,7 +8,7 @@ import { ButtonContainer } from "@/ui/Containers";
 import { H1, H2, H3, H4 } from "@/components/ui/Headings";
 import { useMeetingStorage } from "@/hooks/useMeetingStorage";
 import { useRouter } from "next/navigation";
-import { createActiveMeeting } from "@/utils/meetingUtil";
+import { createCurrentMeeting } from "@/utils/meetingUtil";
 import { SyntheticEvent, useEffect, useState } from "react";
 import { SetupMeetingFormSchema } from "@/lib/definitions";
 import { z } from "zod";
@@ -67,7 +67,7 @@ export default function SetupForm ({groupId, groupName}: SetupFormProps) {
 
         setErrors({});
 
-        const activeMeeting = createActiveMeeting(
+        const activeMeeting = createCurrentMeeting(
             title,
             startedAt,
             groupId,

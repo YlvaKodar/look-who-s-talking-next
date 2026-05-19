@@ -1,15 +1,15 @@
-import { ActiveMeeting, Participants, SpeakingData, Gender, MeetingStats, GenderStats, Stats, MeetingData } from "@/types/meeting";
+import { CurrentMeeting, Participants, SpeakingData, Gender, MeetingStats, GenderStats, Stats, MeetingData } from "@/types/meeting";
 
 const genders: Gender[] = ["women", "nonbinary", "men"];
 
-export function createActiveMeeting(
+export function createCurrentMeeting(
     title: string,
     startedAt: Date,
     groupId: string | undefined,
     womenCount: number,
     nonbinaryCount: number,
     menCount: number,
-): ActiveMeeting {
+): CurrentMeeting {
 
     const participants: Participants = {
         women: womenCount,
@@ -32,14 +32,14 @@ export function createActiveMeeting(
     };
 }
 
-export function createMeetingStats(
-    meeting: ActiveMeeting,
+export function createCurrentMeetingStats(
+    meeting: CurrentMeeting,
 ): MeetingStats {
     const totalParticipantCount = getParticipantCount(meeting.participants);
     const totalSpeakingTime = getTotalTimeActiveMeeting(meeting);
     const totalSpeakingTimeString = getFormattedTime(totalSpeakingTime);
     const totalStatementCount = getTotalStatementCount(meeting.speakingData)
-    const averageStatementLength = totalStatementCount / totalStatementCount | 0;
+    const averageStatementLength = totalSpeakingTime / totalStatementCount | 0;
     const averageStatementLengthString = getFormattedTime(averageStatementLength);
 
     const genderStats = genders.reduce((acc, gender) => {
@@ -84,7 +84,7 @@ function createStats(
 }
 
 export function createMeetingData(
-    activeMeeting: ActiveMeeting,
+    activeMeeting: CurrentMeeting,
 ): MeetingData {
     return {
         groupId: activeMeeting.groupId,
@@ -102,6 +102,83 @@ export function createMeetingData(
     }
 }
 
+export function createPastMeetingStats(
+    id: string,
+    name: string,
+    groupName: string,
+    keeperName: string,
+    createdAt: Date,
+    womenCount: number,
+    womenSpeakingTime: number,
+    womenStatementCount: number,
+    nonbinaryCount: number,
+    nonbinarySpeakingTime: number,
+    nonbinaryStatementCount: number,
+    menCount: number,
+    menSpeakingTime: number,
+    menStatementCount: number,
+): MeetingStats {
+    const date = createdAt.toISOString();
+    const totalParticipantCount = menCount + womenCount + nonbinaryCount;
+    const totalSpeakingTime = menSpeakingTime + womenSpeakingTime + nonbinarySpeakingTime;
+    const totalSpeakingTimeString = getFormattedTime(totalSpeakingTime);
+    const totalStatementCount = womenStatementCount + nonbinaryStatementCount + menStatementCount;
+    const averageStatementLength = totalSpeakingTime / totalStatementCount | 0;
+    const averageStatementLengthString = getFormattedTime(averageStatementLength);
+
+    const womenShare = ((totalSpeakingTime / totalParticipantCount) * womenCount) | 0;
+    const nonbinaryShare = ((totalSpeakingTime / totalParticipantCount) * nonbinaryCount) | 0;
+    const menShare = ((totalSpeakingTime / totalParticipantCount) * menCount) | 0;
+
+    const genderStats: GenderStats = {
+        women: {
+            participating: womenCount,
+            speakingTime: womenSpeakingTime,
+            speakingTimeString: getFormattedTime(womenSpeakingTime),
+            statementCount: womenStatementCount,
+            averageStatementLength: womenSpeakingTime / womenStatementCount | 0,
+            averageStatementLengthString: getFormattedTime(womenSpeakingTime / womenStatementCount | 0),
+            equalShare: womenShare,
+            equalShareString: getFormattedTime(womenShare)
+        },
+        nonbinary: {
+            participating: nonbinaryCount,
+            speakingTime: nonbinarySpeakingTime,
+            speakingTimeString: getFormattedTime(nonbinarySpeakingTime),
+            statementCount: nonbinaryStatementCount,
+            averageStatementLength: nonbinarySpeakingTime / nonbinaryStatementCount | 0,
+            averageStatementLengthString: getFormattedTime(nonbinarySpeakingTime / nonbinaryStatementCount | 0),
+            equalShare: nonbinaryShare,
+            equalShareString: getFormattedTime(nonbinaryShare)
+        },
+        men: {
+            participating: menCount,
+            speakingTime: menSpeakingTime,
+            speakingTimeString: getFormattedTime(menSpeakingTime),
+            statementCount: menStatementCount,
+            averageStatementLength: menSpeakingTime / menStatementCount | 0,
+            averageStatementLengthString: getFormattedTime(menSpeakingTime / menStatementCount | 0),
+            equalShare: menShare,
+            equalShareString: getFormattedTime(menShare)
+        },
+    };
+
+    return {
+        id,
+        name,
+        groupName,
+        keeperName,
+        createdAt: date,
+        totalParticipantCount,
+        totalSpeakingTime,
+        totalSpeakingTimeString,
+        totalStatementCount,
+        averageStatementLength,
+        averageStatementLengthString,
+        genderStats,
+    };
+}
+
 export function getPresentGenders(participants : Participants) {
     return genders.filter((gender) => (participants[gender] > 0));
 }
@@ -114,7 +191,7 @@ export function getTotalStatementCount(speakingData : SpeakingData) {
     return speakingData.women.length + speakingData.nonbinary.length + speakingData.men.length;
 }
 
-export function getTotalTimeActiveMeeting( meeting: ActiveMeeting ) {
+export function getTotalTimeActiveMeeting( meeting: CurrentMeeting ) {
     return genders.reduce((sum, gender) => {
         return sum + getGenderSpeakingTime(meeting.speakingData[gender]);
     }, 0);

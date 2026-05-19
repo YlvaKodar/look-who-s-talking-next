@@ -3,7 +3,7 @@ import { H1, H2, H3, H4 } from "@/components/ui/Headings";
 import { StatsText } from "@/constants/constants";
 import { StatsPresentation } from "@/components/stats/StatsPresentation";
 import { useMeetingStorage } from "@/hooks/useMeetingStorage";
-import { createMeetingStats, getPresentGenders } from "../../utils/meetingUtil";
+import { createCurrentMeetingStats, getPresentGenders } from "@/utils/meetingUtil";
 import { MeetingStats } from "@/types/meeting";
 
 export function StatsView() {
@@ -19,7 +19,7 @@ export function StatsView() {
     }
 
     const presentGenders = getPresentGenders(endedMeeting.participants);
-    const meetingStats: MeetingStats = createMeetingStats(endedMeeting);
+    const meetingStats: MeetingStats = createCurrentMeetingStats(endedMeeting);
 
     return(
         <div>

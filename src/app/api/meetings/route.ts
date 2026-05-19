@@ -3,20 +3,47 @@ import { NextResponse } from "next/server";
 import { headers } from "next/headers";
 import { prisma } from "@/lib/prisma";
 import {Prisma} from "@/generated/prisma/client";
+import { unstable_cache } from 'next/cache';
+import { revalidateTag } from 'next/cache';
+import {MeetingListItem} from "@/types/meeting";
+
+function getCachedMeetings(userId: string) {
+    return unstable_cache(
+        async () => {
+            const rawMeetings    = await prisma.meeting.findMany({
+                where: {keeperId: userId},
+                orderBy: {
+                    startedAt: "asc"
+                },
+                select: {
+                    id: true,
+                    title: true,
+                    startedAt: true,
+                }
+            });
+
+            return rawMeetings.map((meeting) => ({
+                id: meeting.id,
+                title: meeting.title,
+                startedAt: meeting.startedAt
+            })) as MeetingListItem[];
+        },
+        [`meetings-${userId}`],
+        { tags: [`meetings-${userId}`], revalidate: 300 }
+    )()
+}
 
 export async function GET() {
 
     const session = await auth.api.getSession({ headers: await headers() });
     if(!session) return NextResponse.json({error: "No such session"}, { status: 401 });
 
-    const meetings = await prisma.meeting.findMany({
-        where: {keeperId: session.user.id},
-        orderBy: {
-            startedAt: "asc"
-        }
-    });
-
-    return NextResponse.json(meetings);
+    try {
+        const meetings = await getCachedMeetings(session.user.id);
+        return NextResponse.json(meetings);
+    } catch (error) {
+        return NextResponse.json({ error: "Ok, so this didn't go as planned ..." }, { status: 500 });
+    }
 }
 
 export async function POST(request: Request) {
@@ -34,6 +61,7 @@ export async function POST(request: Request) {
                 keeperId: session.user.id
             }
         });
+        revalidateTag(`meetings-${session.user.id}`)
         return NextResponse.json(newMeeting, { status: 201 });
     } catch (error){
         if (error instanceof Prisma.PrismaClientKnownRequestError) {
