@@ -3,6 +3,7 @@ import { signOut, useSession } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
 import { ListButton } from "@/ui/Buttons";
 import { Common } from "@/constants/constants";
+import {InstallPrompt} from "@/components/InstallPrompt";
 
 export function Header() {
     const { data: session } = useSession();
@@ -82,9 +83,10 @@ function BackButton() {
 }
 
 export function Footer() {
-    return(
+    return (
         <footer className={"mx-auto p-4 text-center text-sm text-foreground/60"}>
             <p>©&nbsp;2026</p> <p className={"font-bitcount"}> {Common.footer}</p>
+            <InstallPrompt/>
         </footer>
-        )
+    );
 }

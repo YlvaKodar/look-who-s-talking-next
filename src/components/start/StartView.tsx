@@ -10,9 +10,9 @@ export default function StartView() {
     const router = useRouter();
 
     return (
-        <div className="flex flex-col">
-            <div className="py-2 md:pt-8">
-                <Logo className={"text-6xl"}/>
+        <div className="flex flex-col py-20">
+            <div className="py-50 md:pt-8">
+                <Logo className={"text-9xl"}/>
             </div>
             <div className="md:py-4">
                 <H1>{StartText.about}</H1>
