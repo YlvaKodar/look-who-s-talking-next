@@ -36,6 +36,9 @@ export const metadata: Metadata = {
       description: Common.description,
       type: "website",
     },
+    appleWebApp: {
+        title: 'LHST',
+    },
 };
 
 export default function RootLayout({
@@ -49,6 +52,13 @@ export default function RootLayout({
         className={`${geistMono.variable} ${michroma.variable} ${orbitron.variable} ${bitcount.variable} antialiased bg-background-dark text-foreground-dark min-h-screen flex flex-col justify-between`}
       >
         {children}
+        <script dangerouslySetInnerHTML={{
+            __html: `
+            if ('serviceWorker' in navigator) {
+              navigator.serviceWorker.register('/sw.js')
+            }
+          `
+        }} />
       <Footer />
       </body>
     </html>
