@@ -1,6 +1,7 @@
 export function PageContainer({ children }: { children: React.ReactNode }) {
     return (
-        <div className="flex flex-col gap-6 py-12 w-full ms:px-6 md:max-w-xl mx-auto px-4 items-center">
+        // <div className="flex flex-col gap-6 py-12 w-full ms:px-6 md:max-w-xl mx-auto px-4 items-center">
+        <div className="mx-auto w-full flex flex-col max-w-3xl px-4 sm:px-6">
             {children}
         </div>
     )

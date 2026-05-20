@@ -147,6 +147,8 @@ export const Common = {
     description: "Timing tool for mixed-gender conversations",
     logOut: "Log out",
     greeting: "Meetee ",
+    backButton: "Back",
+    footer: "YLVA KODAR",
 }
 
 export const MeetingText = {

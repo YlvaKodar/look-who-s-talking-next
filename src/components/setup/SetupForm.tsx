@@ -90,7 +90,7 @@ export default function SetupForm ({groupId, groupName}: SetupFormProps) {
 
 
     return (
-        <form onSubmit={handleSubmit}>
+        <form  className="w-full flex flex-col" onSubmit={handleSubmit}>
             <H2>{SetupText.about}</H2>
             { session &&  !showSelectGroups  && (
                 <div className="flex flex-col gap-1.5 w-full md:max-w-sm">

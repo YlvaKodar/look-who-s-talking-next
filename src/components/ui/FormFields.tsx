@@ -21,7 +21,7 @@ export function InputField({
     defaultValue,
                            }: InputFieldProps) {
     return (
-     <div className="flex flex-col gap-1.5 w-full md:max-w-sm">
+     <div className="w-full mx-auto flex flex-col gap-1.5">
          <label
              htmlFor={name}
              className={`text-sm font-medium text-foreground`}
@@ -65,7 +65,7 @@ export function SelectField({
                                 onChange,
                             }: SelectFieldProps) {
     return (
-        <div className="flex flex-col gap-1.5 w-full md:max-w-sm">
+        <div className="w-full mx-auto flex flex-col gap-1.5">
             <label
                 htmlFor={name}
                 className="text-sm font-medium text-foreground"
@@ -152,7 +152,7 @@ export function SearchField<T>({
     }, []);
 
     return (
-        <div ref={containerRef} className="flex flex-col gap-1.5 w-full md:max-w-sm relative">
+        <div ref={containerRef} className="w-full mx-auto flex flex-col gap-1.5 relative">
             <label className="w-full text-sm font-medium text-foreground">{label}</label>
             <div className="relative">
                 <input

@@ -4,14 +4,19 @@ import { CommonButton } from "@/ui/Buttons";
 import { ButtonContainer } from "@/ui/Containers";
 import { useRouter } from "next/navigation";
 import { StartText } from "@/constants/constants";
+import {Logo} from "@/components/Headers";
 
 export default function StartView() {
     const router = useRouter();
 
     return (
-        <div>
-            <H1>{StartText.heading}</H1>
-            <H3>{StartText.about}</H3>
+        <div className="flex flex-col">
+            <div className="py-2 md:pt-8">
+                <Logo className={"text-6xl"}/>
+            </div>
+            <div className="md:py-4">
+                <H1>{StartText.about}</H1>
+            </div>
             <div>
                 <H4>{StartText.useWithoutLoginHeading}</H4>
                 <p>{StartText.useWithoutLoginText}</p>

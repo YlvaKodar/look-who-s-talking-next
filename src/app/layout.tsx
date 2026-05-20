@@ -1,13 +1,8 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Michroma, Orbitron } from "next/font/google";
+import { Geist_Mono, Michroma, Orbitron, Bitcount_Grid_Double } from "next/font/google";
 import "./globals.css";
 import { Common } from "@/constants/constants";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-  display: "swap",
-});
+import {Footer} from "@/components/Headers";
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
@@ -25,6 +20,10 @@ const michroma = Michroma({
 const orbitron = Orbitron({
     variable: "--font-orbitron",
     subsets: ["latin"]
+})
+
+const bitcount = Bitcount_Grid_Double({
+    variable: "--font-bitcount",
 })
 
 export const metadata: Metadata = {
@@ -47,9 +46,10 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${michroma.variable} ${orbitron.variable} antialiased bg-background-dark text-foreground min-h-screen`}
+        className={`${geistMono.variable} ${michroma.variable} ${orbitron.variable} ${bitcount.variable} antialiased bg-background-dark text-foreground-dark min-h-screen flex flex-col justify-between`}
       >
         {children}
+      <Footer />
       </body>
     </html>
   );

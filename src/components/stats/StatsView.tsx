@@ -21,7 +21,7 @@ export function StatsView() {
     const startedAt = new Date(endedMeeting.startedAt).toLocaleDateString("sv-SE");
 
     return(
-        <div>
+        <div className="flex flex-col">
             <H1>{endedMeeting.title}</H1>
             <H3>{startedAt}</H3>
             <StatsPresentation meetingStats={meetingStats} presentGenders={presentGenders} />

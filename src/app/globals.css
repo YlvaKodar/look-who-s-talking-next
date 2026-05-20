@@ -1,17 +1,17 @@
 @import "tailwindcss";
 
 @theme inline {
-    --font-timer: var(--font-michroma);
-    --font-timerOpt: var(--font-orbitron);
+    --font-michroma: var(--font-michroma);
+    --font-orbitron: var(--font-orbitron);
+    --font-mono: var(--font-geist-mono, ui-monospace, "Courier New", monospace);
+    --font-bitcount: var(--font-bitcount, ui-monospace, "Courier New", monospace);
 }
 
 @theme {
-    --font-family: var(--font-geist-sans, ui-sans-serif, system-ui, sans-serif);
-    --font-mono: var(--font-geist-mono, ui-monospace, "Courier New", monospace);
     --color-background-dark: oklch(0.933 0.106 108.297);
     --color-background-light: oklch(0.956 0.074 107.729);
-    --color-foreground-dark: oklch(0.129 0 89.876);
-    --color-foreground-light: oklch(0.229 0 89.876);
+    --color-foreground-dark: oklch(0.138 0.026 174.591);
+    --color-foreground-light: oklch(0.238 0.026 174.591);
     --color-women-dark: oklch(0.546 0.179 35.76);
     --color-women-light: oklch(0.646 0.179 35.76);
     --color-nonbinary-dark: oklch(0.237 0.095 28.777);
@@ -19,6 +19,24 @@
     --color-men-dark: oklch(0.610 0.125 74.12);
     --color-men-light: oklch(0.710 0.125 74.12);
     --breakpoint-ms: 44rem;
+    --color-one: oklch(0.184 0.036 242.087);
+    --color-two: oklch(0.284 0.036 242.087);
+    --color-tree: oklch(0.595 0.095 194.87);
+    --color-fore: oklch(0.695 0.095 194.87);
+    --color-five: oklch(0.439 0.077 74.368);
+    --color-six: oklch(0.539 0.077 74.368);
+    --color-seven: oklch(0.361 0.148 28.641);
+    --color-eight: oklch(0.461 0.148 28.641);
+    --color-nine: oklch(0.265 0.074 290.581);
+    --color-ten: oklch(0.365 0.074 290.581);
+    --color-eleven: oklch(0.673 0.154 14.6);
+    --color-twelve: oklch(0.773 0.154 14.6);
+    --color-thirteen: oklch(0.561 0.111 75.406);
+    --color-forteen: oklch(0.661 0.111 75.406);
+    --color-fifteen: oklch(0.344 0.139 28.932);
+    --color-sixteen: oklch(0.444 0.139 28.932);
+    --color-seventeen: oklch(0.286 0.045 206.7);
+    --color-eighteen: oklch(0.386 0.045 206.7);
 }
 
 [data-theme="nautilus"] {

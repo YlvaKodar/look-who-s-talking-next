@@ -1,6 +1,7 @@
 import { InputField } from "@/components/ui/FormFields";
 import { signIn } from "@/lib/auth-client";
 import { SubmitEvent, useState } from "react";
+import {CommonButton} from "@/ui/Buttons";
 
 
 
@@ -27,11 +28,15 @@ export default function LogInForm() {
 
 
     return (
-     <form onSubmit={handleSubmit}>
-         <InputField label={emailLabel} name="email" required />
-         <InputField label={passwordLabel} name="password" required/>
-         <button type="submit">{logInLabel}</button>
-         {serverError && <p>{serverError}</p>}
-     </form>
+        <div className="w-full mx-auto max-w-sm flex flex-col">
+            <form className={"py-4"} onSubmit={handleSubmit}>
+                <InputField label={emailLabel} name="email" required />
+                <InputField label={passwordLabel} name="password" required/>
+                <div className="w-full py-4">
+                    <CommonButton type="submit">{logInLabel}</CommonButton>
+                </div>
+                {serverError && <p>{serverError}</p>}
+            </form>
+        </div>
     )
 };

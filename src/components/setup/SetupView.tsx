@@ -13,7 +13,7 @@ export default function SetupView({ groupId, groupName }: SetupViewProps) {
     const { data: session } = authClient.useSession();
 
     return (
-        <div >
+        <div className="w-full mx-auto max-w-2xl flex flex-col">
             <H1>{SetupText.heading}</H1>
             {session && (
                 <SetupForm groupId={groupId} groupName={groupName} />
