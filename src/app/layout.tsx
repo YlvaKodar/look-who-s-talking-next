@@ -24,6 +24,7 @@ const orbitron = Orbitron({
 
 const bitcount = Bitcount_Grid_Double({
     variable: "--font-bitcount",
+    subsets: ["latin", "latin-ext"]
 })
 
 export const metadata: Metadata = {
