@@ -149,6 +149,9 @@ export const Common = {
     greeting: "Meetee ",
     backButton: "Back",
     footer: "YLVA KODAR",
+    userName: "Name",
+    userEmail: "Email",
+    deleteAccount: "Delete account",
 }
 
 export const MeetingText = {

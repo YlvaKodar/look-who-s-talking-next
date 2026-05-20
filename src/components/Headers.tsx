@@ -1,12 +1,13 @@
 "use client";
 import { signOut, useSession } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
-import { CommonButton, ListButton } from "@/ui/Buttons";
+import { ListButton } from "@/ui/Buttons";
 import { Common } from "@/constants/constants";
 
 export function Header() {
     const { data: session } = useSession();
     const router = useRouter();
+    const username: string | undefined = session?.user?.role === "ADMIN" ? session.user.name + " (ADMIN)" : session?.user.name ;
 
     const handleSignOut = async () => {
         await signOut({
@@ -18,17 +19,17 @@ export function Header() {
 
     return (
         <header className={`w-full border-b border-background-dark`}>
-            <BackButton/>
-            {session && (
-                <ListButton onClick={handleSignOut}>{Common.logOut}</ListButton>
-            )}
 
-            {session && (
-                // <div className={`w-full flex flex-row gap-6 py-2 w-full ms:px-6 md:max-w-xl ml-auto px-4 items-center`}>
-                //     <p className={`text-md`}>{session.user.email}</p>
-                // </div>
-                <p className={`text-md`}>{session.user.email}</p>
-            )}
+            <div className={`pt-2 h-10`}>
+                <BackButton/>
+                {session ? (
+                    <>
+                        <ListButton onClick={handleSignOut}>{Common.logOut}</ListButton>
+                        <p className={` h-10 text-bold text-mono px-3`}>{username} </p>
+                    </>
+                ) : (<div className={` h-10 text-bold text-mono px-3`}></div>)}
+
+            </div>
             <Logo className={"text-4xl"}/>
         </header>
     );

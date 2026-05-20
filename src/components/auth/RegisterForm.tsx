@@ -1,3 +1,5 @@
+import {CommonButton} from "@/ui/Buttons";
+
 "iuse client"
 import { InputField } from "@/components/ui/FormFields";
 import { signUp } from "@/lib/auth-client";
@@ -5,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { SubmitEvent, useState } from "react";
 import { RegisterFormSchema } from "@/lib/definitions";
 import { z } from "zod";
+import {ButtonContainer} from "@/ui/Containers";
 
 type FormErrors = {
     name?: string[];
@@ -15,7 +18,7 @@ type FormErrors = {
 
 export default function RegisterForm() {
     const emailLabel = "Email";
-    const userNameLabel = "UserName if other than email";
+    const userNameLabel = "Username (if other than email)";
     const passwordLabel = "Password";
     const repeatPasswordLabel = "Password again";
     const createAccountLabel = "Create account";
@@ -66,16 +69,20 @@ export default function RegisterForm() {
     }
 
     return (
-        <form onSubmit={handleSubmit}>
-            <InputField label={emailLabel} type="email" name="email" required />
-            {errors?.email && <p>{errors.email[0]}</p>}
-            <InputField label={userNameLabel} type="text" name="userName"/>
-            <InputField label={passwordLabel} type="password" name="password" required/>
-            {errors?.password && <p>{errors.password[0]}</p>}
-            <InputField label={repeatPasswordLabel} type="password" name="repeatPassword" required/>
-            {errors?.repeatPassword && <p>{errors.repeatPassword[0]}</p>}
-            <button type="submit">{createAccountLabel}</button>
-            {serverError && <p>{serverError}</p>}
-        </form>
+        <div className="w-full mx-auto max-w-sm flex flex-col">
+            <form className="w-full flex flex-col" onSubmit={handleSubmit}>
+                <InputField label={emailLabel} type="email" name="email" required />
+                {errors?.email && <p>{errors.email[0]}</p>}
+                <InputField label={userNameLabel} type="text" name="userName"/>
+                <InputField label={passwordLabel} type="password" name="password" required/>
+                {errors?.password && <p>{errors.password[0]}</p>}
+                <InputField label={repeatPasswordLabel} type="password" name="repeatPassword" required/>
+                {errors?.repeatPassword && <p>{errors.repeatPassword[0]}</p>}
+                <ButtonContainer>
+                    <CommonButton type="submit">{createAccountLabel}</CommonButton>
+                </ButtonContainer>
+                {serverError && <p>{serverError}</p>}
+            </form>
+        </div>
     )
 }

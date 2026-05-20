@@ -2,12 +2,13 @@
 import { useSession } from "@/lib/auth-client";
 import { H1, H3 } from "@/ui/Headings"
 import {CommonButton, ListButton} from "@/ui/Buttons";
-import { GroupText } from "@/constants/constants";
+import {ButtonContainer, SectionContainer, SimpleContainer} from "@/ui/Containers";
+import {GroupText, MeetingText} from "@/constants/constants";
 import { useState, useEffect } from "react";
 import { List } from "@/ui/Lists";
 import { MeetingListItem } from "@/types/meeting"
 import { UserListItem } from "@/types/user";
-import {ChevronIcon, Tooltip} from "@/ui/Common";
+import {ChevronIcon, Tooltip, LoadingIndicator} from "@/ui/Common";
 import { useParams, useRouter} from 'next/navigation';
 import { GroupPageItem } from "@/types/group";
 import { ListButtonContainer, ListItemContainer } from "@/ui/Containers";
@@ -103,28 +104,39 @@ export function GroupView() {
 
     if (loading) {
         return (
-            <p> ... </p>
+            <LoadingIndicator/>
         )
     }
 
     return (
-        <div className={`rounded-md w-full border border-foreground-dark, bg-background-light py-2  px-6 max-w-md mx-auto `}>
+        <SectionContainer>
             <div>
                 <H1>{group?.name}</H1>
                 <H3>{group?.description}</H3>
-                <p>{GroupText.keeperLabel} {group?.keeper.name}</p>
-                <p>{GroupText.dateLabel} {group?.createdAt.toString()}</p>
-                <CommonButton onClick={() => router.push(`/setup?groupId=${group?.id}&groupName=${group?.name}`, ) }>{GroupText.createNewGroupMeeting}</CommonButton>
+                <SimpleContainer>
+                    <p>{GroupText.keeperLabel} <span className={"text-bold font-mono"}>{group?.keeper.name}</span> </p>
+                    <p>{GroupText.dateLabel} <span className={"text-bold font-mono"}> {group?.createdAt}</span> </p>
+                </SimpleContainer>
+                <ButtonContainer>
+                    <CommonButton onClick={() => router.push(`/setup?groupId=${group?.id}&groupName=${group?.name}`, ) }>{GroupText.createNewGroupMeeting}</CommonButton>
+                </ButtonContainer>
+
             </div>
             <div>
                 <div onClick={() => { setShowMeetings(prevState => !prevState); fetchMeetings() }}>
-                    <H3>{GroupText.meetingsInGroup} <ChevronIcon isOpen={showMeetings}/></H3>
+                    <H3 center={"px-1"}>{GroupText.meetingsInGroup} <ChevronIcon isOpen={showMeetings}/></H3>
                 </div>
                 { showMeetings && meetings.length > 0 && (
                     <List
                         items={meetings.map((meeting) => ({
-                            children: <ListItemContainer>{meeting.title}</ListItemContainer>,
-                            description: (meeting.startedAt).toString(),
+                            children:                        <>
+                                <div className={`relative group`}>{meeting.title} {<Tooltip
+                                    label={meeting.startedAt}/>}</div>
+                                <ListButtonContainer>
+                                    <ListButton onClick={() => router.push(`/meeting/${meeting.id}`)}>{">"} <Tooltip
+                                        label={MeetingText.goToMeeting}/> </ListButton>
+                                </ListButtonContainer>
+                            </>,
                         }))}
                     />
                 )}
@@ -133,7 +145,7 @@ export function GroupView() {
                 )}
 
                 <div onClick={() => { setShowClockers(prevState => !prevState); fetchClockers(); }}>
-                    <H3>{GroupText.clockersInGroup}<ChevronIcon isOpen={showClockers}/></H3>
+                    <H3 center={"px-1"}>{GroupText.clockersInGroup}<ChevronIcon isOpen={showClockers}/></H3>
                 </div>
 
                 {showClockers && clockers.length > 0 && (
@@ -154,10 +166,10 @@ export function GroupView() {
                 {showClockers && noClockers && (
                     <p>No clockers in this group.</p>
                 )}
-                {showClockers && (
+                {showClockers && isKeeper && (
                     <>
                         <div onClick={() => setShowAddClockers(prevState => !prevState) }>
-                            <H3>{GroupText.addClockers}<ChevronIcon isOpen={showAddClockers}/></H3>
+                            <H3 center={"px-1"}>{GroupText.addClockers}<ChevronIcon isOpen={showAddClockers}/></H3>
                         </div>
                         { showAddClockers && (
                             <AddClockers groupId={id} showAddClockers={showAddClockers} exclude={clockers} onSuccess={fetchClockers}/>
@@ -165,6 +177,6 @@ export function GroupView() {
                     </>
                 )}
             </div>
-        </div>
+        </SectionContainer>
     )
 }

@@ -1,7 +1,7 @@
 "use client"
 import { H1, H3 } from "@/ui/Headings"
 import { CommonButton, ListButton } from "@/ui/Buttons";
-import { ListButtonContainer } from "@/ui/Containers";
+import {ButtonContainer, ListButtonContainer} from "@/ui/Containers";
 import { GroupText } from "@/constants/constants";
 import { useState } from "react";
 import { List } from "@/ui/Lists";
@@ -45,8 +45,8 @@ export function MyGroups() {
                         <>
                             <div className={`relative group`}>{group.name}  {group.description && <Tooltip label={group.description} />} </div>
                             <ListButtonContainer>
-                                <ListButton onClick={() => router.push(`/group/${group.id}`) }>{"->"} <Tooltip label={GroupText.goToGroup} /> </ListButton>
                                 <ListButton onClick={() => router.push(`/setup?groupId=${group.id}&groupName=${group.name}`, ) }>{"New meeting"} <Tooltip label={GroupText.createNewGroupMeeting}  /> </ListButton>
+                                <ListButton onClick={() => router.push(`/group/${group.id}`) }>{">"} <Tooltip label={GroupText.goToGroup} /> </ListButton>
                             </ListButtonContainer>
                         </>,
                 }))}
@@ -61,13 +61,15 @@ export function MyGroups() {
             </div>
             { show && (
                 <>
-                    <CommonButton onClick={() => setShowNewGroup(prevState => !prevState) }>{GroupText.createNewGroup}</CommonButton>
+                    <ButtonContainer>
+                        <CommonButton onClick={() => setShowNewGroup(prevState => !prevState) }>{GroupText.createNewGroup}</CommonButton>
+                    </ButtonContainer>
                     { showNewGroup && (
                         <GroupForm/>
                     )}
                     <div>
                         <div onClick={() => { setShowKeeper(prevState => !prevState); fetchGroups("keeper"); }}>
-                            <H3>{GroupText.keeperGroups} <ChevronIcon isOpen={showKeeper}/></H3>
+                            <H3 center={"px-1"}>{GroupText.keeperGroups} <ChevronIcon isOpen={showKeeper}/></H3>
                         </div>
 
                         {showKeeper && (
@@ -75,7 +77,7 @@ export function MyGroups() {
                         )}
 
                         <div onClick={() => { setShowClocker(prevState => !prevState); fetchGroups("clocker"); }}>
-                            <H3>{GroupText.clockerGroups}<ChevronIcon isOpen={showClocker}/></H3>
+                            <H3 center={"px-1"}>{GroupText.clockerGroups}<ChevronIcon isOpen={showClocker}/></H3>
                         </div>
 
                         { showClocker && (

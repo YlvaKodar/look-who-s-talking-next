@@ -2,7 +2,7 @@
 import { SearchField } from "@/components/ui/FormFields";
 import { SyntheticEvent, useState} from "react";
 import { UserListItem } from "@/types/user";
-import {ListButtonContainer} from "@/ui/Containers";
+import {ButtonContainer, ListButtonContainer} from "@/ui/Containers";
 import { CommonButton, ListButton } from "@/ui/Buttons";
 import {List} from "@/ui/Lists";
 import {ParamValue} from "next/dist/server/request/params";
@@ -88,7 +88,10 @@ export function AddClockers({groupId, exclude, showAddClockers, onSuccess}: AddC
                                 }))}
                             />
                         }
-                        <CommonButton>{GroupText.addClockers}</CommonButton>
+                        <ButtonContainer>
+                            <CommonButton>{GroupText.addClockers}</CommonButton>
+                        </ButtonContainer>
+
                     </form>
                 </div>
             )}

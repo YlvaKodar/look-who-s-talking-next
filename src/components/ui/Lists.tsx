@@ -26,7 +26,7 @@ export const List = ({
     hover = "hover:text-foreground-dark",
 }: ListProps) => {
     return (
-        <div className={`w-full`}>
+        <div className={`w-full pb-4`}>
             {heading && (<H3>{heading}</H3>)}
             {items.map((item, index) => (
                 <div key={index} className={`${textColor} ${hover} `}>

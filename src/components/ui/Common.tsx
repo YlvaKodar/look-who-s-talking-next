@@ -33,3 +33,11 @@ export const Tooltip = ({ label }: { label: string }) => (
         {label}
     </div>
 )
+
+export const LoadingIndicator = () => {
+    return (
+        <div className={`text-center text-4xl text-bold font-bitcount`}>
+            ...
+        </div>
+    )
+}

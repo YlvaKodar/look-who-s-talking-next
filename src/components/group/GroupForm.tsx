@@ -65,16 +65,18 @@ export default function GroupForm() {
     }
 
     return (
-        <form onSubmit={handleSubmit}>
-            <H3>{GroupText.formHeading}</H3>
-            {apiError && <p role="alert">{apiError}</p>}
-            <InputField type="text" label={GroupText.nameLabel} name="name" required/>
-            {errors?.name && <p>{errors?.name[0]}</p>}
-            <InputField type="text" label={GroupText.descriptionLabel} name="description"/>
-            {errors?.description && <p>{errors?.description[0]}</p>}
-            <ButtonContainer>
-                <CommonButton type="submit" >{GroupText.submitLabel}</CommonButton>
-            </ButtonContainer>
-        </form>
+        <div className={"border border-foreground-light rounded-md p-4 bg-background-dark"}>
+            <form onSubmit={handleSubmit}>
+                {apiError && <p role="alert">{apiError}</p>}
+                <InputField type="text" label={GroupText.nameLabel} name="name" required/>
+                {errors?.name && <p>{errors?.name[0]}</p>}
+                <InputField type="text" label={GroupText.descriptionLabel} name="description"/>
+                {errors?.description && <p>{errors?.description[0]}</p>}
+                <ButtonContainer>
+                    <CommonButton variant={"secondary"} type="submit" >{GroupText.formHeading}</CommonButton>
+                </ButtonContainer>
+            </form>
+        </div>
+
     )
 }

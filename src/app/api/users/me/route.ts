@@ -80,7 +80,7 @@ export async function DELETE(
             where: { id: session.user.id }
         })
 
-        return NextResponse.json(deletedUser, { status: 200});
+        return NextResponse.json({message: "User deleted"}, { status: 200});
 
     } catch (error) {
         if (error instanceof Prisma.PrismaClientKnownRequestError) {

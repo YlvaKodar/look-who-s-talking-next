@@ -1,5 +1,12 @@
 @import "tailwindcss";
 
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+    -webkit-box-shadow: 0 0 0px 1000px oklch(0.956 0.074 107.729) inset;
+    -webkit-text-fill-color: oklch(0.138 0.026 174.591);
+}
+
 @theme inline {
     --font-michroma: var(--font-michroma);
     --font-orbitron: var(--font-orbitron);

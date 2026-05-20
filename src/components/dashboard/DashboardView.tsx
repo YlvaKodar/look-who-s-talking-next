@@ -1,10 +1,8 @@
 "use client"
 import { authClient} from "@/lib/auth-client";
 import { MyGroups } from "@/components/group/MyGroups";
-import { MyMeetings } from "@/components/dashboard/MyMeetings";
+import { MyMeetings } from "@/components/meeting/MyMeetings";
 import { MySelf } from "@/components/dashboard/MySelf";
-
-
 
 export function DashboardView() {
     const { data: session } = authClient.useSession();

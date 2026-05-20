@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import { authClient} from "@/lib/auth-client";
 import { createMeetingData } from "@/utils/meetingUtil";
 import {Activity} from "react";
+import {LoadingIndicator} from "@/ui/Common";
 
 export function TimerView() {
     const { activeMeeting, currentSpeaker, startSpeaking, pauseSpeaking, endMeeting, formattedTime } = useMeetingLogic()
@@ -42,7 +43,7 @@ export function TimerView() {
 
     if (!activeMeeting) {
         return (
-         <p> ... </p>
+         <LoadingIndicator/>
         )
     }
 

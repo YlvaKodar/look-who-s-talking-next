@@ -1,7 +1,7 @@
 "use client"
 import { CommonButton, ListButton } from "@/ui/Buttons";
-import { ListButtonContainer } from "@/ui/Containers";
-import {GroupText, MeetingText} from "@/constants/constants";
+import {ButtonContainer, ListButtonContainer, SectionContainer} from "@/ui/Containers";
+import { MeetingText} from "@/constants/constants";
 import { List } from "@/ui/Lists";
 import { Tooltip } from "@/ui/Common";
 import { ChevronIcon } from "@/ui/Common";
@@ -40,7 +40,7 @@ export function MyMeetings() {
                             <div className={`relative group`}>{meeting.title} {<Tooltip
                                 label={meeting.startedAt}/>}</div>
                             <ListButtonContainer>
-                                <ListButton onClick={() => router.push(`/meeting/${meeting.id}`)}>{"->"} <Tooltip
+                                <ListButton onClick={() => router.push(`/meeting/${meeting.id}`)}>{">"} <Tooltip
                                     label={MeetingText.goToMeeting}/> </ListButton>
                             </ListButtonContainer>
                         </>,
@@ -50,21 +50,24 @@ export function MyMeetings() {
     }
 
     return (
-        <div className={`rounded-md w-full border border-foreground-dark, bg-background-light py-2  px-6 max-w-md mx-auto `}>
+        <SectionContainer>
             <div onClick={() => setShow(!show)}>
                 <H1>{MeetingText.headingMeeting} <ChevronIcon isOpen={show}/></H1>
             </div>
             {show && (
                 <>
-                    <CommonButton onClick={() => router.push(`/setup`)}>{MeetingText.createNewMeeting}</CommonButton>
+                    <ButtonContainer>
+                        <CommonButton onClick={() => router.push(`/setup`)}>{MeetingText.createNewMeeting}</CommonButton>
+                    </ButtonContainer>
+
                     <div onClick={() => { setShowMeetings(prevState => !prevState); fetchMeetings(); }}>
-                        <H3>{MeetingText.myMeetings} <ChevronIcon isOpen={showMeetings}/></H3>
+                        <H3 center={"px-1"}>{MeetingText.myMeetings} <ChevronIcon isOpen={showMeetings}/></H3>
                     </div>
                     {showMeetings && (
                         <MeetingList meetings={meetings} />
                     )}
                 </>
             )}
-        </div>
+        </SectionContainer>
     )
 }
