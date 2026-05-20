@@ -14,6 +14,10 @@ export function InstallPrompt() {
         setIsStandalone(window.matchMedia('(display-mode: standalone)').matches)
     }, [])
 
+    if (!isIOS) {
+        return null
+    }
+
     if (isStandalone) {
         return null
     }

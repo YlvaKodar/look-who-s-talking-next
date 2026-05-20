@@ -37,7 +37,7 @@ export function SpeakerButtons ({ meeting, currentSpeaker, onStartSpeaking} : Sp
                     <button
                         key={gender}
                         className={`
-                            py-2 rounded-md w-full transition-all
+                            py-6 font-bold rounded-md w-full transition-all
                             ${isActive ? variants[gender].active : variants[gender].base}
                         `}
                         onClick={() => onStartSpeaking(gender)}

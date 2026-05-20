@@ -1,13 +1,14 @@
 "use client"
 type CommonButtonProps = {
-    variant?: "primary" | "secondary" | "tertiary" | "danger"
+    variant?: "primary" | "secondary" | "tertiary" | "danger" | "ohoh"
 } & React.ComponentProps<"button">
 
 const variants = {
     primary: "bg-foreground-dark text-background-light hover:bg-foreground-light",
     secondary: "bg-background-light border border-foreground-dark text-foreground-dark hover:bg-background-dark",
     tertiary: "bg-background-dark border border-foreground-dark text-foreground-dark hover:bg-background-dark",
-    danger: "bg-seven border border-foreground-dark text-background-light hover:bg-seven/80"
+    danger: "bg-seven border border-foreground-dark text-background-light hover:bg-seven/80",
+    ohoh: "bg-seventeen border border-foreground-dark text-background-light",
 }
 
 export function CommonButton({ variant = "primary", className, children, ...props }: CommonButtonProps) {
