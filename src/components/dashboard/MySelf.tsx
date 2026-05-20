@@ -1,13 +1,12 @@
 "use client"
-import {H1, H3} from "@/ui/Headings";
-import {useState} from "react";
-import {ChevronIcon, LoadingIndicator} from "@/ui/Common";
+import { H1 } from "@/ui/Headings";
+import { useState } from "react";
+import { ChevronIcon, LoadingIndicator } from "@/ui/Common";
 import { useSession, signOut } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
 import { CommonButton, ListButton } from "@/ui/Buttons";
 import {ButtonContainer, ListButtonContainer, SectionContainer, SimpleContainer} from "@/ui/Containers";
 import {Common} from "@/constants/constants";
-import {id} from "zod/locales";
 
 //Todo: Add admin panel, add Are you sure?
 //Todo: Add update
@@ -23,7 +22,10 @@ export function MySelf() {
         )
     }
 
-    if (!session) return router.push("/login");
+    if (!session) {
+        router.push("/login");
+        return null;
+    }
 
     const handleSignOut = async () => {
         await signOut({
@@ -51,8 +53,6 @@ export function MySelf() {
             console.error(error);
         }
     }
-
-
 
     return (
         <SectionContainer>
