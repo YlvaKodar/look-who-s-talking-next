@@ -1,6 +1,6 @@
 "use client"
 import { CommonButton, ListButton } from "@/ui/Buttons";
-import {ButtonContainer, ListButtonContainer, SectionContainer} from "@/ui/Containers";
+import {ButtonContainer, ListButtonContainer, SimpleContainer, SectionContainer} from "@/ui/Containers";
 import { MeetingText} from "@/constants/constants";
 import { List } from "@/ui/Lists";
 import { Tooltip } from "@/ui/Common";
@@ -70,9 +70,9 @@ export function MyMeetings() {
                         <MeetingList meetings={meetings} />
                     )}
                     { showMeetings && noMeetings && (
-                        <SectionContainer>
+                        <SimpleContainer>
                             <p>{"No meetings found!"}</p>
-                        </SectionContainer>
+                        </SimpleContainer>
                     )
                     }
                 </>
