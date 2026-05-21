@@ -1,7 +1,7 @@
 "use client"
 import { H1, H3 } from "@/ui/Headings"
 import { CommonButton, ListButton } from "@/ui/Buttons";
-import {ButtonContainer, ListButtonContainer} from "@/ui/Containers";
+import {ButtonContainer, ListButtonContainer, SimpleContainer} from "@/ui/Containers";
 import { GroupText } from "@/constants/constants";
 import { useState } from "react";
 import { List } from "@/ui/Lists";
@@ -18,6 +18,8 @@ export function MyGroups() {
     const [keeperGroups, setKeeperGroups] = useState<GroupListItem[]>([]);
     const [showNewGroup, setShowNewGroup] = useState<boolean>(false);
     const [clockerGroups, setClockerGroups] = useState<GroupListItem[]>([]);
+    const [noClocker, setNoClocker] = useState<boolean>(false);
+    const [noKeeper, setNoKeeper] = useState<boolean>(false);
     const router = useRouter();
 
 
@@ -31,6 +33,9 @@ export function MyGroups() {
             }
             const groups: GroupListItem[] = await result.json();
             status === "keeper" ? setKeeperGroups(groups) : setClockerGroups(groups);
+            if (!groups.length) {
+                status === "keeper" ? setNoKeeper(true) : setNoClocker(true);
+            }
 
         } catch (error) {
             console.error(error);
@@ -72,16 +77,26 @@ export function MyGroups() {
                             <H3 center={"px-1"}>{GroupText.keeperGroups} <ChevronIcon isOpen={showKeeper}/></H3>
                         </div>
 
-                        {showKeeper && (
+                        {showKeeper && keeperGroups.length > 0 &&  (
                             <GroupList group={keeperGroups}/>
+                        )}
+                        {showKeeper && noKeeper &&  (
+                            <SimpleContainer>
+                                <p>{"No groups found."}</p>
+                            </SimpleContainer>
                         )}
 
                         <div onClick={() => { setShowClocker(prevState => !prevState); fetchGroups("clocker"); }}>
                             <H3 center={"px-1"}>{GroupText.clockerGroups}<ChevronIcon isOpen={showClocker}/></H3>
                         </div>
 
-                        { showClocker && (
+                        { showClocker && clockerGroups.length > 0 && (
                             <GroupList group={clockerGroups}/>
+                        )}
+                        { showClocker && noClocker && (
+                            <SimpleContainer>
+                                <p>{"No groups found."}</p>
+                            </SimpleContainer>
                         )}
                     </div>
                 </>

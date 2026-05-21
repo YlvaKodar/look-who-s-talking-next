@@ -141,7 +141,9 @@ export function GroupView() {
                     />
                 )}
                 { showMeetings && noMeetings && (
-                    <p>No meetings in this group.</p>
+                    <SimpleContainer>
+                        <p>No meetings in this group.</p>
+                    </SimpleContainer>
                 )}
 
                 <div onClick={() => { setShowClockers(prevState => !prevState); fetchClockers(); }}>
@@ -164,7 +166,9 @@ export function GroupView() {
                     />
                 )}
                 {showClockers && noClockers && (
-                    <p>No clockers in this group.</p>
+                    <SimpleContainer>
+                        <p>No clockers in this group.</p>
+                    </SimpleContainer>
                 )}
                 {showClockers && isKeeper && (
                     <>

@@ -14,6 +14,7 @@ export function MyMeetings() {
     const [show, setShow] = useState(false);
     const [showMeetings, setShowMeetings] = useState<boolean>(false);
     const [meetings, setMeetings] = useState<MeetingListItem[]>([]);
+    const [noMeetings, setNoMeetings] = useState(false);
     const router = useRouter();
 
     async function fetchMeetings() {
@@ -25,7 +26,9 @@ export function MyMeetings() {
                 return;
             }
             const meetings: MeetingListItem[] = await result.json();
-            setMeetings(meetings);
+            setMeetings(meetings)
+            if (!meetings.length) setNoMeetings(true);
+
         } catch (error) {
             console.error(error);
         }
@@ -66,6 +69,12 @@ export function MyMeetings() {
                     {showMeetings && (
                         <MeetingList meetings={meetings} />
                     )}
+                    { showMeetings && noMeetings && (
+                        <SectionContainer>
+                            <p>{"No meetings found!"}</p>
+                        </SectionContainer>
+                    )
+                    }
                 </>
             )}
         </SectionContainer>
