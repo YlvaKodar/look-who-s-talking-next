@@ -11,8 +11,8 @@ import {ChevronIcon} from "@/ui/Common";
 export default function StartView() {
     const [showAbout, setShowAbout] = useState<boolean>(true)
     const [showHow, setShowHow] = useState<boolean>(true)
-    const [showStart, setShowStart] = useState<boolean>(true)
-    const [showUse, setShowUse] = useState<boolean>(true)
+    const [showStart, setShowStart] = useState<boolean>(false)
+    const [showUse, setShowUse] = useState<boolean>(false)
     const aboutText = showAbout ? StartText.aboutButton : Common.commingSoon;
     const aboutColor = showAbout ? "secondary" : "ohoh";
     const howText = showHow ? StartText.howToUseButton : Common.commingSoon;

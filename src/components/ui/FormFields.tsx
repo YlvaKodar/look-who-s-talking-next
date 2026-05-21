@@ -1,5 +1,6 @@
 "use client";
 import {useState, useEffect, useRef, ChangeEvent} from "react";
+import {LoadingIndicator} from "@/ui/Common";
 
 type InputFieldProps = {
     label: string;
@@ -168,9 +169,7 @@ export function SearchField<T>({
           "
                 />
                 {loading && (
-                    <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-foreground/40">
-            ...
-          </span>
+                   <LoadingIndicator/>
                 )}
             </div>
 

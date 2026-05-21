@@ -1,7 +1,7 @@
 "use client"
 import { authClient } from "@/lib/auth-client";
 import { InputField, SelectField } from "@/components/ui/FormFields";
-import { CommonButton } from "@/ui/Buttons";
+import {CommonButton, ListButton} from "@/ui/Buttons";
 import { SchemePicker } from "@/components/setup/SchemePicker";
 import { SetupText } from "@/constants/constants";
 import { ButtonContainer } from "@/ui/Containers";
@@ -13,6 +13,7 @@ import { SyntheticEvent, useEffect, useState } from "react";
 import { SetupMeetingFormSchema } from "@/lib/definitions";
 import { z } from "zod";
 import { GroupListItem } from "@/types/group";
+import {LoadingIndicator} from "@/ui/Common";
 
 type SetupFormProps = {
     groupId?: string;
@@ -36,7 +37,7 @@ export default function SetupForm ({groupId, groupName}: SetupFormProps) {
 
     if (isPending) {
         return (
-            <p>...</p>
+            <LoadingIndicator/>
         )
     }
 
@@ -93,15 +94,17 @@ export default function SetupForm ({groupId, groupName}: SetupFormProps) {
         <form  className="w-full flex flex-col" onSubmit={handleSubmit}>
             <H2>{SetupText.about}</H2>
             { session &&  !showSelectGroups  && (
-                <div className="flex flex-col gap-1.5 w-full md:max-w-sm">
-                    <label className="text-sm font-medium text-foreground">Grupp</label>
-                    <div className="flex flex-row justify-between items-center">
+                <div className="w-full mx-auto flex flex-col gap-1.5">
+                    <label className="text-sm font-medium text-foreground">{SetupText.groupTitleLabel}</label>
+                    <div className={`w-full flex flex-row rounded-md border border-foreground bg-background-light px-3 py-2
+                             text-foreground placeholder:text-foreground/40 justify-between`}>
                         <span className="text-foreground">{groupName}</span>
-                        <CommonButton
+                        <ListButton variant={"primary"}
                             onClick={() => setShowSelectGroups(!showSelectGroups)}
-                        >Byt</CommonButton>
+                        >Byt</ListButton>
                     </div>
                 </div>
+
             )}
 
             { session && showSelectGroups && (

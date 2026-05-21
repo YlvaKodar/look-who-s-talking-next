@@ -88,6 +88,8 @@ export const SetupText = {
     nonbinaryCountLabel: "How many nonbinary?",
     menCountLabel: "How many men?",
     submitLabel: "Start the meeting!",
+    pickAGroup: "Pick a group?",
+    groupTitleLabel: "Meeting group:",
 }
 
 export const StartText = {

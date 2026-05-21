@@ -5,6 +5,7 @@ import {useEffect, useState} from "react";
 import {MeetingStats, Gender, Stats} from "@/types/meeting";
 import {H1, H3} from "@/ui/Headings";
 import {StatsPresentation} from "@/components/stats/StatsPresentation";
+import {LoadingIndicator} from "@/ui/Common";
 
 
 export function MeetingView() {
@@ -36,7 +37,7 @@ export function MeetingView() {
 
     if (!meeting) {
         return (
-            <p> ... </p>
+            <LoadingIndicator/>
         )
     }
 

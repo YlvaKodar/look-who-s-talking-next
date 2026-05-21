@@ -26,9 +26,9 @@ export function Header() {
                 {session ? (
                     <>
                         <ListButton onClick={handleSignOut}>{Common.logOut}</ListButton>
-                        <p className={` h-10 text-bold text-mono px-3`}>{username} </p>
+                        <p className={` h-10 text-mono px-3 font-extralight md:font-semibold`}>{username} </p>
                     </>
-                ) : (<div className={` h-10 text-bold text-mono px-3`}></div>)}
+                ) : (<div className={` h-10 text-mono px-3 font-extralight md:font-bold`}></div>)}
 
             </div>
             <Logo className={"text-4xl"}/>

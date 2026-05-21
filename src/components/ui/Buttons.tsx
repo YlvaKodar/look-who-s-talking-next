@@ -33,7 +33,7 @@ export function ListButton({ variant = "secondary",  className, children, ...pro
         <button
             className={`
         relative group
-        ml-3 text-xs px-2 py-1 rounded font-extralight
+        ml-3 text-xs px-2 py-1 rounded font-extralight md:font-semibold
         cursor-pointer
         ${variants[variant]}
         ${className ?? ""}
