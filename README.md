@@ -1,6 +1,8 @@
 # Look Who's Talking
  
 A web app for tracking and visualizing speaking time distribution in mixed-gendered gender conversations and meetings.
+Deployed at https://look-who-s-talking.vercel.app/
+Please note that this app is still under constraction: floors might fall  in at any second. 
  
 Built by [Ylva Kodar](https://github.com/ylvakodar)
 
