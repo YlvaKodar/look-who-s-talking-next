@@ -1,36 +1,39 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Look Who's Talking
+ 
+A web app for tracking and visualizing speaking time distribution in mixed-gendered gender conversations and meetings.
+ 
+Built by [Ylva Kodar](https://github.com/ylvakodar)
 
-## Getting Started
-
-First, run the development server:
-
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Features
+- Track speaking time per gender (women, nonbinary, men)
+- Visualize speaking time distribution in pie charts
+- Works without login, using local storage
+- Logged-in users can save meeting history to a database
+- Organize meetings by group (e.g. "The Board", "Sales Team")
+- Customizable color themes for gender buttons
+## Tech Stack
+ 
+- **Framework:** Next.js 15 (App Router)
+- **Language:** TypeScript
+- **Styling:** Tailwind CSS
+- **Auth:** Better Auth
+- **ORM:** Prisma
+- **Database:** PostgreSQL (Neon)
+- **Hosting:** Vercel
+- **Charts:** Chart.js / react-chartjs-2
+ 
+## Usage
+ 
+### Without an account
+1. Click **New meeting** on the start screen
+2. Fill in meeting name and participant count per gender
+3. Use the gender buttons to track who is speaking
+4. Click **End meeting** to see statistics
+### With an account
+Same as above, plus:
+- Optionally assign the meeting to a group
+- Meeting statistics are saved to your account
+- View historical statistics
+ 
+ 
+© 2025 Ylva Kodar
