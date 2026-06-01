@@ -1,16 +1,13 @@
 import { InputField } from "@/components/ui/FormFields";
 import { signIn } from "@/lib/auth-client";
 import { SubmitEvent, useState } from "react";
-import {CommonButton} from "@/ui/Buttons";
-import {ButtonContainer} from "@/ui/Containers";
-
+import { CommonButton } from "@/ui/Buttons";
+import { ButtonContainer } from "@/ui/Containers";
+import { ValidationMessage } from "@/ui/Common";
+import { Common } from "@/constants/constants";
 
 
 export default function LogInForm() {
-    const emailLabel = "Email";
-    const passwordLabel = "Password";
-    const logInLabel = "Sign in";
-
     const [serverError, setServerError] = useState<string | null>(null);
     async function handleSubmit(e: SubmitEvent<HTMLFormElement>) {
         e.preventDefault();
@@ -27,16 +24,15 @@ export default function LogInForm() {
         }
     }
 
-
     return (
         <div className="w-full mx-auto max-w-sm flex flex-col">
-            <form className={"py-4"} onSubmit={handleSubmit}>
-                <InputField label={emailLabel} name="email" required />
-                <InputField label={passwordLabel} name="password" required/>
+            <form noValidate className={"py-4"} onSubmit={handleSubmit}>
+                <InputField label={`${Common.userEmail}:`} name="email" required />
+                <InputField label={`${Common.password}:`} name="password" required/>
                 <ButtonContainer>
-                    <CommonButton type="submit">{logInLabel}</CommonButton>
+                    <CommonButton type="submit">{Common.logIn}</CommonButton>
                 </ButtonContainer>
-                {serverError && <p>{serverError}</p>}
+                {serverError && <ValidationMessage>{serverError}</ValidationMessage>}
             </form>
         </div>
     )

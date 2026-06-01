@@ -41,3 +41,35 @@ export const LoadingIndicator = () => {
         </div>
     )
 }
+
+const styles = {
+    error: {
+        text: "text-red-600",
+        border: "border-red-600",
+    },
+    warning: {
+        text: "text-amber-700",
+        border: "border-amber-700",
+    },
+    success: {
+        text: "text-cyan-700",
+        border: "border-cyan-700",
+    },
+}
+
+type ValidationMessageProps = {
+    messageType?: "error" | "warning" | "success",
+    children?: React.ReactNode,
+}
+
+export const ValidationMessage = ({ children , messageType = "error" }: ValidationMessageProps) => {
+    const { text, border } = styles[messageType];
+
+    return (
+        <div className={`py-1 w-full`}>
+            <div className={`p-2 rounded-md font-medium w-full border-2 bg-background-light  ${border}`}>
+                <p className={text}>{children}</p>
+            </div>
+        </div>
+    )
+}

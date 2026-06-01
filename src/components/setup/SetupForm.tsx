@@ -5,7 +5,7 @@ import {CommonButton, ListButton} from "@/ui/Buttons";
 import { SchemePicker } from "@/components/setup/SchemePicker";
 import { SetupText } from "@/constants/constants";
 import { ButtonContainer } from "@/ui/Containers";
-import { H1, H2, H3, H4 } from "@/components/ui/Headings";
+import { H2} from "@/components/ui/Headings";
 import { useMeetingStorage } from "@/hooks/useMeetingStorage";
 import { useRouter } from "next/navigation";
 import { createCurrentMeeting } from "@/utils/meetingUtil";
@@ -13,7 +13,7 @@ import { SyntheticEvent, useEffect, useState } from "react";
 import { SetupMeetingFormSchema } from "@/lib/definitions";
 import { z } from "zod";
 import { GroupListItem } from "@/types/group";
-import {LoadingIndicator} from "@/ui/Common";
+import { LoadingIndicator, ValidationMessage } from "@/ui/Common";
 
 type SetupFormProps = {
     groupId?: string;
@@ -91,7 +91,7 @@ export default function SetupForm ({groupId, groupName}: SetupFormProps) {
 
 
     return (
-        <form  className="w-full flex flex-col" onSubmit={handleSubmit}>
+        <form noValidate className="w-full flex flex-col" onSubmit={handleSubmit}>
             <H2>{SetupText.about}</H2>
             { session &&  !showSelectGroups  && (
                 <div className="w-full mx-auto flex flex-col gap-1.5">
@@ -101,7 +101,7 @@ export default function SetupForm ({groupId, groupName}: SetupFormProps) {
                         <span className="text-foreground">{groupName}</span>
                         <ListButton variant={"primary"}
                             onClick={() => setShowSelectGroups(!showSelectGroups)}
-                        >Byt</ListButton>
+                        >{SetupText.changeGroup}</ListButton>
                     </div>
                 </div>
 
@@ -119,14 +119,14 @@ export default function SetupForm ({groupId, groupName}: SetupFormProps) {
             )}
 
             <InputField type="text" label={SetupText.meetingTitleLabel} name="title" required/>
-            {errors?.title && <p>{errors?.title[0]}</p>}
+            {errors?.title && <ValidationMessage>{errors?.title[0]}</ValidationMessage>}
             <InputField type="number" label={SetupText.womenCountLabel} name="womenCount" min={0} defaultValue={0} required/>
-            {errors?.womenCount && <p>{errors?.womenCount[0]}</p>}
+            {errors?.womenCount &&  <ValidationMessage>{errors?.womenCount[0]}</ValidationMessage>}
             <InputField type="number" label={SetupText.nonbinaryCountLabel} name="nonbinaryCount" min={0} defaultValue={0} required/>
-            {errors?.nonbinaryCount && <p>{errors?.nonbinaryCount[0]}</p>}
+            {errors?.nonbinaryCount &&  <ValidationMessage>{errors?.nonbinaryCount[0]}</ValidationMessage>}
             <InputField type="number" label={SetupText.menCountLabel} name="menCount" min={0} defaultValue={0} required/>
-            {errors?.menCount && <p>{errors?.menCount[0]}</p>}
-            {errors?.totalCount && <p>{errors?.totalCount[0]}</p>}
+            {errors?.menCount &&  <ValidationMessage>{errors?.menCount[0]}</ValidationMessage>}
+            {errors?.totalCount &&  <ValidationMessage>{errors?.totalCount[0]}</ValidationMessage>}
 
             <SchemePicker/>
 

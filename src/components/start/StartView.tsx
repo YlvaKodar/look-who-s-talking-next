@@ -13,9 +13,9 @@ export default function StartView() {
     const [showHow, setShowHow] = useState<boolean>(true)
     const [showStart, setShowStart] = useState<boolean>(false)
     const [showUse, setShowUse] = useState<boolean>(false)
-    const aboutText = showAbout ? StartText.aboutButton : Common.commingSoon;
+    const aboutText = showAbout ? StartText.aboutButton : Common.comingSoon;
     const aboutColor = showAbout ? "secondary" : "ohoh";
-    const howText = showHow ? StartText.howToUseButton : Common.commingSoon;
+    const howText = showHow ? StartText.howToUseButton : Common.comingSoon;
     const howColor = showHow ? "primary" : "ohoh";
     const router = useRouter();
 

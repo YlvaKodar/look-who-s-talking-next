@@ -138,7 +138,7 @@ export async function DELETE(
             where: { id }
         })
         revalidateTag(`meeting-${id}`)
-        return NextResponse.json({message: "Meeting updated!"}, { status: 200});
+        return NextResponse.json({message: "Meeting deleted!"}, { status: 200});
 
     } catch (error) {
         if (error instanceof Prisma.PrismaClientKnownRequestError) {

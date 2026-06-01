@@ -60,13 +60,19 @@ export const Common = {
     title: "LOOK WHO'S TALKING!",
     description: "Timing tool for mixed-gender conversations",
     logOut: "Log out",
+    logIn: "Sign in",
+    signUp: "Sign up",
     greeting: "Meetee ",
     backButton: "Back",
     footer: "YLVA KODAR",
     userName: "Name",
+    userNameOther: "Username (if other than email)",
     userEmail: "Email",
+    password: "Password",
+    repeatPassword: "Repeat password",
     deleteAccount: "Delete account",
-    commingSoon: "Comming soon ...",
+    comingSoon: "Coming soon ...",
+
 }
 
 export const MeetingText = {
@@ -90,6 +96,7 @@ export const SetupText = {
     submitLabel: "Start the meeting!",
     pickAGroup: "Pick a group?",
     groupTitleLabel: "Meeting group:",
+    changeGroup: "Change group",
 }
 
 export const StartText = {

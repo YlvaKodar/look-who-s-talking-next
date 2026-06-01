@@ -1,13 +1,13 @@
-import {CommonButton} from "@/ui/Buttons";
-
-"iuse client"
+import { CommonButton } from "@/ui/Buttons";
 import { InputField } from "@/components/ui/FormFields";
 import { signUp } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
 import { SubmitEvent, useState } from "react";
 import { RegisterFormSchema } from "@/lib/definitions";
 import { z } from "zod";
-import {ButtonContainer} from "@/ui/Containers";
+import { ButtonContainer } from "@/ui/Containers";
+import { ValidationMessage } from "@/ui/Common";
+import { Common } from "@/constants/constants";
 
 type FormErrors = {
     name?: string[];
@@ -17,10 +17,6 @@ type FormErrors = {
 }
 
 export default function RegisterForm() {
-    const emailLabel = "Email";
-    const userNameLabel = "Username (if other than email)";
-    const passwordLabel = "Password";
-    const repeatPasswordLabel = "Password again";
     const createAccountLabel = "Create account";
 
     const [errors, setErrors] = useState<FormErrors>({});
@@ -65,23 +61,22 @@ export default function RegisterForm() {
         } else {
             router.push("/dashboard");
         }
-
     }
 
     return (
         <div className="w-full mx-auto max-w-sm flex flex-col">
-            <form className="w-full flex flex-col" onSubmit={handleSubmit}>
-                <InputField label={emailLabel} type="email" name="email" required />
-                {errors?.email && <p>{errors.email[0]}</p>}
-                <InputField label={userNameLabel} type="text" name="userName"/>
-                <InputField label={passwordLabel} type="password" name="password" required/>
-                {errors?.password && <p>{errors.password[0]}</p>}
-                <InputField label={repeatPasswordLabel} type="password" name="repeatPassword" required/>
-                {errors?.repeatPassword && <p>{errors.repeatPassword[0]}</p>}
+            <form noValidate className="w-full flex flex-col" onSubmit={handleSubmit}>
+                <InputField label={`${Common.userEmail}:`} type="email" name="email" required />
+                {errors?.email && <ValidationMessage>{errors.email[0]}</ValidationMessage>}
+                <InputField label={`${Common.userNameOther}:`} type="text" name="userName"/>
+                <InputField label={`${Common.password}:`} type="password" name="password" required/>
+                {errors?.password && <ValidationMessage>{errors.password[0]}</ValidationMessage>}
+                <InputField label={`${Common.repeatPassword}:`} type="password" name="repeatPassword" required/>
+                {errors?.repeatPassword && <ValidationMessage>{errors.repeatPassword[0]}</ValidationMessage>}
                 <ButtonContainer>
-                    <CommonButton type="submit">{createAccountLabel}</CommonButton>
+                    <CommonButton type="submit">{Common.signUp}</CommonButton>
                 </ButtonContainer>
-                {serverError && <p>{serverError}</p>}
+                {serverError && <ValidationMessage>{serverError}</ValidationMessage>}
             </form>
         </div>
     )
