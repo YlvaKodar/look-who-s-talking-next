@@ -31,7 +31,7 @@ export function ListButtonContainer({ children }: { children: React.ReactNode })
 
 export function SectionContainer({ children }: { children: React.ReactNode }) {
     return (
-        <div className={`rounded-md w-full border border-foreground-dark, bg-background-light py-2  px-6 max-w-md mx-auto `}>
+        <div className={`rounded-md w-full border border-foreground-dark, bg-bglight py-2  px-6 max-w-md mx-auto `}>
             {children}
         </div>
     )
@@ -40,5 +40,11 @@ export function SectionContainer({ children }: { children: React.ReactNode }) {
 export function SimpleContainer({ children }: { children: React.ReactNode }) {
     return (
         <div className={`flex flex-col gap-1 px-1 py-1 cursor-default justify-between`}>{children}</div>
+    )
+}
+
+export function DangerContainer({ children }: { children: React.ReactNode }) {
+    return (
+        <div className={`rounded-md border-2 border-seven bg-bgextralight w-full flex flex-col gap-1 px-2 py-1 cursor-default justify-between`}>{children}</div>
     )
 }

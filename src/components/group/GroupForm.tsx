@@ -6,8 +6,8 @@ import { useRouter } from "next/navigation";
 import { SyntheticEvent, useState} from "react";
 import { GroupFormSchema } from "@/lib/definitions";
 import { z } from "zod";
-import {ButtonContainer} from "@/ui/Containers";
-import {H3} from "@/ui/Headings";
+import { ButtonContainer } from "@/ui/Containers";
+import { ValidationMessage } from "@/ui/Common";
 
 type FormErrors = {
     name?: string[];
@@ -65,18 +65,17 @@ export default function GroupForm() {
     }
 
     return (
-        <div className={"border border-foreground-light rounded-md p-4 bg-background-dark"}>
-            <form onSubmit={handleSubmit}>
-                {apiError && <p role="alert">{apiError}</p>}
+        <div className={"border border-foreground-light rounded-md p-4 bg-bgdark"}>
+            <form noValidate onSubmit={handleSubmit}>
                 <InputField type="text" label={GroupText.nameLabel} name="name" required/>
-                {errors?.name && <p>{errors?.name[0]}</p>}
+                {errors?.name && <ValidationMessage>{errors?.name[0]}</ValidationMessage>}
                 <InputField type="text" label={GroupText.descriptionLabel} name="description"/>
-                {errors?.description && <p>{errors?.description[0]}</p>}
+                {errors?.description && <ValidationMessage>{errors?.description[0]}</ValidationMessage>}
+                {apiError && <ValidationMessage>{apiError}</ValidationMessage>}
                 <ButtonContainer>
                     <CommonButton variant={"secondary"} type="submit" >{GroupText.formHeading}</CommonButton>
                 </ButtonContainer>
             </form>
         </div>
-
     )
 }

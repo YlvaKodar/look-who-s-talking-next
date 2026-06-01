@@ -11,7 +11,7 @@ export function TimerDisplay({formatedTime}: SpeakerButtonProps) {
                 py-2 px-2
                 rounded-md
                 border-2 border-foreground-dark
-                bg-background-dark
+                bg-bgdark
                 text-center text-foreground-dark text-4xl font-timerOpt
                 `
             }
@@ -21,7 +21,7 @@ export function TimerDisplay({formatedTime}: SpeakerButtonProps) {
                 py-4 px-6
                 rounded-md
                 border-2 border-foreground-dark
-                bg-background-light
+                bg-bglight
                 text-center text-foreground-dark text-4xl font-timerOpt
                 `
                 }

@@ -15,8 +15,9 @@ input:-webkit-autofill:focus {
 }
 
 @theme {
-    --color-background-dark: oklch(0.933 0.106 108.297);
-    --color-background-light: oklch(0.956 0.074 107.729);
+    --color-bgdark: oklch(0.933 0.106 108.297);
+    --color-bglight: oklch(0.956 0.074 107.729);
+    --color-bgextralight: oklch(0.972 0.034 107.016);
     --color-foreground-dark: oklch(0.138 0.026 174.591);
     --color-foreground-light: oklch(0.238 0.026 174.591);
     --color-women-dark: oklch(0.546 0.179 35.76);

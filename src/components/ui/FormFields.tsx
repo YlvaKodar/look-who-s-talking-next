@@ -37,7 +37,7 @@ export function InputField({
          defaultValue={defaultValue}
          className={`
           w-full rounded-md border border-foreground
-          bg-background-light px-3 py-2
+          bg-bglight px-3 py-2
           text-foreground placeholder:text-foreground/40
           focus:ring-2 focus:ring-foreground/30
         `}
@@ -79,7 +79,7 @@ export function SelectField({
                 onChange={onChange}
                 className={`
                     w-full rounded-md border border-foreground
-                    bg-background-light px-3 py-2
+                    bg-bglight px-3 py-2
                     text-foreground
                     focus:ring-2 focus:ring-foreground/30
                 `}
@@ -163,7 +163,7 @@ export function SearchField<T>({
                     placeholder={placeholder}
                     className="
             w-full rounded-md border border-foreground
-            bg-background-light px-3 py-2
+            bg-bglight px-3 py-2
             text-foreground placeholder:text-foreground/40
             focus:ring-2 focus:ring-foreground/30
           "
@@ -174,7 +174,7 @@ export function SearchField<T>({
             </div>
 
             {open && (
-                <ul className="absolute top-full mt-1 z-10 w-full rounded-md border border-foreground bg-background-light shadow-sm">
+                <ul className="absolute top-full mt-1 z-10 w-full rounded-md border border-foreground bg-bglight shadow-sm">
                     {results.length === 0 ? (
                         <li className="px-3 py-2 text-sm text-foreground/50">Nothing there</li>
                     ) : (

@@ -4,11 +4,11 @@ type CommonButtonProps = {
 } & React.ComponentProps<"button">
 
 const variants = {
-    primary: "bg-foreground-dark text-background-light hover:bg-foreground-light",
-    secondary: "bg-background-light border border-foreground-dark text-foreground-dark hover:bg-background-dark",
-    tertiary: "bg-background-dark border border-foreground-dark text-foreground-dark hover:bg-background-dark",
-    danger: "bg-seven border border-foreground-dark text-background-light hover:bg-seven/80",
-    ohoh: "bg-seventeen border border-foreground-dark text-background-light",
+    primary: "bg-foreground-dark text-bglight hover:bg-foreground-light",
+    secondary: "bg-bglight border border-foreground-dark text-foreground-dark hover:bg-bgdark",
+    tertiary: "bg-bgdark border border-foreground-dark text-foreground-dark hover:bg-bgdark",
+    danger: "bg-seven border border-foreground-dark text-bglight hover:bg-seven/80",
+    ohoh: "bg-seventeen border border-foreground-dark text-bglight",
 }
 
 export function CommonButton({ variant = "primary", className, children, ...props }: CommonButtonProps) {
@@ -17,7 +17,7 @@ export function CommonButton({ variant = "primary", className, children, ...prop
             className={`
         py-2 rounded-md font-medium w-full
         cursor-pointer
-        disabled:opacity-50 disabled:cursor-not-allowed
+        disabled:opacity-70 disabled:cursor-not-allowed
         ${variants[variant]}
         ${className ?? ""}
       `}
@@ -73,8 +73,8 @@ export function RadioButtons({
                         key={option.value}
                         className={`flex cursor-pointer items-center gap-3 rounded-md border px-3.5 py-2.5 transition-colors ${
                             isSelected
-                                ? "border-foreground-dark bg-background-light"
-                                : "border-foreground-light bg-background-dark hover:bg-background-light"
+                                ? "border-foreground-dark bg-bglight"
+                                : "border-foreground-light bg-bgdark hover:bg-bglight"
                         }`}
                     >
                         <input

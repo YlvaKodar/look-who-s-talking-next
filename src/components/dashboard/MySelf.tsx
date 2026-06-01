@@ -1,19 +1,22 @@
 "use client"
-import { H1 } from "@/ui/Headings";
+import { H1, H4 } from "@/ui/Headings";
 import { useState } from "react";
 import { ChevronIcon, LoadingIndicator } from "@/ui/Common";
 import { useSession, signOut } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
-import { CommonButton, ListButton } from "@/ui/Buttons";
-import {ButtonContainer, ListButtonContainer, SectionContainer, SimpleContainer} from "@/ui/Containers";
-import {Common} from "@/constants/constants";
+import { CommonButton } from "@/ui/Buttons";
+import { ButtonContainer, SectionContainer, SimpleContainer, DangerContainer } from "@/ui/Containers";
+import { Common } from "@/constants/constants";
+import { ValidationMessage } from "@/ui/Common";
 
-//Todo: Add admin panel, add Are you sure?
+//Todo: Add admin panel?
 //Todo: Add update
 export function MySelf() {
     const [error, setError] = useState<string | null>(null);
     const {data: session, isPending} = useSession();
     const [show, setShow] = useState(false);
+    const [showConfirm, setShowConfirm] = useState(false);
+
     const router = useRouter();
 
     if (isPending) {
@@ -35,6 +38,38 @@ export function MySelf() {
         });
     };
 
+    const DeleteContainer = () => {
+        return(
+            <>
+                {error && (
+                    <SimpleContainer>
+                        <div onClick={() => setError(null)}>
+                            <ValidationMessage>{error}</ValidationMessage>
+                        </div>
+                    </SimpleContainer>
+                )}
+
+                <>
+                    <ButtonContainer>
+                        <CommonButton type={"button"} disabled={showConfirm} onClick={handleSignOut}>{Common.logOut}</CommonButton>
+                        <CommonButton type={"button"} disabled={showConfirm} variant={"danger"} onClick={() => setShowConfirm(true)}>{Common.deleteAccount}</CommonButton>
+                    </ButtonContainer>
+                </>
+
+                {showConfirm && (
+                    <DangerContainer>
+                        <H4>Are you sure?</H4>
+
+                        <ButtonContainer>
+                            <CommonButton variant={"secondary"} onClick={() => setShowConfirm(false)}>{Common.no}</CommonButton>
+                            <CommonButton variant={"danger"} onClick={handleDelete}>{Common.yes}</CommonButton>
+                        </ButtonContainer>
+                    </DangerContainer>
+                )}
+            </>
+        )
+    }
+
     const handleDelete = async () => {
         setError(null)
         try{
@@ -46,6 +81,7 @@ export function MySelf() {
 
             if (!result.ok) {
                 setError(res.error);
+                setShowConfirm(false);
                 return;
             }
             router.push("/");
@@ -61,20 +97,11 @@ export function MySelf() {
             </div>
             {show && (
                 <>
-                    {error && (
-                        <SimpleContainer>
-                            <div onClick={() => setError(null)} className="text-seven text-bold">{error}</div>
-                        </SimpleContainer>
-                    )}
                 <SimpleContainer>
                     <p>{Common.userName}: <span className={"text-bold font-mono"}>{session.user.name}</span> </p>
                     <p>{Common.userEmail}: <span className={"text-bold font-mono"}> {session.user.email}</span> </p>
                 </SimpleContainer>
-
-                    <ButtonContainer>
-                        <CommonButton onClick={handleSignOut}>{Common.logOut}</CommonButton>
-                        <CommonButton variant={"danger"} onClick={handleDelete}>{Common.deleteAccount}</CommonButton>
-                    </ButtonContainer>
+                    <DeleteContainer/>
                 </>
             )}
         </SectionContainer>

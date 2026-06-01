@@ -17,8 +17,6 @@ type FormErrors = {
 }
 
 export default function RegisterForm() {
-    const createAccountLabel = "Create account";
-
     const [errors, setErrors] = useState<FormErrors>({});
     const [serverError, setServerError] = useState<string | null>(null);
 

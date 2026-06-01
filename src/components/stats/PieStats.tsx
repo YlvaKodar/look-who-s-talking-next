@@ -59,7 +59,7 @@ function PieBakery({label, labels, dataArray}: PieIngredients) {
                 getCssVariable('--color-men-dark'),
             ],
             borderColor: [
-                getCssVariable('--color-background-dark'),
+                getCssVariable('--color-bgdark'),
             ],
             hoverOffset: 4
         }]

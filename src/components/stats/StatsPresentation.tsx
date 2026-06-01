@@ -14,7 +14,7 @@ export function StatsPresentation({ meetingStats, presentGenders }: TextStatsPro
 
     return (
         <div className={`w-full flex flex-col gap-2`}>
-            <div className={`w-full flex flex-col gap-2 rounded-md border border-foreground-dark bg-background-light px-4 pb-4`}>
+            <div className={`w-full flex flex-col gap-2 rounded-md border border-foreground-dark bg-bglight px-4 pb-4`}>
                 <H3>{StatsText.participantCount}{meetingStats.totalParticipantCount}</H3>
                 <p>{StatsText.totalSpeakingTime} {meetingStats.totalSpeakingTimeString}</p>
                 <p>{StatsText.totalStatementCount}{meetingStats.totalStatementCount}</p>
@@ -43,7 +43,7 @@ function GenderTextStats({ gender, stats }: GenderStatsProps) {
     }
 
     return (
-        <div className={`border ${variants[gender]} rounded-md bg-background-light w-full px-4 pb-4`}>
+        <div className={`border ${variants[gender]} rounded-md bg-bglight w-full px-4 pb-4`}>
             <div>
                 <H3 color={gender}>{ Genders.chartLabels[gender]}: {stats.participating}</H3>
             </div>

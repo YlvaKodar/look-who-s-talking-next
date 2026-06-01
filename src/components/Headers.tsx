@@ -19,7 +19,7 @@ export function Header() {
     };
 
     return (
-        <header className={`w-full border-b border-background-dark`}>
+        <header className={`w-full border-b border-bgdark`}>
 
             <div className={`pt-2 h-10`}>
                 <BackButton/>

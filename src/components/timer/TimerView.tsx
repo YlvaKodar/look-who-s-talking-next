@@ -48,7 +48,7 @@ export function TimerView() {
     }
 
     return (
-        <div className={`rounded-md w-full border border-foreground-dark, bg-background-light py-2  px-6 max-w-md mx-auto `}>
+        <div className={`rounded-md w-full border border-foreground-dark, bg-bglight py-2  px-6 max-w-md mx-auto `}>
             <H1>{activeMeeting.title}</H1>
             { activeMeeting.groupName && (
                 <H4>{activeMeeting.groupName}</H4>

@@ -23,7 +23,7 @@ export function SchemePicker() {
         <div>
             <div>
                 <H3>{SetupText.colorSchemeLabel}</H3>
-                <div className={`py-2 rounded-md w-full border border-foreground-dark, bg-background-light px-2`}>
+                <div className={`py-2 rounded-md w-full border border-foreground-dark, bg-bglight px-2`}>
                     <H4>{SetupText.schemePreview}</H4>
                     <Preview/>
                 </div>

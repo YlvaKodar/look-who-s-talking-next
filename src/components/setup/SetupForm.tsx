@@ -96,7 +96,7 @@ export default function SetupForm ({groupId, groupName}: SetupFormProps) {
             { session &&  !showSelectGroups  && (
                 <div className="w-full mx-auto flex flex-col gap-1.5">
                     <label className="text-sm font-medium text-foreground">{SetupText.groupTitleLabel}</label>
-                    <div className={`w-full flex flex-row rounded-md border border-foreground bg-background-light px-3 py-2
+                    <div className={`w-full flex flex-row rounded-md border border-foreground bg-bglight px-3 py-2
                              text-foreground placeholder:text-foreground/40 justify-between`}>
                         <span className="text-foreground">{groupName}</span>
                         <ListButton variant={"primary"}

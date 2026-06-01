@@ -52,7 +52,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${geistMono.variable} ${michroma.variable} ${orbitron.variable} ${bitcount.variable} antialiased bg-background-dark text-foreground-dark min-h-screen flex flex-col justify-between`}
+        className={`${geistMono.variable} ${michroma.variable} ${orbitron.variable} ${bitcount.variable} antialiased bg-bgdark text-foreground-dark min-h-screen flex flex-col justify-between`}
       >
         {children}
         <script dangerouslySetInnerHTML={{

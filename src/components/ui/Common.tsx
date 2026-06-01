@@ -24,7 +24,7 @@ export function ChevronIcon({ isOpen }: { isOpen: boolean }) {
 
 export const Tooltip = ({ label }: { label: string }) => (
     <div className={`absolute left-0 top-full mt-1 z-10
-        bg-foreground-dark text-background-light text-sm
+        bg-foreground-dark text-bglight text-sm
         px-2 py-1 rounded
         invisible group-hover:visible
         opacity-0 group-hover:opacity-100
@@ -67,7 +67,7 @@ export const ValidationMessage = ({ children , messageType = "error" }: Validati
 
     return (
         <div className={`py-1 w-full`}>
-            <div className={`p-2 rounded-md font-medium w-full border-2 bg-background-light  ${border}`}>
+            <div className={`p-2 rounded-md font-medium w-full border-2 bg-bgextralight  ${border}`}>
                 <p className={text}>{children}</p>
             </div>
         </div>
