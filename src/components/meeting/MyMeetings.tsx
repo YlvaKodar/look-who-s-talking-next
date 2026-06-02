@@ -3,7 +3,7 @@ import { CommonButton, ListButton } from "@/ui/Buttons";
 import {ButtonContainer, ListButtonContainer, SimpleContainer, SectionContainer} from "@/ui/Containers";
 import { MeetingText} from "@/constants/constants";
 import { List } from "@/ui/Lists";
-import { Tooltip } from "@/ui/Common";
+import {LoadingIndicator, Tooltip, ValidationMessage} from "@/ui/Common";
 import { ChevronIcon } from "@/ui/Common";
 import { useRouter } from "next/navigation";
 import {useState} from "react";
@@ -12,26 +12,30 @@ import {H1, H3} from "@/ui/Headings";
 
 export function MyMeetings() {
     const [show, setShow] = useState(false);
+    const [error, setError] = useState<string | null>(null);
+    const [loading, setLoading] = useState(false);
     const [showMeetings, setShowMeetings] = useState<boolean>(false);
     const [meetings, setMeetings] = useState<MeetingListItem[]>([]);
-    const [noMeetings, setNoMeetings] = useState(false);
     const router = useRouter();
 
     async function fetchMeetings() {
+        setLoading(true);
         try {
             const result = await fetch(`/api/meetings`);
             if (!result.ok) {
                 const error = await result.json();
                 console.error(error.code, error.error);
+                setError(error.error);
                 return;
             }
             const meetings: MeetingListItem[] = await result.json();
+            setLoading(false);
             setMeetings(meetings)
-            if (!meetings.length) setNoMeetings(true);
 
         } catch (error) {
             console.error(error);
         }
+        setLoading(false);
     }
 
     const MeetingList = ({ meetings }: { meetings: MeetingListItem[] })=> {
@@ -69,12 +73,21 @@ export function MyMeetings() {
                     {showMeetings && (
                         <MeetingList meetings={meetings} />
                     )}
-                    { showMeetings && noMeetings && (
+                    { !loading && meetings.length === 0 &&  (
                         <SimpleContainer>
                             <p>{"No meetings found!"}</p>
                         </SimpleContainer>
-                    )
-                    }
+                    )}
+                    { loading && (
+                        <LoadingIndicator/>
+                    )}
+                    {error && (
+                        <SimpleContainer>
+                            <div onClick={() => setError(null)}>
+                                <ValidationMessage>{error}</ValidationMessage>
+                            </div>
+                        </SimpleContainer>
+                    )}
                 </>
             )}
         </SectionContainer>
