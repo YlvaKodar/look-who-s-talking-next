@@ -75,8 +75,8 @@ input:-webkit-autofill:focus {
     --color-women-light: oklch(0.661 0.111 75.406);
     --color-nonbinary-dark: oklch(0.344 0.139 28.932);
     --color-nonbinary-light: oklch(0.444 0.139 28.932);
-    --color-men-dark: oklch(0.286 0.045 206.7);
-    --color-men-light: oklch(0.386 0.045 206.7);
+    --color-men-dark: oklch(0.265 0.051 233.415);
+    --color-men-light: oklch(0.365 0.051 233.415);
 }
 
 

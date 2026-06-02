@@ -36,6 +36,7 @@ model Group {
   id                      String             @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   createdAt               DateTime           @default(now())
   updatedAt               DateTime           @updatedAt
+  lastUsed                DateTime           @default(now())
   keeper                  User               @relation("GroupKeeper", fields: [keeperId], references: [id], onDelete: Restrict)
   keeperId                String             @db.Uuid
   name                    String
@@ -54,6 +55,7 @@ model Meeting {
   group                   Group?           @relation(fields: [groupId], references: [id], onDelete: SetNull)
   groupId                 String?          @db.Uuid
   title                   String
+  scheme                  Scheme?
   startedAt               DateTime         @default(now())
   womenCount              Int              @default(0)
   nonbinaryCount          Int              @default(0)
@@ -64,7 +66,8 @@ model Meeting {
   womenStatementCount     Int              @default(0)
   nonbinaryStatementCount Int              @default(0)
   menStatementCount       Int              @default(0)
-  @@unique([keeperId, startedAt])
+  @@index([keeperId])
+  @@index([startedAt])
   @@index([groupId])
   @@index([title])
   @@map("meetings")
@@ -128,7 +131,21 @@ model Verification {
   @@map("verification")
 }
 
+model Feedback {
+  id                      String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  createdAt               DateTime         @default(now())
+  userEmail               String?
+  content                 String?
+}
+
 enum Role {
   USER
   ADMIN
+}
+
+enum Scheme {
+  jamjar
+  nautilus
+  amber
+  lollipopguild
 }
