@@ -136,6 +136,8 @@ model Feedback {
   createdAt               DateTime         @default(now())
   userEmail               String?
   content                 String?
+
+  @@map("feedback")
 }
 
 enum Role {
