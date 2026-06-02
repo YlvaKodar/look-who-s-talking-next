@@ -74,6 +74,7 @@ export const Common = {
     comingSoon: "Coming soon ...",
     yes: "Yes, totally!",
     no: "Not really ...",
+    areYouSure: "Are you sure?",
 }
 
 export const MeetingText = {

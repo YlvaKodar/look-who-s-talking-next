@@ -58,7 +58,7 @@ export function MySelf() {
 
                 {showConfirm && (
                     <DangerContainer>
-                        <H4>Are you sure?</H4>
+                        <H4>{Common.areYouSure}</H4>
 
                         <ButtonContainer>
                             <CommonButton variant={"secondary"} onClick={() => setShowConfirm(false)}>{Common.no}</CommonButton>
