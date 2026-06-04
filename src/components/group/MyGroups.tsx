@@ -1,9 +1,9 @@
 "use client"
 import { H1, H3 } from "@/ui/Headings"
 import { CommonButton, ListButton } from "@/ui/Buttons";
-import {ButtonContainer, ListButtonContainer, SimpleContainer} from "@/ui/Containers";
+import {ButtonContainer, ListButtonContainer, SectionContainer, SimpleContainer} from "@/ui/Containers";
 import { GroupText } from "@/constants/constants";
-import {useEffect, useState} from "react";
+import {useCallback, useEffect, useState} from "react";
 import { List } from "@/ui/Lists";
 import {LoadingIndicator, Tooltip, ValidationMessage} from "@/ui/Common";
 import { GroupListItem } from "@/types/group"
@@ -18,7 +18,7 @@ export function MyGroups() {
     const [showNewGroup, setShowNewGroup] = useState<boolean>(false);
 
     return (
-        <div className={`rounded-md w-full border border-foreground-dark, bg-bglight py-2  px-6 max-w-md mx-auto `}>
+        <SectionContainer>
             <div onClick={() => setShow(!show)}>
                 <H1>{GroupText.headingGroups} <ChevronIcon isOpen={show}/></H1>
             </div>
@@ -49,7 +49,7 @@ export function MyGroups() {
                     </div>
                 </>
             )}
-        </div>
+        </SectionContainer>
     )
 }
 
@@ -58,12 +58,7 @@ function GroupSection({status}: {  status: string }) {
     const [loading, setLoading] = useState(false);
     const [groups, setGroups] = useState<GroupListItem[]>([]);
 
-    useEffect(() => {
-        setLoading(true);
-        fetchGroups(status);
-    }, [status]);
-
-    async function fetchGroups(status: string) {
+    const fetchGroups = useCallback(async () => {
         try {
             const result = await fetch(`/api/groups?status=${status}`);
             if (!result.ok) {
@@ -79,9 +74,15 @@ function GroupSection({status}: {  status: string }) {
 
         } catch (error) {
             console.error(error);
+        } finally {
+            setLoading(false);
         }
-        setLoading(false);
-    }
+    }, [status]);
+
+    useEffect(() => {
+        setLoading(true);
+        fetchGroups();
+    }, [fetchGroups]);
 
     return (
         <>
