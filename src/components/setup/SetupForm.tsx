@@ -1,19 +1,19 @@
 "use client"
-import { authClient } from "@/lib/auth-client";
-import { InputField, SelectField } from "@/components/ui/FormFields";
+import {authClient} from "@/lib/auth-client";
+import {InputField} from "@/components/ui/FormFields";
 import {CommonButton, ListButton} from "@/ui/Buttons";
-import { SchemePicker } from "@/components/setup/SchemePicker";
-import { SetupText } from "@/constants/constants";
-import { ButtonContainer } from "@/ui/Containers";
-import { H2} from "@/components/ui/Headings";
-import { useMeetingStorage } from "@/hooks/useMeetingStorage";
-import { useRouter } from "next/navigation";
-import { createCurrentMeeting } from "@/utils/meetingUtil";
-import { SyntheticEvent, useEffect, useState } from "react";
-import { SetupMeetingFormSchema } from "@/lib/definitions";
-import { z } from "zod";
-import { GroupListItem } from "@/types/group";
-import { LoadingIndicator, ValidationMessage } from "@/ui/Common";
+import {SchemePicker} from "@/components/setup/SchemePicker";
+import {SetupText} from "@/constants/constants";
+import {ButtonContainer} from "@/ui/Containers";
+import {H2} from "@/components/ui/Headings";
+import {useMeetingStorage} from "@/hooks/useMeetingStorage";
+import {useRouter} from "next/navigation";
+import {createCurrentMeeting} from "@/utils/meetingUtil";
+import {SyntheticEvent, useState} from "react";
+import {SetupMeetingFormSchema} from "@/lib/definitions";
+import {z} from "zod";
+import {LoadingIndicator, ValidationMessage} from "@/ui/Common";
+import {GroupSelector} from "@/components/setup/GroupSelector";
 
 type SetupFormProps = {
     groupId?: string;
@@ -138,52 +138,3 @@ export default function SetupForm ({groupId, groupName}: SetupFormProps) {
 }
 
 
-function GroupSelector () {
-    const [options, setOptions] = useState<{value: string, label: string}[]>([]);
-    const [selected, setSelected] = useState<{value: string, label: string} | null>(null);
-    const { data: session } = authClient.useSession();
-
-    let placeholder = "Meeting group?";
-
-    useEffect(() => {
-
-        async function fetchGroups() {
-            if (!session) return;
-            try {
-                const result = await fetch(`/api/groups?status=myGroups`);
-                if (!result.ok) {
-                    const error = await result.json();
-                    console.error(error.code, error.error);
-                    return;
-                }
-                const groups: GroupListItem[] = await result.json();
-                if (!groups.length) placeholder = "You have no groups loser";
-                setOptions(groups.map((g) => ({ value: g.id, label: g.name })));
-                groups.map((g) => (console.log(g.name)));
-
-            } catch (error) {
-                console.error(error);
-            }
-        }
-        fetchGroups()
-    }, [session]);
-
-    return (
-        <>
-            <SelectField
-                label="Grupp"
-                name="groupId"
-                options={options}
-                placeholder="Meeting group?"
-                defaultValue={""}
-                onChange={(e) => {
-                    const opt = options.find(o => o.value === e.target.value) ?? null;
-                    setSelected(opt);
-                }}
-            />
-            {selected && (
-                <input type="hidden" name="groupName" value={selected.label} />
-            )}
-        </>
-    );
-}

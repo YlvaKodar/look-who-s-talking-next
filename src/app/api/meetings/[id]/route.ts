@@ -2,11 +2,11 @@ import { auth } from "@/lib/auth";
 import { NextResponse } from "next/server";
 import { headers } from "next/headers";
 import { prisma } from "@/lib/prisma";
-import {Prisma} from "@/generated/prisma/client";
+import { Prisma } from "@/generated/prisma/client";
 import { unstable_cache } from 'next/cache';
 import { revalidateTag } from 'next/cache';
-import {MeetingUpdateInput} from "@/generated/prisma/models/Meeting";
-import {createPastMeetingStats} from "@/utils/meetingUtil";
+import { MeetingUpdateInput } from "@/generated/prisma/models/Meeting";
+import { createPastMeetingStats } from "@/utils/meetingUtil";
 
 
 function getCachedMeeting(id: string) {
@@ -26,6 +26,7 @@ function getCachedMeeting(id: string) {
                 raw.id,
                 raw.title,
                 raw.group?.name ?? "",
+                raw.keeperId,
                 raw.keeper.name,
                 raw.startedAt.toLocaleDateString("sv-SE"),
                 raw.womenCount,
@@ -81,14 +82,7 @@ export async function PUT(
 
     if (!(Object.keys(data).length)) return NextResponse.json({ error: "No data provided" }, { status: 400 });
 
-    if (session.user.role !== "ADMIN") {
-        const meeting = await prisma.meeting.findUnique({
-            where: { id }
-        });
-        if (!meeting) return NextResponse.json({ error: "Meeting not found" }, { status : 404 });
-        if (meeting.keeperId !== session.user.id) return NextResponse.json({error: "THIS DECISION IS NOT UP TO YOU"}, { status: 403 });
-        if (meeting.groupId && data.group !== undefined) return NextResponse.json({error: "Only admin may update or remove existing meeting group."}, { status: 403 });
-    }
+    if (session.user.role !== "ADMIN") return NextResponse.json({error: "THIS DECISION IS NOT UP TO YOU"}, { status: 403 });
 
     try {
         await prisma.meeting.update({
