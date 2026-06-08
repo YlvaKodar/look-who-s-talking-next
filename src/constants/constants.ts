@@ -77,6 +77,8 @@ export const Common = {
     areYouSure: "Are you sure?",
     groupLabel: "Group",
     groupSelector: "Pick a group?",
+    dateLabel: "Date",
+    keeperLabel: "Keeper",
 }
 
 export const MeetingText = {
@@ -91,7 +93,9 @@ export const MeetingText = {
     addGroupInfo: 'If you sort this meeting into an existing group, everybody in that group has access to the meeting data.',
     changeKeeperCheckbox: 'Yes, please! Make group keeper new meeting keeper!',
     changeKeeperInfo: 'Do you want the group keeper to replace you as meeting keeper? You would no longer be listed as keeper for this meeting.',
-    changeKeeperButton: 'Switch meeting keeper'
+    changeKeeperButton: 'Switch meeting keeper',
+    showMeetingStats: "See meeting statistics",
+    showEditMeeting: "Edit meeting",
 }
 
 export const SetupText = {

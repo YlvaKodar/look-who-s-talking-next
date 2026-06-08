@@ -1,7 +1,7 @@
 "use client"
 import { H1, H3 } from "@/ui/Headings"
 import { CommonButton, ListButton } from "@/ui/Buttons";
-import {ButtonContainer, ListButtonContainer, SectionContainer, SimpleContainer} from "@/ui/Containers";
+import {ButtonContainer, ListButtonContainer, SmallSectionContainer, SimpleContainer} from "@/ui/Containers";
 import { GroupText } from "@/constants/constants";
 import {useCallback, useEffect, useState} from "react";
 import { List } from "@/ui/Lists";
@@ -18,7 +18,7 @@ export function MyGroups() {
     const [showNewGroup, setShowNewGroup] = useState<boolean>(false);
 
     return (
-        <SectionContainer>
+        <SmallSectionContainer>
             <div onClick={() => setShow(!show)}>
                 <H1>{GroupText.headingGroups} <ChevronIcon isOpen={show}/></H1>
             </div>
@@ -49,7 +49,7 @@ export function MyGroups() {
                     </div>
                 </>
             )}
-        </SectionContainer>
+        </SmallSectionContainer>
     )
 }
 

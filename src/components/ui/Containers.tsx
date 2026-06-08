@@ -29,9 +29,17 @@ export function ListButtonContainer({ children }: { children: React.ReactNode })
     )
 }
 
-export function SectionContainer({ children }: { children: React.ReactNode }) {
+export function SmallSectionContainer({ children }: { children: React.ReactNode }) {
     return (
         <div className={`rounded-md w-full border border-foreground-dark, bg-bglight py-2  px-6 max-w-md mx-auto `}>
+            {children}
+        </div>
+    )
+}
+
+export function BigSectionContainer({ children }: { children: React.ReactNode }) {
+    return (
+        <div className={`w-full flex flex-col gap-2 rounded-md border border-foreground-dark bg-bglight px-4`}>
             {children}
         </div>
     )

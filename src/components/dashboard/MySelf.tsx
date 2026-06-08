@@ -5,7 +5,7 @@ import { ChevronIcon, LoadingIndicator } from "@/ui/Common";
 import { useSession, signOut } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
 import { CommonButton } from "@/ui/Buttons";
-import { ButtonContainer, SectionContainer, SimpleContainer, DangerContainer } from "@/ui/Containers";
+import { ButtonContainer, SmallSectionContainer, SimpleContainer, DangerContainer } from "@/ui/Containers";
 import { Common } from "@/constants/constants";
 import { ValidationMessage } from "@/ui/Common";
 
@@ -90,7 +90,7 @@ export function MySelf() {
     }
 
     return (
-        <SectionContainer>
+        <SmallSectionContainer>
             <div onClick={() => setShow(!show)}>
                 <H1>Hello me! <ChevronIcon isOpen={show}/></H1>
             </div>
@@ -103,6 +103,6 @@ export function MySelf() {
                     <DeleteContainer/>
                 </>
             )}
-        </SectionContainer>
+        </SmallSectionContainer>
     )
 }

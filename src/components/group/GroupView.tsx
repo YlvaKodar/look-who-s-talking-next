@@ -2,7 +2,7 @@
 import { useSession } from "@/lib/auth-client";
 import { H1, H3 } from "@/ui/Headings"
 import {CommonButton, ListButton} from "@/ui/Buttons";
-import {ButtonContainer, SectionContainer, SimpleContainer} from "@/ui/Containers";
+import {ButtonContainer, SmallSectionContainer, SimpleContainer} from "@/ui/Containers";
 import {GroupText, MeetingText} from "@/constants/constants";
 import { useState, useEffect } from "react";
 import { List } from "@/ui/Lists";
@@ -109,7 +109,7 @@ export function GroupView() {
     }
 
     return (
-        <SectionContainer>
+        <SmallSectionContainer>
             <div>
                 <H1>{group?.name}</H1>
                 <H3>{group?.description}</H3>
@@ -181,6 +181,6 @@ export function GroupView() {
                     </>
                 )}
             </div>
-        </SectionContainer>
+        </SmallSectionContainer>
     )
 }

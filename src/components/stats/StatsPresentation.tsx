@@ -3,6 +3,7 @@ import { H3 } from "@/components/ui/Headings";
 import { PieStats } from "@/components/stats/PieStats";
 import { StatsText, Genders } from "@/constants/constants";
 import {  MeetingStats, Stats, Gender } from "@/types/meeting";
+import {BigSectionContainer, SimpleContainer} from "@/ui/Containers";
 
 
 type TextStatsProps = {
@@ -14,13 +15,13 @@ export function StatsPresentation({ meetingStats, presentGenders }: TextStatsPro
 
     return (
         <div className={`w-full flex flex-col gap-2`}>
-            <div className={`w-full flex flex-col gap-2 rounded-md border border-foreground-dark bg-bglight px-4 pb-4`}>
+            <BigSectionContainer>
                 <H3>{StatsText.participantCount}{meetingStats.totalParticipantCount}</H3>
                 <p>{StatsText.totalSpeakingTime} {meetingStats.totalSpeakingTimeString}</p>
                 <p>{StatsText.totalStatementCount}{meetingStats.totalStatementCount}</p>
                 <p>{StatsText.averageLength}{meetingStats.averageStatementLengthString}</p>
                 <PieStats meetingStats={meetingStats} presentGenders={presentGenders} />
-            </div>
+            </BigSectionContainer>
             <div className={`w-full flex flex-col gap-2`}>
                 {presentGenders.map(gender => (
                     <GenderTextStats key={gender} gender={gender} stats={meetingStats.genderStats[gender]} />
@@ -47,18 +48,18 @@ function GenderTextStats({ gender, stats }: GenderStatsProps) {
             <div>
                 <H3 color={gender}>{ Genders.chartLabels[gender]}: {stats.participating}</H3>
             </div>
-            <div>
+            <SimpleContainer>
                 <p>{StatsText.speakingTime} {stats.speakingTimeString}</p>
-            </div>
-            <div>
+            </SimpleContainer>
+            <SimpleContainer>
                 <p>{StatsText.statementCount} {stats.statementCount}</p>
-            </div>
-            <div>
+            </SimpleContainer>
+            <SimpleContainer>
                 <p>{StatsText.averageLength} {stats.averageStatementLengthString}</p>
-            </div>
-            <div>
+            </SimpleContainer>
+            <SimpleContainer>
                 <p>{StatsText.equalTimeShare} {stats.equalShareString}</p>
-            </div>
+            </SimpleContainer>
         </div>
     )
 }

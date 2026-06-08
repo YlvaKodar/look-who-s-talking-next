@@ -1,6 +1,6 @@
 "use client"
 import { CommonButton, ListButton } from "@/ui/Buttons";
-import {ButtonContainer, ListButtonContainer, SimpleContainer, SectionContainer} from "@/ui/Containers";
+import {ButtonContainer, ListButtonContainer, SimpleContainer, SmallSectionContainer} from "@/ui/Containers";
 import { MeetingText} from "@/constants/constants";
 import { List } from "@/ui/Lists";
 import {LoadingIndicator, Tooltip, ValidationMessage} from "@/ui/Common";
@@ -16,7 +16,7 @@ export function MyMeetings() {
     const router = useRouter();
 
     return (
-        <SectionContainer>
+        <SmallSectionContainer>
             <div onClick={() => setShow(!show)}>
                 <H1>{MeetingText.headingMeeting} <ChevronIcon isOpen={show}/></H1>
             </div>
@@ -35,7 +35,7 @@ export function MyMeetings() {
                     )}
                 </>
             )}
-        </SectionContainer>
+        </SmallSectionContainer>
     )
 }
 

@@ -5,8 +5,8 @@ import {useEffect, useState} from "react";
 import {MeetingStats, Gender, Stats} from "@/types/meeting";
 import {H1, H3, H4} from "@/ui/Headings";
 import {StatsPresentation} from "@/components/stats/StatsPresentation";
-import {LoadingIndicator, ValidationMessage} from "@/ui/Common";
-import {ButtonContainer, DangerContainer, SimpleContainer} from "@/ui/Containers";
+import {ChevronIcon, LoadingIndicator, ValidationMessage} from "@/ui/Common";
+import {BigSectionContainer, ButtonContainer, DangerContainer, SimpleContainer} from "@/ui/Containers";
 import {Common, MeetingText} from "@/constants/constants";
 import {CommonButton} from "@/ui/Buttons";
 import {CheckboxField} from "@/ui/FormFields";
@@ -43,6 +43,8 @@ function MeetingDetails({sessionId, sessionRole}: {sessionId : string, sessionRo
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
     const [meeting, setMeeting] = useState<MeetingStats | null>(null);
+    const [showStats, setShowStats] = useState<boolean>(false);
+    const [showEdit, setShowEdit] = useState<boolean>(false);
     const { id } = useParams();
 
     useEffect(() => {
@@ -89,26 +91,76 @@ function MeetingDetails({sessionId, sessionRole}: {sessionId : string, sessionRo
 
     return (
         <>
-            <H1>{meeting.title}</H1>
-            <H3>{meeting?.groupName} {meeting.startedAt}</H3>
-            <StatsPresentation meetingStats={meeting} presentGenders={presentGenders} />
-            { (sessionRole === "ADMIN" || sessionId === meeting.keeperId) && (
-                <div className={`w-full flex flex-col gap-2 py-2 `}>
-                    <div className={`w-full flex flex-col gap-2 rounded-md border border-foreground-dark bg-bglight p-4`}>
-                        <AddMeetingGroup meeting={meeting} sessionId={sessionId} admin={sessionRole === "ADMIN"} />
+            <BigSectionContainer>
+                <H1>{meeting.title}</H1>
+
+                {meeting?.groupName && (
+                    <SimpleContainer>
+                        <p>{`${Common.groupLabel}: ${meeting?.groupName}`}</p>
+                    </SimpleContainer>
+                )}
+
+                <SimpleContainer>
+                    <p>{`${Common.dateLabel}: ${meeting.startedAt}`}</p>
+                </SimpleContainer>
+
+                <SimpleContainer>
+                    <p>{`${Common.keeperLabel}: ${meeting.keeperName}`}</p>
+                </SimpleContainer>
+
+
+                <div onClick={() => {
+                    setShowStats(!showStats);
+                    setShowEdit(false);
+                }}>
+                    <H3 center={"px-1"}>{MeetingText.showMeetingStats} <ChevronIcon isOpen={showStats}/></H3>
+                </div>
+                {(sessionRole === "ADMIN" || sessionId === meeting.keeperId) && (
+                    <div onClick={() => {
+                        setShowEdit(!showEdit);
+                        setShowStats(false)
+                    }}>
+                        <H3 center={"px-1"}>{MeetingText.showEditMeeting} <ChevronIcon isOpen={showEdit}/></H3>
                     </div>
+                )}
+            </BigSectionContainer>
+
+
+            { showStats && (
+                <div className={`w-full flex flex-col gap-2 py-2 `}>
+                    <StatsPresentation meetingStats={meeting} presentGenders={presentGenders} />
+                </div>
+            )}
+
+            { showEdit && (
+                <div className={`w-full flex flex-col gap-2 py-2 `}>
+                    <BigSectionContainer>
+                        { showEdit && (!meeting.groupName) && (
+                            <AddMeetingGroup meeting={meeting}/>
+                        )}
+
+                        { meeting.groupName && (
+                            <SwitchKeeper meeting={meeting}/>
+                        )}
+
+                    </BigSectionContainer>
+
+                    <BigSectionContainer>
+                        { (meeting.id && (meeting.keeperId === sessionId)) && (
+                            <DeleteMeeting id={meeting.id}/>
+                        )}
+                    </BigSectionContainer>
                 </div>
             )}
         </>
     )
 }
 
-function AddMeetingGroup( {meeting, sessionId, admin}: {meeting: MeetingStats, sessionId: string, admin: boolean}) {
+function AddMeetingGroup( {meeting}: {meeting: MeetingStats}) {
     const [error, setError] = useState<string | null>(null);
     const [ok, setOk] = useState<string | null>(null);
     const [loading, setLoading] = useState<boolean>(false);
     const [selectedGroupId, setSelectedGroupId] = useState<string | null>(null);
-    const [keeperCheckBox, setKeeperCheckBox] = useState<boolean>(false);
     const router = useRouter();
 
     async function handleAddGroup(){
@@ -124,32 +176,6 @@ function AddMeetingGroup( {meeting, sessionId, admin}: {meeting: MeetingStats, s
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ groupId: selectedGroupId }),
-            });
-            const res = await result.json();
-            if (!result.ok) {
-                console.error(res.code, res.error);
-                setError(res.error);
-                return;
-            }
-            setOk(res.message);
-            router.refresh();
-        } catch (error) {
-            console.error(error);
-        } finally {
-            setLoading(false);
-        }
-    }
-
-    async function handleChangeKeeper(){
-        if (!keeperCheckBox) {
-            return;
-        }
-        setError(null);
-        setLoading(true);
-        try {
-            const result = await fetch(`/api/meetings/${meeting.id}/transfer-keeper`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
             });
             const res = await result.json();
             if (!result.ok) {
@@ -182,29 +208,19 @@ function AddMeetingGroup( {meeting, sessionId, admin}: {meeting: MeetingStats, s
                     </div>
                 </SimpleContainer>
             )}
-            { (admin || !meeting.groupName) && (
-                <>
-                    <H4>{MeetingText.addGroupLabel}</H4>
-                    <SimpleContainer>
-                        <p>{MeetingText.addGroupInfo}</p>
-                    </SimpleContainer>
-                    <GroupSelector onSelect={(group) => setSelectedGroupId(group?.id ?? null)} />
-                    <ButtonContainer>
-                        <CommonButton
-                            onClick={handleAddGroup}
-                            disabled={!selectedGroupId || loading}
-                        >
-                            {MeetingText.addGroupButton}
-                        </CommonButton>
-                    </ButtonContainer>
-                </>
-            )}
-            { meeting.groupName && (
-                <SwitchKeeper meeting={meeting}/>
-            )}
-            { (meeting.id && (admin || meeting.keeperId === sessionId)) && (
-                <DeleteMeeting id={meeting.id}/>
-            )}
+            <H4>{MeetingText.addGroupLabel}</H4>
+            <SimpleContainer>
+                <p>{MeetingText.addGroupInfo}</p>
+            </SimpleContainer>
+            <GroupSelector onSelect={(group) => setSelectedGroupId(group?.id ?? null)} />
+            <ButtonContainer>
+                <CommonButton
+                    onClick={handleAddGroup}
+                    disabled={!selectedGroupId || loading}
+                >
+                    {MeetingText.addGroupButton}
+                </CommonButton>
+            </ButtonContainer>
         </>
     )
 }
@@ -213,7 +229,6 @@ function SwitchKeeper ( {meeting}: {meeting: MeetingStats}) {
     const [error, setError] = useState<string | null>(null);
     const [ok, setOk] = useState<string | null>(null);
     const [loading, setLoading] = useState<boolean>(false);
-    const [selectedGroupId, setSelectedGroupId] = useState<string | null>(null);
     const [keeperCheckBox, setKeeperCheckBox] = useState<boolean>(false);
     const router = useRouter();
 
@@ -268,7 +283,7 @@ function SwitchKeeper ( {meeting}: {meeting: MeetingStats}) {
                         <ButtonContainer>
                             <CommonButton
                                 onClick={handleChangeKeeper}
-                                disabled={!keeperCheckBox}
+                                disabled={!keeperCheckBox || loading}
                             >
                                 {MeetingText.changeKeeperButton}
                             </CommonButton>

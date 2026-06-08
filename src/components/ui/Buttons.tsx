@@ -17,7 +17,7 @@ export function CommonButton({ variant = "primary", className, children, ...prop
             className={`
         py-2 rounded-md font-medium w-full
         cursor-pointer
-        disabled:opacity-70 disabled:cursor-not-allowed
+        disabled:opacity-40 disabled:cursor-not-allowed
         ${variants[variant]}
         ${className ?? ""}
       `}
