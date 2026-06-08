@@ -7,7 +7,6 @@ import { useMeetingLogic } from "@/hooks/useMeetingLogic";
 import { useRouter } from "next/navigation";
 import { authClient} from "@/lib/auth-client";
 import { createMeetingData } from "@/utils/meetingUtil";
-import {Activity} from "react";
 import {LoadingIndicator} from "@/ui/Common";
 
 export function TimerView() {
@@ -20,12 +19,6 @@ export function TimerView() {
 
         if (session && activeMeeting) {
             const meetingData = createMeetingData(activeMeeting);
-            const meetingDataString = JSON.stringify(meetingData);
-            console.log("Meetingdata: " +  meetingDataString);
-            typeof Object.entries(meetingData).forEach(([key, value]) => {
-                console.log(key, value);
-            })
-            console.log(typeof meetingData.startedAt);
 
             try {
                 const result = await fetch("/api/meetings", {

@@ -32,7 +32,7 @@ export function useMeetingLogic() {
         if (!theMeeting) return
 
         const roundedTime = Math.round(time)
-        console.log( `Gender: ${gender}, Time: ${roundedTime}` )
+        // console.log( `Gender: ${gender}, Time: ${roundedTime}` )
 
         const updatedMeeting: CurrentMeeting = {
             ...theMeeting,

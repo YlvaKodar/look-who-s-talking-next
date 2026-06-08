@@ -22,12 +22,12 @@ export function GroupSelector({ onSelect }: Props = {}) {
                 const result = await fetch(`/api/groups?status=myGroups`);
                 if (!result.ok) {
                     const error = await result.json();
+                    console.error(error.error);
                     return;
                 }
                 const groups: GroupListItem[] = await result.json();
                 if (!groups.length) placeholder = "You have no groups loser";
                 setOptions(groups.map((g) => ({value: g.id, label: g.name})));
-                groups.map((g) => (console.log(g.name)));
 
             } catch (error) {
                 console.error(error);
