@@ -7,8 +7,9 @@ import {H1, H3, H4} from "@/ui/Headings";
 import {StatsPresentation} from "@/components/stats/StatsPresentation";
 import {LoadingIndicator, ValidationMessage} from "@/ui/Common";
 import {ButtonContainer, DangerContainer, SimpleContainer} from "@/ui/Containers";
-import {Common, GroupText} from "@/constants/constants";
+import {Common, MeetingText} from "@/constants/constants";
 import {CommonButton} from "@/ui/Buttons";
+import {CheckboxField} from "@/ui/FormFields";
 import {GroupSelector} from "@/components/setup/GroupSelector";
 
 export function MeetingView() {
@@ -92,17 +93,23 @@ function MeetingDetails({sessionId, sessionRole}: {sessionId : string, sessionRo
             <H3>{meeting?.groupName} {meeting.startedAt}</H3>
             <StatsPresentation meetingStats={meeting} presentGenders={presentGenders} />
             { (sessionRole === "ADMIN" || sessionId === meeting.keeperId) && (
-                <EditMeeting meeting={meeting} sessionId={sessionId} admin={sessionRole === "ADMIN"} />
+                <div className={`w-full flex flex-col gap-2 py-2 `}>
+                    <div className={`w-full flex flex-col gap-2 rounded-md border border-foreground-dark bg-bglight p-4`}>
+                        <AddMeetingGroup meeting={meeting} sessionId={sessionId} admin={sessionRole === "ADMIN"} />
+                    </div>
+                </div>
             )}
         </>
     )
 }
 
-function EditMeeting( {meeting, sessionId, admin}: {meeting: MeetingStats, sessionId: string, admin: boolean}) {
+function AddMeetingGroup( {meeting, sessionId, admin}: {meeting: MeetingStats, sessionId: string, admin: boolean}) {
     const [error, setError] = useState<string | null>(null);
     const [ok, setOk] = useState<string | null>(null);
-    const [loading, setLoading] = useState<boolean>(true);
+    const [loading, setLoading] = useState<boolean>(false);
     const [selectedGroupId, setSelectedGroupId] = useState<string | null>(null);
+    const [keeperCheckBox, setKeeperCheckBox] = useState<boolean>(false);
+    const router = useRouter();
 
     async function handleAddGroup(){
         if (!selectedGroupId) {
@@ -120,10 +127,38 @@ function EditMeeting( {meeting, sessionId, admin}: {meeting: MeetingStats, sessi
             });
             const res = await result.json();
             if (!result.ok) {
-                console.log(res.code, res.error);
+                console.error(res.code, res.error);
                 setError(res.error);
+                return;
             }
             setOk(res.message);
+            router.refresh();
+        } catch (error) {
+            console.error(error);
+        } finally {
+            setLoading(false);
+        }
+    }
+
+    async function handleChangeKeeper(){
+        if (!keeperCheckBox) {
+            return;
+        }
+        setError(null);
+        setLoading(true);
+        try {
+            const result = await fetch(`/api/meetings/${meeting.id}/transfer-keeper`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+            });
+            const res = await result.json();
+            if (!result.ok) {
+                console.error(res.code, res.error);
+                setError(res.error);
+                return;
+            }
+            setOk(res.message);
+            router.refresh();
         } catch (error) {
             console.error(error);
         } finally {
@@ -142,26 +177,104 @@ function EditMeeting( {meeting, sessionId, admin}: {meeting: MeetingStats, sessi
             )}
             {ok && (
                 <SimpleContainer>
-                    <div onClick={() => setOk(null)}></div>
-                    <ValidationMessage messageType={"success"}>{ok}</ValidationMessage>
+                    <div onClick={() => setOk(null)}>
+                        <ValidationMessage messageType={"success"}>{ok}</ValidationMessage>
+                    </div>
                 </SimpleContainer>
             )}
             { (admin || !meeting.groupName) && (
                 <>
-                    <p>{"Add meeting to group"}</p>
+                    <H4>{MeetingText.addGroupLabel}</H4>
+                    <SimpleContainer>
+                        <p>{MeetingText.addGroupInfo}</p>
+                    </SimpleContainer>
                     <GroupSelector onSelect={(group) => setSelectedGroupId(group?.id ?? null)} />
                     <ButtonContainer>
                         <CommonButton
                             onClick={handleAddGroup}
                             disabled={!selectedGroupId || loading}
                         >
-                            {"Add to group"}
+                            {MeetingText.addGroupButton}
                         </CommonButton>
                     </ButtonContainer>
                 </>
             )}
-            { (meeting.id && (admin || !meeting.groupName)) && (
+            { meeting.groupName && (
+                <SwitchKeeper meeting={meeting}/>
+            )}
+            { (meeting.id && (admin || meeting.keeperId === sessionId)) && (
                 <DeleteMeeting id={meeting.id}/>
+            )}
+        </>
+    )
+}
+
+function SwitchKeeper ( {meeting}: {meeting: MeetingStats}) {
+    const [error, setError] = useState<string | null>(null);
+    const [ok, setOk] = useState<string | null>(null);
+    const [loading, setLoading] = useState<boolean>(false);
+    const [selectedGroupId, setSelectedGroupId] = useState<string | null>(null);
+    const [keeperCheckBox, setKeeperCheckBox] = useState<boolean>(false);
+    const router = useRouter();
+
+    async function handleChangeKeeper(){
+        if (!keeperCheckBox) {
+            return;
+        }
+        setError(null);
+        setLoading(true);
+        try {
+            const result = await fetch(`/api/meetings/${meeting.id}/transfer-keeper`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+            });
+            const res = await result.json();
+            if (!result.ok) {
+                console.error(res.code, res.error);
+                setError(res.error);
+                return;
+            }
+            setOk(res.message);
+            router.refresh();
+        } catch (error) {
+            console.error(error);
+        } finally {
+            setLoading(false);
+        }
+    }
+
+    return (
+        <>
+            {error && (
+                <SimpleContainer>
+                    <div onClick={() => setError(null)}>
+                        <ValidationMessage>{error}</ValidationMessage>
+                    </div>
+                </SimpleContainer>
+            )}
+            {ok && (
+                <SimpleContainer>
+                    <div onClick={() => setOk(null)}>
+                        <ValidationMessage messageType={"success"}>{ok}</ValidationMessage>
+                    </div>
+                </SimpleContainer>
+            )}
+            { meeting.groupName && (
+                <>
+                    <H4>{`${Common.groupLabel}: ${meeting.groupName}`}</H4>
+                    <SimpleContainer>
+                        <p>{MeetingText.changeKeeperInfo}</p>
+                        <CheckboxField label={MeetingText.changeKeeperCheckbox} name={"keeper"} checked={keeperCheckBox} onChange={setKeeperCheckBox} />
+                        <ButtonContainer>
+                            <CommonButton
+                                onClick={handleChangeKeeper}
+                                disabled={!keeperCheckBox}
+                            >
+                                {MeetingText.changeKeeperButton}
+                            </CommonButton>
+                        </ButtonContainer>
+                    </SimpleContainer>
+                </>
             )}
         </>
     )
@@ -229,66 +342,4 @@ function DeleteMeeting({id}: {id: string}) {
         </>
     )
 }
-
-
-
-
-
-// export function MeetingView() {
-//     const [error, setError] = useState<string | null>(null);
-//     const { id } = useParams();
-//     const [loading, setLoading] = useState<boolean>(true);
-//     const [meeting, setMeeting] = useState<MeetingStats | null>(null);
-//
-//     useEffect(() => {
-//         async function fetchMeeting(){
-//             try {
-//                 const result = await fetch(`/api/meetings/${id}`);
-//                 if (!result.ok) {
-//                     const error = await result.json();
-//                     setError(error.error);
-//                     console.error(error.code, error.error);
-//                     return;
-//                 }
-//                 const meeting: MeetingStats = await result.json();
-//                 setMeeting(meeting);
-//
-//             } catch (error) {
-//                 console.error(error);
-//             } finally {
-//                 setLoading(false);
-//             }
-//         }
-//         fetchMeeting();
-//     }, [id]);
-//
-//     if (!meeting) {
-//         return (
-//             <LoadingIndicator/>
-//         )
-//     }
-//
-//     const presentGenders = (Object.entries(meeting?.genderStats) as [Gender, Stats][])
-//         .filter(([_, stats]) => stats.participating > 0)
-//         .map(([gender]) => gender);
-//
-//     return (
-//         <div>
-//             <div>
-//                 {error && (
-//                     <SimpleContainer>
-//                         <div onClick={() => setError(null)}>
-//                             <ValidationMessage>{error}</ValidationMessage>
-//                         </div>
-//                     </SimpleContainer>
-//                 )}
-//                 <H1>{meeting.title}</H1>
-//                 <H3>{meeting?.groupName} {meeting.startedAt}</H3>
-//                 <StatsPresentation meetingStats={meeting} presentGenders={presentGenders} />
-//
-//             </div>
-//         </div>
-//     )
-// }
-
 

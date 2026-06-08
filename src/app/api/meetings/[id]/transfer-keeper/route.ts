@@ -24,7 +24,7 @@ export async function POST(
     if (!meeting) return NextResponse.json({ error: "Meeting not found" }, { status : 404 });
     if (!meeting.group) return NextResponse.json({ error: "Meeting has no group to transfer to." }, { status: 400 });
     if (session.user.role !== "ADMIN" && meeting.keeperId !== session.user.id) return NextResponse.json({ error: "THIS DECISION IS NOT UP TO YOU" }, { status: 403 });
-    if (meeting.keeperId === meeting.group.keeperId) return NextResponse.json({ error: "Group keeper is already the meeting keeper." }, { status: 400 });
+    if (meeting.keeperId === meeting.group.keeperId) return NextResponse.json({ error: "Group keeper is already meeting keeper." }, { status: 400 });
 
     try {
         await prisma.meeting.update({

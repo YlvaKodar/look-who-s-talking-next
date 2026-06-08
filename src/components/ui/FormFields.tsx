@@ -46,6 +46,33 @@ export function InputField({
     );
 }
 
+type CheckboxFieldProps = {
+    label: string;
+    name: string;
+    defaultChecked?: boolean;
+    checked?: boolean;
+    onChange?: (checked: boolean) => void;
+};
+
+export function CheckboxField({ label, name, defaultChecked, checked, onChange }: CheckboxFieldProps) {
+    return (
+        <div className="w-full mx-auto flex items-center gap-2">
+            <input
+                id={name}
+                name={name}
+                type="checkbox"
+                defaultChecked={defaultChecked}
+                checked={checked}
+                onChange={(e) => onChange?.(e.target.checked)}
+                className="rounded border border-foreground bg-bglight focus:ring-2 focus:ring-foreground/30"
+            />
+            <label htmlFor={name} className="text-sm font-medium text-foreground">
+                {label}
+            </label>
+        </div>
+    );
+}
+
 type SelectFieldProps = {
     label: string;
     name: string;
