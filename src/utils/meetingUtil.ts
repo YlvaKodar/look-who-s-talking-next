@@ -201,7 +201,8 @@ export function getTotalTimeActiveMeeting( meeting: CurrentMeeting ) {
 }
 
 export function getGenderSpeakingTime(genderData: number[]){
-    return genderData.reduce((sum, n) => sum + n, 0);
+    const time = genderData.reduce((sum, n) => sum + n, 0);
+    return  Math.round(time)
 }
 
 export function getFormattedTime(time: number){

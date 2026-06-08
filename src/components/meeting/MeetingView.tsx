@@ -135,7 +135,7 @@ function MeetingDetails({sessionId, sessionRole}: {sessionId : string, sessionRo
             { showEdit && (
                 <div className={`w-full flex flex-col gap-2 py-2 `}>
                     <BigSectionContainer>
-                        { showEdit && (!meeting.groupName) && (
+                        { !meeting.groupName && (
                             <AddMeetingGroup meeting={meeting}/>
                         )}
 
@@ -145,11 +145,11 @@ function MeetingDetails({sessionId, sessionRole}: {sessionId : string, sessionRo
 
                     </BigSectionContainer>
 
-                    <BigSectionContainer>
-                        { (meeting.id && (meeting.keeperId === sessionId)) && (
+                    { (meeting.id && !meeting.groupName) && (
+                        <BigSectionContainer>
                             <DeleteMeeting id={meeting.id}/>
-                        )}
-                    </BigSectionContainer>
+                        </BigSectionContainer>
+                    )}
                 </div>
             )}
         </>
@@ -337,7 +337,7 @@ function DeleteMeeting({id}: {id: string}) {
             )}
             <>
                 <ButtonContainer>
-                    <CommonButton type={"button"} disabled={showConfirm} variant={"danger"} onClick={() => setShowConfirm(true)}>{Common.deleteAccount}</CommonButton>
+                    <CommonButton type={"button"} disabled={showConfirm} variant={"danger"} onClick={() => setShowConfirm(true)}>{MeetingText.deleteMeeting}</CommonButton>
                 </ButtonContainer>
             </>
 

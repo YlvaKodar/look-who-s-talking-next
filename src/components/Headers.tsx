@@ -25,6 +25,7 @@ export function Header() {
                 <BackButton/>
                 {session ? (
                     <>
+                        <ListButton onClick={() => router.push('/dashboard')}>{Common.dashboardButton}</ListButton>
                         <ListButton onClick={handleSignOut}>{Common.logOut}</ListButton>
                         <p className={` h-10 text-mono px-3 font-extralight md:font-semibold`}>{username} </p>
                     </>

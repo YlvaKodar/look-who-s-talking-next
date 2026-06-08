@@ -1,7 +1,7 @@
 "use client"
 import { H1, H3, H4 } from "@/components/ui/Headings";
 import { CommonButton } from "@/ui/Buttons";
-import {ButtonContainer, SimpleContainer} from "@/ui/Containers";
+import {ButtonContainer, DangerContainer, SimpleContainer} from "@/ui/Containers";
 import { useRouter } from "next/navigation";
 import { StartText, Common } from "@/constants/constants";
 import { Logo } from "@/components/Headers";
@@ -55,6 +55,14 @@ export default function StartView() {
                     <CommonButton variant="secondary" onClick={() =>  router.push("/login")}>{StartText.loginButton}</CommonButton>
                     <CommonButton variant="secondary" onClick={() => router.push("/signin")} >{StartText.signupButton}</CommonButton>
                 </ButtonContainer>
+            </div>
+
+            <div className="flex flex-col py-6">
+                <DangerContainer>
+                    <H1>{"Ooops ..."}</H1>
+                    <H3>{"This app is still under construction!"}</H3>
+                    <H4>{"Sorry about the mess, I'm working on it ..."}</H4>
+                </DangerContainer>
             </div>
         </div>
     );

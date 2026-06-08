@@ -17,8 +17,15 @@ export function TimerView() {
 
     async function handleEnd() {
         endMeeting();
+
         if (session && activeMeeting) {
             const meetingData = createMeetingData(activeMeeting);
+            const meetingDataString = JSON.stringify(meetingData);
+            console.log("Meetingdata: " +  meetingDataString);
+            typeof Object.entries(meetingData).forEach(([key, value]) => {
+                console.log(key, value);
+            })
+            console.log(typeof meetingData.startedAt);
 
             try {
                 const result = await fetch("/api/meetings", {
@@ -60,11 +67,9 @@ export function TimerView() {
                 </div>
                 <ButtonContainer>
                     <PauseButton onPause={ pauseSpeaking }/>
-                    <EndButton onEnd={ handleEnd } />
+                    <EndButton onEnd={ handleEnd }/>
                 </ButtonContainer>
             </div>
         </div>
     )
 }
-
-

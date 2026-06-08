@@ -31,13 +31,14 @@ export function useMeetingLogic() {
         if (!gender) return
         if (!theMeeting) return
 
-        console.log( `Gender: ${gender}, Time: ${time}` )
+        const roundedTime = Math.round(time)
+        console.log( `Gender: ${gender}, Time: ${roundedTime}` )
 
         const updatedMeeting: CurrentMeeting = {
             ...theMeeting,
             speakingData: {
                 ...theMeeting.speakingData,
-                [gender] : [...theMeeting.speakingData[gender], time],
+                [gender] : [...theMeeting.speakingData[gender], roundedTime],
             }
         }
         meeting.save(updatedMeeting)

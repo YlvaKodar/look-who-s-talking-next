@@ -58,6 +58,8 @@ export async function POST(request: Request) {
         const newMeeting = await prisma.meeting.create({
             data: {
                 ...meetingData,
+                startedAt: new Date(meetingData.startedAt),
+                groupId: meetingData.groupId || null,
                 keeperId: session.user.id
             }
         });

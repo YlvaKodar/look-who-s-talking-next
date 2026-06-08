@@ -64,6 +64,7 @@ export const Common = {
     signUp: "Sign up",
     greeting: "Meetee ",
     backButton: "Back",
+    dashboardButton: "Dashboard",
     footer: "YLVA KODAR",
     userName: "Name",
     userNameOther: "Username (if other than email)",
@@ -96,6 +97,7 @@ export const MeetingText = {
     changeKeeperButton: 'Switch meeting keeper',
     showMeetingStats: "See meeting statistics",
     showEditMeeting: "Edit meeting",
+    deleteMeeting: "Delete meeting",
 }
 
 export const SetupText = {
