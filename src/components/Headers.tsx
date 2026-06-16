@@ -29,7 +29,7 @@ export function Header() {
                         <ListButton onClick={handleSignOut}>{Common.logOut}</ListButton>
                         <p className={` h-10 text-mono px-3 font-extralight md:font-semibold`}>{username} </p>
                     </>
-                ) : (<div className={` h-10 text-mono px-3 font-extralight md:font-bold`}></div>)}
+                ) : (<StartButton/>)}
 
             </div>
             <Logo className={"text-4xl"}/>
@@ -79,6 +79,15 @@ function BackButton() {
     return (
         <ListButton onClick={() => router.back()}>
             {Common.backButton}
+        </ListButton>
+    )
+}
+
+function StartButton() {
+    const router = useRouter();
+    return (
+        <ListButton onClick={() => router.push(`/`)}>
+            {"Start"}
         </ListButton>
     )
 }

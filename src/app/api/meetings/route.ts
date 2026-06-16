@@ -22,6 +22,8 @@ function getCachedMeetings(userId: string) {
                 }
             });
 
+            console.log("raw meetings: " + rawMeetings.length);
+
             return rawMeetings.map((meeting) => ({
                 id: meeting.id,
                 title: meeting.title,

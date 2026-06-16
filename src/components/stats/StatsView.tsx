@@ -4,16 +4,21 @@ import { StatsPresentation } from "@/components/stats/StatsPresentation";
 import { useMeetingStorage } from "@/hooks/useMeetingStorage";
 import { createCurrentMeetingStats, getPresentGenders } from "@/utils/meetingUtil";
 import { MeetingStats } from "@/types/meeting";
+import {LoadingIndicator} from "@/ui/Common";
+import { CommonButton } from "../ui/Buttons";
+import {useRouter} from "next/navigation";
+import {ButtonContainer} from "@/ui/Containers";
 
 export function StatsView() {
     const { meeting } = useMeetingStorage();
+    const router = useRouter();
     if (!meeting.isLoaded) return null;
 
     const endedMeeting = meeting.storedValue;
 
     if (!endedMeeting) {
         return (
-            <p> ... </p>
+            <LoadingIndicator/>
         )
     }
     const presentGenders = getPresentGenders(endedMeeting.participants);
@@ -26,11 +31,10 @@ export function StatsView() {
             <H3>{startedAt}</H3>
             <StatsPresentation meetingStats={meetingStats} presentGenders={presentGenders} />
 
-            {/*<div id="stats-actions">*/}
             {/*    <button id="export-pdf-btn" className="tertiary"></button>*/}
-            {/*    <button id="back-to-start">Start</button>*/}
-            {/*</div>*/}
-
+            <ButtonContainer>
+                <CommonButton type={"button"} onClick={() => router.push(`/`) }>Back to start</CommonButton>
+            </ButtonContainer>
         </div>
     )
 }

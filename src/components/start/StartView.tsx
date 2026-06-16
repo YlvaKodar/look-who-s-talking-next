@@ -10,13 +10,10 @@ import {ChevronIcon} from "@/ui/Common";
 
 export default function StartView() {
     const [showAbout, setShowAbout] = useState<boolean>(true)
-    const [showHow, setShowHow] = useState<boolean>(true)
     const [showStart, setShowStart] = useState<boolean>(false)
     const [showUse, setShowUse] = useState<boolean>(false)
     const aboutText = showAbout ? StartText.aboutButton : Common.comingSoon;
     const aboutColor = showAbout ? "secondary" : "ohoh";
-    const howText = showHow ? StartText.howToUseButton : Common.comingSoon;
-    const howColor = showHow ? "primary" : "ohoh";
     const router = useRouter();
 
 
@@ -38,7 +35,7 @@ export default function StartView() {
                 <ButtonContainer>
                     <CommonButton variant="primary" onClick={() => router.push("/setup")}>{StartText.newMeetingButton}</CommonButton>
                     <CommonButton variant={aboutColor} onClick={() => setShowAbout(!showAbout)}>{aboutText}</CommonButton>
-                    <CommonButton variant={howColor} onClick={() => setShowHow(!showHow)}>{howText}</CommonButton>
+                    <CommonButton variant="primary" onClick={() => router.push("/howToUse")}>{"How to use"}</CommonButton>
                 </ButtonContainer>
             </div>
 
