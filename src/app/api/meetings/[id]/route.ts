@@ -16,7 +16,7 @@ function getCachedMeeting(id: string) {
                 where: { id },
                 include: {
                     group: { select: { name: true } },
-                    keeper: { select: { name: true } },
+                    clocker: { select: { name: true } },
                 }
             });
 
@@ -26,8 +26,8 @@ function getCachedMeeting(id: string) {
                 raw.id,
                 raw.title,
                 raw.group?.name ?? "",
-                raw.keeperId,
-                raw.keeper.name,
+                raw.clockerId,
+                raw.clocker.name,
                 raw.startedAt.toLocaleDateString("sv-SE"),
                 raw.womenCount,
                 raw.womenSpeakingTime,
@@ -72,10 +72,10 @@ export async function PUT(
     if (!session) return NextResponse.json({ error: "No such session" }, { status: 401 });
 
     const { id } = await params;
-    const { groupId, keeperId } = await request.json()
+    const { groupId, clockerId } = await request.json()
 
     const data: MeetingUpdateInput = {};
-    if (keeperId) data.keeper = { connect: { id: keeperId } };
+    if (clockerId) data.clocker = { connect: { id: clockerId } };
     if (groupId !== undefined) {
         data.group = groupId === null ? { disconnect: true } : { connect: { id: groupId } };
     }
@@ -96,11 +96,11 @@ export async function PUT(
             console.log('Error code:', error.code);
             console.log('Error meta:', error.meta);
             if (error.code === "P2025") {
-                if (error.meta?.model === "User") return NextResponse.json({ error: "The new keeper does not exist." }, { status: 400 });
+                if (error.meta?.model === "User") return NextResponse.json({ error: "The new clocker does not exist." }, { status: 400 });
                 if (error.meta?.model === "Group") return NextResponse.json({ error: "The new group does not exist." }, { status: 400 });
                 return NextResponse.json({ error: "Meeting not found" }, { status : 404 });
             }
-            if (error.code === "P2002") return NextResponse.json({ error: "The user may already keep a meeting starting at this time." }, { status : 409 });
+            if (error.code === "P2002") return NextResponse.json({ error: "The user may already clock a meeting starting at this time." }, { status : 409 });
             if (error.code === "P2003") return NextResponse.json({ error: "A referenced user or group does not exist." }, { status : 400 });
         }
         return NextResponse.json({ error: "Ok, so this didn't go as planned ..." }, { status: 500 })
@@ -123,7 +123,7 @@ export async function DELETE(
         });
 
         if (!meeting) return NextResponse.json({ error: "Meeting not found" }, { status : 404 });
-        if (meeting.keeperId !== session.user.id) return NextResponse.json({error: "THIS DECISION IS NOT UP TO YOU"}, { status: 403 });
+        if (meeting.clockerId !== session.user.id) return NextResponse.json({error: "THIS DECISION IS NOT UP TO YOU"}, { status: 403 });
         if (meeting.groupId) return NextResponse.json({error: "A meeting within a group may only be deleted by admin user."}, { status: 403 });
     }
 

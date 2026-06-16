@@ -23,18 +23,18 @@ export async function POST(
     });
     if (!meeting) return NextResponse.json({ error: "Meeting not found" }, { status : 404 });
     if (!meeting.group) return NextResponse.json({ error: "Meeting has no group to transfer to." }, { status: 400 });
-    if (session.user.role !== "ADMIN" && meeting.keeperId !== session.user.id) return NextResponse.json({ error: "THIS DECISION IS NOT UP TO YOU" }, { status: 403 });
-    if (meeting.keeperId === meeting.group.keeperId) return NextResponse.json({ error: "Group keeper is already meeting keeper." }, { status: 400 });
+    if (session.user.role !== "ADMIN" && meeting.clockerId !== session.user.id) return NextResponse.json({ error: "THIS DECISION IS NOT UP TO YOU" }, { status: 403 });
+    if (meeting.clockerId === meeting.group.keeperId) return NextResponse.json({ error: "Group keeper is already meeting clocker." }, { status: 400 });
 
     try {
         await prisma.meeting.update({
             where: { id },
-            data: { keeper: { connect: { id: meeting.group.keeperId } } },
+            data: { clocker: { connect: { id: meeting.group.keeperId } } },
         });
         revalidateTag(`meeting-${id}`)
-        revalidateTag(`meetings-${meeting.keeperId}`);
+        revalidateTag(`meetings-${meeting.clockerId}`);
         revalidateTag(`meetings-${meeting.group.keeperId}`);
-        return NextResponse.json({message: "Meeting keeper updated!"}, { status: 200 });
+        return NextResponse.json({message: "Meeting clocker updated!"}, { status: 200 });
     } catch(error) {
         if (error instanceof Prisma.PrismaClientKnownRequestError) {
             console.log('Error code:', error.code);

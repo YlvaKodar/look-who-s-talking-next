@@ -3,7 +3,8 @@ import { CurrentMeeting, Gender } from "@/types/meeting";
 import {Genders, MeetingText} from "@/constants/constants";
 import { getPresentGenders } from "@/utils/meetingUtil";
 import { CommonButton } from "@/ui/Buttons";
-import { CONFIG } from "@/constants/constants"
+
+import {CONFIG} from "@/constants/CONFIG";
 
 type SpeakerButtonProps = {
     meeting: CurrentMeeting,

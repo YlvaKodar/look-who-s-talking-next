@@ -11,7 +11,7 @@ function getCachedMeetings(userId: string) {
     return unstable_cache(
         async () => {
             const rawMeetings    = await prisma.meeting.findMany({
-                where: {keeperId: userId},
+                where: {clockerId: userId},
                 orderBy: {
                     startedAt: "asc"
                 },
@@ -60,7 +60,7 @@ export async function POST(request: Request) {
                 ...meetingData,
                 startedAt: new Date(meetingData.startedAt),
                 groupId: meetingData.groupId || null,
-                keeperId: session.user.id
+                clockerId: session.user.id
             }
         });
         revalidateTag(`meetings-${session.user.id}`)
@@ -68,7 +68,7 @@ export async function POST(request: Request) {
     } catch (error){
         if (error instanceof Prisma.PrismaClientKnownRequestError) {
             if (error.code === "P2006" || error.code === "P2007") return NextResponse.json({ error: "Invalid field format." }, { status : 400 });
-            if (error.code === "P2002") return NextResponse.json({ error: "The user might already keep a meeting with this start time." }, { status : 409 });
+            if (error.code === "P2002") return NextResponse.json({ error: "The user might already clock a meeting with this start time." }, { status : 409 });
             if (error.code === "P2011") return NextResponse.json({ error: "A required field is missing." }, { status : 400 });
             if (error.code === "P2003") return NextResponse.json({ error: "A referenced user or group does not exist." }, { status : 400 });
         }

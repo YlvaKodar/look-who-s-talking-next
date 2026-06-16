@@ -13,60 +13,61 @@ datasource db {
 }
 
 model User {
-  id                      String             @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  createdAt               DateTime           @default(now())
-  updatedAt               DateTime           @updatedAt
-  email                   String             @unique
-  emailVerified           Boolean            @default(false)
-  name                    String             @unique
-  role                    Role               @default(USER)
-  meetings                Meeting[]
-  keeperInGroups          Group[]            @relation("GroupKeeper")
-  clockerInGroups         GroupClocker[]     @relation("GroupClocker")
-  sessions                Session[]
-  accounts                Account[]
+  id              String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+  email           String         @unique
+  emailVerified   Boolean        @default(false)
+  name            String         @unique
+  role            Role           @default(USER)
+  meetings        Meeting[]
+  keeperInGroups  Group[]        @relation("GroupKeeper")
+  clockerInGroups GroupClocker[] @relation("GroupClocker")
+  sessions        Session[]
+  accounts        Account[]
 
   @@index([name])
   @@index([email])
   @@map("users")
 }
 
-
 model Group {
-  id                      String             @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  createdAt               DateTime           @default(now())
-  updatedAt               DateTime           @updatedAt
-  lastUsed                DateTime           @default(now())
-  keeper                  User               @relation("GroupKeeper", fields: [keeperId], references: [id], onDelete: Restrict)
-  keeperId                String             @db.Uuid
-  name                    String
-  description             String?
-  meetings                Meeting[]
-  clockers                GroupClocker[]
+  id          String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+  lastUsed    DateTime       @default(now())
+  keeper      User           @relation("GroupKeeper", fields: [keeperId], references: [id], onDelete: Restrict)
+  keeperId    String         @db.Uuid
+  name        String
+  description String?
+  meetings    Meeting[]
+  clockers    GroupClocker[]
+
   @@unique([keeperId, name])
   @@map("groups")
 }
 
 model Meeting {
-  id                      String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  createdAt               DateTime         @default(now())
-  keeper                  User             @relation(fields: [keeperId], references: [id], onDelete: Restrict)
-  keeperId                String           @db.Uuid
-  group                   Group?           @relation(fields: [groupId], references: [id], onDelete: SetNull)
-  groupId                 String?          @db.Uuid
+  id                      String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  createdAt               DateTime @default(now())
+  clocker                 User     @relation(fields: [clockerId], references: [id], onDelete: Restrict)
+  clockerId               String   @db.Uuid
+  group                   Group?   @relation(fields: [groupId], references: [id], onDelete: SetNull)
+  groupId                 String?  @db.Uuid
   title                   String
   scheme                  Scheme?
-  startedAt               DateTime         @default(now())
-  womenCount              Int              @default(0)
-  nonbinaryCount          Int              @default(0)
-  menCount                Int              @default(0)
-  womenSpeakingTime       Int              @default(0)
-  nonbinarySpeakingTime   Int              @default(0)
-  menSpeakingTime         Int              @default(0)
-  womenStatementCount     Int              @default(0)
-  nonbinaryStatementCount Int              @default(0)
-  menStatementCount       Int              @default(0)
-  @@index([keeperId])
+  startedAt               DateTime @default(now())
+  womenCount              Int      @default(0)
+  nonbinaryCount          Int      @default(0)
+  menCount                Int      @default(0)
+  womenSpeakingTime       Int      @default(0)
+  nonbinarySpeakingTime   Int      @default(0)
+  menSpeakingTime         Int      @default(0)
+  womenStatementCount     Int      @default(0)
+  nonbinaryStatementCount Int      @default(0)
+  menStatementCount       Int      @default(0)
+
+  @@index([clockerId])
   @@index([startedAt])
   @@index([groupId])
   @@index([title])
@@ -74,10 +75,10 @@ model Meeting {
 }
 
 model GroupClocker {
-  user      User     @relation("GroupClocker", fields: [userId], references: [id], onDelete: Cascade)
-  userId    String   @db.Uuid
-  group     Group    @relation(fields: [groupId], references: [id], onDelete: Cascade)
-  groupId   String   @db.Uuid
+  user    User   @relation("GroupClocker", fields: [userId], references: [id], onDelete: Cascade)
+  userId  String @db.Uuid
+  group   Group  @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  groupId String @db.Uuid
 
   @@id([userId, groupId])
   @@map("group_clockers")
@@ -132,10 +133,10 @@ model Verification {
 }
 
 model Feedback {
-  id                      String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  createdAt               DateTime         @default(now())
-  userEmail               String?
-  content                 String?
+  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  createdAt DateTime @default(now())
+  userEmail String?
+  content   String?
 
   @@map("feedback")
 }

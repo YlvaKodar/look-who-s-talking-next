@@ -149,7 +149,7 @@ async function main(){
 
     await prisma.meeting.create({
         data: {
-            keeperId: agatha.id,
+            clockerId: agatha.id,
             groupId: beehive!.id,
             title: "Nursery rimes and how to use them",
             womenCount: 3,
@@ -167,7 +167,7 @@ async function main(){
         data: {
             createdAt: daysAgo(3),
             startedAt: daysAgo(3),
-            keeperId: agatha.id,
+            clockerId: agatha.id,
             groupId: bookclub!.id,
             title: "Archaeology for dummies",
             womenCount: 3,

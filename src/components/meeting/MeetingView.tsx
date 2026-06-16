@@ -105,7 +105,7 @@ function MeetingDetails({sessionId, sessionRole}: {sessionId : string, sessionRo
                 </SimpleContainer>
 
                 <SimpleContainer>
-                    <p>{`${Common.keeperLabel}: ${meeting.keeperName}`}</p>
+                    <p>{`${Common.clockerLabel}: ${meeting.clockerName}`}</p>
                 </SimpleContainer>
 
 
@@ -115,7 +115,7 @@ function MeetingDetails({sessionId, sessionRole}: {sessionId : string, sessionRo
                 }}>
                     <H3 center={"px-1"}>{MeetingText.showMeetingStats} <ChevronIcon isOpen={showStats}/></H3>
                 </div>
-                {(sessionRole === "ADMIN" || sessionId === meeting.keeperId) && (
+                {(sessionRole === "ADMIN" || sessionId === meeting.clockerId) && (
                     <div onClick={() => {
                         setShowEdit(!showEdit);
                         setShowStats(false)
@@ -140,7 +140,7 @@ function MeetingDetails({sessionId, sessionRole}: {sessionId : string, sessionRo
                         )}
 
                         { meeting.groupName && (
-                            <SwitchKeeper meeting={meeting}/>
+                            <SwitchClocker meeting={meeting}/>
                         )}
 
                     </BigSectionContainer>
@@ -225,21 +225,21 @@ function AddMeetingGroup( {meeting}: {meeting: MeetingStats}) {
     )
 }
 
-function SwitchKeeper ( {meeting}: {meeting: MeetingStats}) {
+function SwitchClocker ( {meeting}: {meeting: MeetingStats}) {
     const [error, setError] = useState<string | null>(null);
     const [ok, setOk] = useState<string | null>(null);
     const [loading, setLoading] = useState<boolean>(false);
-    const [keeperCheckBox, setKeeperCheckBox] = useState<boolean>(false);
+    const [clockerCheckBox, setClockerCheckBox] = useState<boolean>(false);
     const router = useRouter();
 
-    async function handleChangeKeeper(){
-        if (!keeperCheckBox) {
+    async function handleChangeClocker(){
+        if (!clockerCheckBox) {
             return;
         }
         setError(null);
         setLoading(true);
         try {
-            const result = await fetch(`/api/meetings/${meeting.id}/transfer-keeper`, {
+            const result = await fetch(`/api/meetings/${meeting.id}/transfer-clocker`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
             });
@@ -278,14 +278,14 @@ function SwitchKeeper ( {meeting}: {meeting: MeetingStats}) {
                 <>
                     <H4>{`${Common.groupLabel}: ${meeting.groupName}`}</H4>
                     <SimpleContainer>
-                        <p>{MeetingText.changeKeeperInfo}</p>
-                        <CheckboxField label={MeetingText.changeKeeperCheckbox} name={"keeper"} checked={keeperCheckBox} onChange={setKeeperCheckBox} />
+                        <p>{MeetingText.changeClockerInfo}</p>
+                        <CheckboxField label={MeetingText.changeClockerCheckbox} name={"clocker"} checked={clockerCheckBox} onChange={setClockerCheckBox} />
                         <ButtonContainer>
                             <CommonButton
-                                onClick={handleChangeKeeper}
-                                disabled={!keeperCheckBox || loading}
+                                onClick={handleChangeClocker}
+                                disabled={!clockerCheckBox || loading}
                             >
-                                {MeetingText.changeKeeperButton}
+                                {MeetingText.changeClockerButton}
                             </CommonButton>
                         </ButtonContainer>
                     </SimpleContainer>

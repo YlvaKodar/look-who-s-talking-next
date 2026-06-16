@@ -105,7 +105,7 @@ export async function DELETE(
     } catch (error) {
         if (error instanceof Prisma.PrismaClientKnownRequestError) {
             if (error.code === "P2025") return NextResponse.json({ error: "User not found" }, { status : 404 });
-            if (error.code === "P2003") return NextResponse.json({ error: "Account cannot be deleted unless all connected meetings and groups are deleted or assigned new keepers." }, { status : 409 });
+            if (error.code === "P2003") return NextResponse.json({ error: "Account cannot be deleted unless all connected meetings and groups are deleted or assigned new keepers and clockers." }, { status : 409 });
         }
         return NextResponse.json({ error: "Ok, so this didn't go as planned ..." }, { status: 500 })
     }

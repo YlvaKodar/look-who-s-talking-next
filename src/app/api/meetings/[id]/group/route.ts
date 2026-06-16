@@ -22,7 +22,7 @@ export async function PUT(
             where: { id }
         });
         if (!meeting) return NextResponse.json({ error: "Meeting not found" }, { status : 404 });
-        if (meeting.keeperId !== session.user.id) return NextResponse.json({error: "THIS DECISION IS NOT UP TO YOU"}, { status: 403 });
+        if (meeting.clockerId !== session.user.id) return NextResponse.json({error: "THIS DECISION IS NOT UP TO YOU"}, { status: 403 });
         if (meeting.groupId) return NextResponse.json({error: "Only admin may update or remove existing meeting group."}, { status: 403 });
     }
 

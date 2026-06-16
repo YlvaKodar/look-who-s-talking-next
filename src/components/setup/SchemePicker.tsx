@@ -2,8 +2,9 @@
 import { H1, H2, H3, H4 } from "@/components/ui/Headings";
 import { ButtonContainer } from "@/ui/Containers";
 import { RadioButtons } from "@/ui/Buttons";
-import { CONFIG, Genders, SetupText } from "@/constants/constants"
+import { Genders, SetupText } from "@/constants/constants"
 import { useState } from "react";
+import {CONFIG} from "@/constants/CONFIG";
 
 export function SchemePicker() {
     const [selectedScheme, setSelectedScheme] = useState("amber");

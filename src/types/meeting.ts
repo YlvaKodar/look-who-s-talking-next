@@ -19,8 +19,8 @@ export type MeetingStats = {
     title?: string;
     groupId?: string;
     groupName?: string;
-    keeperId?: string;
-    keeperName?: string;
+    clockerId?: string;
+    clockerName?: string;
     startedAt?: string;
     totalParticipantCount: number,
     totalSpeakingTime: number,

@@ -1,7 +1,8 @@
 'use client'
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { CurrentMeeting } from "@/types/meeting";
-import { STORAGE } from "@/constants/constants";
+
+import {STORAGE} from "@/constants/CONFIG";
 
 export function useMeetingStorage() {
     const meeting = useLocalStorage<CurrentMeeting>(STORAGE.ACTIVE_MEETING);
