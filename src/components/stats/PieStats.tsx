@@ -1,6 +1,6 @@
 "use client"
 import { Pie } from 'react-chartjs-2';
-import { H1, H2, H3, H4 } from "@/components/ui/Headings";
+import { H4 } from "@/components/ui/Headings";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import {Gender, MeetingStats} from '@/types/meeting';
 import { Genders, StatsText } from "@/constants/constants";
@@ -22,13 +22,13 @@ export function PieStats({ meetingStats, presentGenders }: ChartStatsProps) {
     return (
         <div className={`w-full flex flex-col gap-8 mx-auto`}>
             <div className={`w-full flex flex-col items-center`}>
-                <PieBakery label={ StatsText.participantPie } labels={ labels } dataArray={ participantData } />
+                <PieBakery label={ StatsText.participantPie } labels={ labels } dataArray={ participantData } presentGenders={presentGenders} />
             </div>
             <div className={`w-full flex flex-col items-center`}>
-                <PieBakery label={ StatsText.speakingtimePie } labels={ labels } dataArray={ speakingData } />
+                <PieBakery label={ StatsText.speakingtimePie } labels={ labels } dataArray={ speakingData } presentGenders={presentGenders}  />
             </div>
             <div className={`w-full flex flex-col items-center`}>
-                <PieBakery label={ StatsText.statementPie } labels={ labels } dataArray={ statementData } />
+                <PieBakery label={ StatsText.statementPie } labels={ labels } dataArray={ statementData } presentGenders={presentGenders}  />
             </div>
         </div>
     )
@@ -38,9 +38,10 @@ type PieIngredients = {
     label: string;
     labels: string[];
     dataArray: number[];
+    presentGenders: Gender[];
 }
 
-function PieBakery({label, labels, dataArray}: PieIngredients) {
+function PieBakery({label, labels, dataArray, presentGenders}: PieIngredients) {
 
     function getCssVariable(variable: string): string {
         return getComputedStyle(document.documentElement)
@@ -48,16 +49,16 @@ function PieBakery({label, labels, dataArray}: PieIngredients) {
             .trim();
     }
 
+    const backgroundColors = presentGenders.map(gender =>
+        getCssVariable(Genders.chartColors[gender])
+    );
+
     const data = {
         labels: labels,
         datasets: [{
             label: label,
             data: dataArray,
-            backgroundColor: [
-                getCssVariable('--color-women-dark'),
-                getCssVariable('--color-nonbinary-dark'),
-                getCssVariable('--color-men-dark'),
-            ],
+            backgroundColor: backgroundColors,
             borderColor: [
                 getCssVariable('--color-bgdark'),
             ],

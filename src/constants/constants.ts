@@ -13,6 +13,11 @@ export const Genders = {
         nonbinary: 'Nobinary',
         men: 'Men',
     },
+    chartColors: {
+        women: '--color-women-dark',
+        nonbinary: '--color-nonbinary-dark',
+        men: '--color-men-dark',
+    },
     buttonLabels: {
         women: 'Woman speaking',
         nonbinary: 'Nonbinary speaking',
