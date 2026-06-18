@@ -76,14 +76,19 @@ input:-webkit-autofill:focus {
 }
 
 [data-theme="lollipopguild"] {
-    --color-women-dark: oklch(0.561 0.111 75.406);
-    --color-women-light: oklch(0.661 0.111 75.406);
-    --color-nonbinary-dark: oklch(0.344 0.139 28.932);
-    --color-nonbinary-light: oklch(0.444 0.139 28.932);
-    --color-men-dark: oklch(0.265 0.051 233.415);
-    --color-men-light: oklch(0.365 0.051 233.415);
+    --color-women-dark: oklch(0.422 0.075 223.997);
+    --color-women-light: oklch(0.518 0.071 214.166);
+    --color-nonbinary-dark: oklch(0.384 0.139 28.932);
+    --color-nonbinary-light: oklch(0.484 0.139 28.932);
+    --color-men-dark: oklch(0.425 0.123 137.477);
+    --color-men-light: oklch(0.525 0.123 137.477);
+    /*--color-women-dark: oklch(0.198 0.115 271.627);*/
+    /*--color-women-light: oklch(0.298 0.115 271.627);*/
+    /*--color-nonbinary-dark: oklch(0.384 0.139 28.932);*/
+    /*--color-nonbinary-light: oklch(0.484 0.139 28.932);*/
+    /*--color-men-dark: oklch(0.576 0.166 134.386);*/
+    /*--color-men-light: oklch(0.676 0.166 134.386);*/
 }
-
 
 [data-theme="amber"] {
     --color-women-dark: oklch(0.546 0.179 35.76);
