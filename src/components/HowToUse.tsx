@@ -11,7 +11,7 @@ export function HowToUse() {
     return (
         <BigSectionContainer>
             <ColorHeading heading={"HOW TO USE"}/>
-                <P color={"tip"} className={"font-bold text-center text-xl"}>{"Click the "}<ChevronIcon isOpen={false}/> { "to open or close the chapters!"}</P>
+                <P color={"tip"} className={"font-bold text-center text-xl"}>{"Click the "}<ChevronIcon isOpen={false}/> { "to open or close chapters!"}</P>
             <div onClick={() => setShowBasic(!showBasic)}>
                 <H1 center={""}>{HowToUseText.basics} <ChevronIcon isOpen={showBasic}/></H1>
             </div>
