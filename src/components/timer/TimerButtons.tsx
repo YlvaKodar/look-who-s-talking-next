@@ -3,8 +3,7 @@ import { CurrentMeeting, Gender } from "@/types/meeting";
 import {Genders, MeetingText} from "@/constants/constants";
 import { getPresentGenders } from "@/utils/meetingUtil";
 import { CommonButton } from "@/ui/Buttons";
-
-import {CONFIG} from "@/constants/CONFIG";
+import {VARIANTS} from "@/constants/CONFIG";
 
 type SpeakerButtonProps = {
     meeting: CurrentMeeting,
@@ -14,16 +13,16 @@ type SpeakerButtonProps = {
 
 const variants = {
     women: {
-        base: CONFIG.VARIANTS.women.base,
-        active: CONFIG.VARIANTS.women.active
+        base: VARIANTS.women.base,
+        active: VARIANTS.women.active
     },
     nonbinary: {
-        base: CONFIG.VARIANTS.nonbinary.base,
-        active: CONFIG.VARIANTS.nonbinary.active
+        base: VARIANTS.nonbinary.base,
+        active: VARIANTS.nonbinary.active
     },
     men: {
-        base: CONFIG.VARIANTS.men.base,
-        active: CONFIG.VARIANTS.men.active
+        base: VARIANTS.men.base,
+        active: VARIANTS.men.active
     }
 }
 

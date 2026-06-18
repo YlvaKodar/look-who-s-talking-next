@@ -1,3 +1,5 @@
+import {VARIANTS} from "@/constants/CONFIG";
+
 export function PageContainer({ children }: { children: React.ReactNode }) {
     return (
         // <div className="flex flex-col gap-6 py-12 w-full ms:px-6 md:max-w-xl mx-auto px-4 items-center">
@@ -51,8 +53,19 @@ export function SimpleContainer({ children }: { children: React.ReactNode }) {
     )
 }
 
-export function DangerContainer({ children }: { children: React.ReactNode }) {
+const variants = {
+    danger: VARIANTS.danger.border,
+    alert: VARIANTS.alert.border,
+    example: VARIANTS.example.border,
+    tip: VARIANTS.tip.border,
+}
+type AlertContainerProps = {
+    variant?: "danger" | "alert" | "example" | "tip",
+    children: React.ReactNode,
+}
+
+export function AlertContainer({ variant = "danger", children }: AlertContainerProps) {
     return (
-        <div className={`rounded-md border-2 border-seven bg-bgextralight w-full flex flex-col gap-1 px-1 cursor-default justify-between`}>{children}</div>
+        <div className={`rounded-md border-2 ${variants[variant]} bg-bgthird w-full flex flex-col gap-1 px-1 cursor-default justify-between`}>{children}</div>
     )
 }

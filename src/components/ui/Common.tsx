@@ -1,4 +1,6 @@
 "use client"
+import {VARIANTS} from "@/constants/CONFIG";
+
 export function ChevronIcon({ isOpen }: { isOpen: boolean }) {
     return (
         <svg
@@ -67,9 +69,33 @@ export const ValidationMessage = ({ children , messageType = "error" }: Validati
 
     return (
         <div className={`py-1 w-full`}>
-            <div className={`p-2 rounded-md font-medium w-full border-2 bg-bgextralight  ${border}`}>
+            <div className={`p-2 rounded-md font-medium w-full border-2 bg-bgthird  ${border}`}>
                 <p className={text}>{children}</p>
             </div>
+        </div>
+    )
+}
+
+const variants = {
+    primary: VARIANTS.primary.text,
+    women: VARIANTS.women.text,
+    nonbinary: VARIANTS.nonbinary.text,
+    men: VARIANTS.men.text,
+    danger: VARIANTS.danger.text,
+    alert: VARIANTS.alert.text,
+    example: VARIANTS.example.text,
+    tip: VARIANTS.tip.text,
+}
+
+type ParagraphProps = {
+    color?: "primary" | "women" | "nonbinary" | "men" | "danger" | "alert" | "example" | "tip",
+    className?: string
+} & React.HTMLAttributes<HTMLParagraphElement>;
+
+export const P = ({children, color = "primary", className}: ParagraphProps)=> {
+    return (
+        <div className={`pb-2 px-1 w-full`}>
+            <p className={`${variants[color]} ${className}`}>{children}</p>
         </div>
     )
 }

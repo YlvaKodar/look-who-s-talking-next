@@ -1,187 +1,137 @@
 "use client"
-import { CommonButton, ListButton } from "@/ui/Buttons";
-import {ButtonContainer, ListButtonContainer, SimpleContainer, SmallSectionContainer} from "@/ui/Containers";
-import { MeetingText} from "@/constants/constants";
-import { List } from "@/ui/Lists";
-import {LoadingIndicator, Tooltip, ValidationMessage} from "@/ui/Common";
-import { ChevronIcon } from "@/ui/Common";
-import { useRouter } from "next/navigation";
-import {useCallback, useEffect, useState} from "react";
-import {MeetingListItem} from "@/types/meeting";
-import {H1, H3, H4} from "@/ui/Headings";
+import {
+    BigSectionContainer,
+    ButtonContainer, AlertContainer,
+    ListButtonContainer,
+    SimpleContainer,
+    SmallSectionContainer
+} from "@/ui/Containers";
+import {ChevronIcon, P} from "@/ui/Common";
+import {useState} from "react";
+import {H1, H3, H4, ColorHeading} from "@/ui/Headings";
 import {HowToUseText} from "@/constants/constants";
 
 export function HowToUse() {
-    const [show, setShow] = useState(false);
-    const [showMeetings, setShowMeetings] = useState<boolean>(false);
-    const router = useRouter();
-
     return (
-        <SmallSectionContainer>
-            <div>
-                <H1>{HowToUseText.basics}</H1>
-                <div>
-                    <H3>{HowToUseText.one}</H3>
-                    <SimpleContainer><p>{HowToUseText.oneMore}</p></SimpleContainer>
-                </div>
-                <div>
-                    <H3>{HowToUseText.two}</H3>
-                    <SimpleContainer>
-                        <p>{HowToUseText.twoMore}</p>
-                        <H4>{HowToUseText.example}</H4>
-                        <p>{HowToUseText.twoExample}</p>
-                        <H4>{HowToUseText.note}</H4>
-                        <p>{HowToUseText.twoNote}</p>
-                    </SimpleContainer>
-                </div>
-                <div>
-                    <H3>{HowToUseText.three}</H3>
-                    <SimpleContainer>
-                        <p>{HowToUseText.threeMore}</p>
-                        <H4>{HowToUseText.tip}</H4>
-                        <p>{HowToUseText.tipMore}</p>
-                    </SimpleContainer>
-                </div>
-                <div>
-                    <H3>{HowToUseText.lastly}</H3>
-                    <SimpleContainer><p>{HowToUseText.lastlyMore}</p> </SimpleContainer>
-                </div>
+        <BigSectionContainer>
+            <ColorHeading heading={"HOW TO USE"}/>
+            <BasicUsage/>
+            <AccountUsage/>
+        </BigSectionContainer>
+    )
+}
+
+function BasicUsage() {
+    const [showBasic, setShowBasic] = useState(false);
+    return (
+        <div>
+            <div onClick={() => setShowBasic(!showBasic)}>
+                <H1 center={""}>{HowToUseText.basics} <ChevronIcon isOpen={showBasic}/></H1>
             </div>
-
-            <div>
-                <H1>{HowToUseText.withAccount}</H1>
-                <SimpleContainer>
-                    <p>{HowToUseText.disclaimer}</p>
-                </SimpleContainer>
-                <div>
-                   <H3>{HowToUseText.createAccount}</H3>
-                    <SimpleContainer>
-                        <p>{HowToUseText.createAccountMore}</p>
-                    </SimpleContainer>
-                </div>
-                <div>
-                    <H3>{HowToUseText.groups}</H3>
-                    <SimpleContainer>
-                        <p>{HowToUseText.groupsMore}</p>
-                        <H4>{HowToUseText.note}</H4>
-                        <p>{HowToUseText.groupsNote}</p>
-                        <H4>{HowToUseText.example}</H4>
-                        <p>{HowToUseText.groupsExample}</p>
-                    </SimpleContainer>
-                </div>
-                <div>
-                    <H3>{HowToUseText.meetings}</H3>
-                    <SimpleContainer>
-                        <p>{HowToUseText.meetingsMore}</p>
-                        <H4>{HowToUseText.note}</H4>
-                        <p>{HowToUseText.meetingNote}</p>
-                    </SimpleContainer>
-                </div>
-                <div>
-                    <H3>{HowToUseText.upcoming}</H3>
-                    <SimpleContainer>
-                        <p>{HowToUseText.upcomingMore}</p>
-                    </SimpleContainer>
-                </div>
-            </div>
-
-
-
-
-            <SimpleContainer><p></p></SimpleContainer>
-
-
-
-            <div onClick={() => setShow(!show)}>
-                <H1>{MeetingText.headingMeeting} <ChevronIcon isOpen={show}/></H1>
-            </div>
-            {show && (
+            {showBasic && (
                 <>
-                    <ButtonContainer>
-                        <CommonButton onClick={() => router.push(`/setup`)}>{MeetingText.createNewMeeting}</CommonButton>
-                    </ButtonContainer>
-
-                    <div onClick={() => { setShowMeetings(prevState => !prevState);}}>
-                        <H3 center={"px-1"}>{MeetingText.myMeetings} <ChevronIcon isOpen={showMeetings}/></H3>
-                    </div>
-
-                    {showMeetings && (
-                        <MeetingSection/>
-                    )}
+                    <SimpleContainer>
+                        <H3 center={""}>{HowToUseText.one}</H3>
+                        <P>{HowToUseText.oneOne}</P>
+                        <P>{HowToUseText.oneTwo}</P>
+                    </SimpleContainer>
+                    <SimpleContainer>
+                        <H3 center={""}>{HowToUseText.two}</H3>
+                        <P>{HowToUseText.twoOne}</P>
+                        <P>{HowToUseText.twoTwo}</P>
+                        <AlertContainer variant={"example"} >
+                            <H4 color={"example"}>{HowToUseText.example}</H4>
+                            <SimpleContainer>
+                                <P className={"font-semibold"}>{HowToUseText.twoExample.one}</P>
+                                <P className={"font-semibold"}>{HowToUseText.twoExample.two}</P>
+                                <P className={"font-semibold"}>{HowToUseText.twoExample.three}</P>
+                                <P className={"font-semibold"}>{HowToUseText.twoExample.four}</P>
+                            </SimpleContainer>
+                        </AlertContainer>
+                        <AlertContainer variant={"alert"}>
+                            <H4 color={"alert"}>{HowToUseText.note}</H4>
+                            <P>{HowToUseText.twoNoteOne}</P>
+                            <P>{HowToUseText.twoNoteTwo}</P>
+                            <P>{HowToUseText.twoNoteThree}</P>
+                        </AlertContainer>
+                    </SimpleContainer>
+                    <SimpleContainer>
+                        <H3 center={""}>{HowToUseText.three}</H3>
+                        <P>{HowToUseText.threeOne}</P>
+                        <P>{HowToUseText.threeTwo}</P>
+                        <P color={"tip"} className={"font-semibold"} >{HowToUseText.threeThree}</P>
+                        <P>{HowToUseText.threeFour}</P>
+                        <AlertContainer variant={"tip"}>
+                            <H4 color={"tip"}>{HowToUseText.tip}</H4>
+                            <P>{HowToUseText.tipMore}</P>
+                        </AlertContainer>
+                    </SimpleContainer>
+                    <SimpleContainer>
+                        <H3 center={""}>{HowToUseText.lastly}</H3>
+                        <P>{HowToUseText.lastlyOne}</P>
+                        <P color={"danger"} className={"font-semibold"}>{HowToUseText.lastlyTwo}</P>
+                        <P>{HowToUseText.lastlyThree}</P>
+                    </SimpleContainer>
                 </>
             )}
-        </SmallSectionContainer>
+        </div>
+
     )
 }
 
-function MeetingSection () {
-    const [error, setError] = useState<string | null>(null);
-    const [loading, setLoading] = useState(false);
-    const [meetings, setMeetings] = useState<MeetingListItem[]>([]);
+function AccountUsage() {
+    const [showAccount, setShowAccount] = useState(false);
+    return (
+        <div>
+            <div onClick={() => setShowAccount(!showAccount)}>
+                <H1 center={""}>{HowToUseText.withAccount} <ChevronIcon isOpen={showAccount}/></H1>
+            </div>
 
-    const fetchMeetings= useCallback(async () => {
-        try {
-            const result = await fetch(`/api/meetings`);
-            if (!result.ok) {
-                const error = await result.json();
-                console.error(error.code, error.error);
-                setError(error.error);
-                return;
+            {showAccount && (
+                <>
+                    <SimpleContainer>
+                        <AlertContainer variant={"danger"}>
+                            <P>{HowToUseText.disclaimer}</P>
+                        </AlertContainer>
+                    </SimpleContainer>
+                    <SimpleContainer>
+                        <H3 center={""}>{HowToUseText.createAccount}</H3>
+                        <P>{HowToUseText.createAccountOne}</P>
+                        <P>{HowToUseText.createAccountTwo}</P>
+                    </SimpleContainer>
+                    <SimpleContainer>
+                        <H3 center={""}>{HowToUseText.groups}</H3>
+                        <P>{HowToUseText.groupsMore}</P>
+                        <AlertContainer variant={"alert"}>
+                            <H4 color={"alert"}>{HowToUseText.note}</H4>
+                            <P>{HowToUseText.groupsNote}</P>
+                        </AlertContainer>
+                        <AlertContainer variant={"example"}>
+                            <H4 color={"example"}>{HowToUseText.example}</H4>
+                            <P>{HowToUseText.groupsExampleOne}</P>
+                            <P>{HowToUseText.groupsExampleTwo}</P>
+                            <P>{HowToUseText.groupsExampleThree}</P>
+                            <P>{HowToUseText.groupsExampleFour}</P>
+                        </AlertContainer>
+                    </SimpleContainer>
+                    <SimpleContainer>
+                        <H3 center={""}>{HowToUseText.meetings}</H3>
+                        <P>{HowToUseText.meetingsOne}</P>
+                        <P>{HowToUseText.meetingsTwo}</P>
+                        <P>{HowToUseText.meetingsThree}</P>
+                        <AlertContainer variant={"alert"}>
+                            <H4 color={"alert"}>{HowToUseText.note}</H4>
+                            <P>{HowToUseText.meetingNote}</P>
+                        </AlertContainer>
+                    </SimpleContainer>
+                    <SimpleContainer>
+                        <H3 center={""}>{HowToUseText.upcoming}</H3>
+                        <P>{HowToUseText.upcomingOne}</P>
+                        <P>{HowToUseText.upcomingTwo}</P>
+                    </SimpleContainer>
+                </>
+            )
             }
-            const meetings: MeetingListItem[] = await result.json();
-            setLoading(false);
-            setMeetings(meetings)
-        } catch (error) {
-            console.error(error);
-        } finally {
-            setLoading(false);
-        }
-    }, []);
-
-    useEffect(() => {
-        setLoading(true);
-        fetchMeetings();
-    }, [fetchMeetings]);
-
-    return (
-        <>
-            { meetings.length > 0 &&  (
-                <MeetingList meetings={meetings} />
-            )}
-            { loading && (
-                <LoadingIndicator/>
-            )}
-            { !loading && meetings.length === 0 &&  (
-                <SimpleContainer>
-                    <p>{"No meetings found!"}</p>
-                </SimpleContainer>
-            )}
-            {error && (
-                <SimpleContainer>
-                    <div onClick={() => setError(null)}>
-                        <ValidationMessage>{error}</ValidationMessage>
-                    </div>
-                </SimpleContainer>
-            )}
-        </>
-    )
-}
-
-const MeetingList = ({ meetings }: { meetings: MeetingListItem[] })=> {
-    const router = useRouter();
-    return (
-        <List
-            items={meetings.map((meeting) => ({
-                children:
-                    <>
-                        <div className={`relative group`}>{meeting.title} {<Tooltip
-                            label={meeting.startedAt}/>}</div>
-                        <ListButtonContainer>
-                            <ListButton onClick={() => router.push(`/meeting/${meeting.id}`)}>{">"} <Tooltip
-                                label={MeetingText.goToMeeting}/> </ListButton>
-                        </ListButtonContainer>
-                    </>,
-            }))}
-        />
+        </div>
     )
 }

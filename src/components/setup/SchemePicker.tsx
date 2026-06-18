@@ -4,7 +4,7 @@ import { ButtonContainer } from "@/ui/Containers";
 import { RadioButtons } from "@/ui/Buttons";
 import { Genders, SetupText } from "@/constants/constants"
 import { useState } from "react";
-import {CONFIG} from "@/constants/CONFIG";
+import {VARIANTS} from "@/constants/CONFIG";
 
 export function SchemePicker() {
     const [selectedScheme, setSelectedScheme] = useState("amber");
@@ -41,9 +41,9 @@ type Preview = {
 }
 
 const variants = {
-    women:  CONFIG.VARIANTS.women.base,
-    nonbinary: CONFIG.VARIANTS.nonbinary.base,
-    men: CONFIG.VARIANTS.men.base,
+    women:  VARIANTS.women.base,
+    nonbinary: VARIANTS.nonbinary.base,
+    men: VARIANTS.men.base,
 }
 
 function Preview() {

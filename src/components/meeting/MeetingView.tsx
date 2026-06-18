@@ -6,7 +6,7 @@ import {MeetingStats, Gender, Stats} from "@/types/meeting";
 import {H1, H3, H4} from "@/ui/Headings";
 import {StatsPresentation} from "@/components/stats/StatsPresentation";
 import {ChevronIcon, LoadingIndicator, ValidationMessage} from "@/ui/Common";
-import {BigSectionContainer, ButtonContainer, DangerContainer, SimpleContainer} from "@/ui/Containers";
+import {BigSectionContainer, ButtonContainer, AlertContainer, SimpleContainer} from "@/ui/Containers";
 import {Common, MeetingText} from "@/constants/constants";
 import {CommonButton} from "@/ui/Buttons";
 import {CheckboxField} from "@/ui/FormFields";
@@ -342,13 +342,13 @@ function DeleteMeeting({id}: {id: string}) {
             </>
 
             {showConfirm && (
-                <DangerContainer>
+                <AlertContainer>
                     <H4>{Common.areYouSure}</H4>
                     <ButtonContainer>
                         <CommonButton variant={"secondary"} onClick={() => setShowConfirm(false)}>{Common.no}</CommonButton>
                         <CommonButton variant={"danger"} onClick={handleDelete}>{Common.yes}</CommonButton>
                     </ButtonContainer>
-                </DangerContainer>
+                </AlertContainer>
             )}
 
             {loading && (

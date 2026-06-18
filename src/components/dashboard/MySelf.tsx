@@ -5,7 +5,7 @@ import { ChevronIcon, LoadingIndicator } from "@/ui/Common";
 import { useSession, signOut } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
 import { CommonButton } from "@/ui/Buttons";
-import { ButtonContainer, SmallSectionContainer, SimpleContainer, DangerContainer } from "@/ui/Containers";
+import { ButtonContainer, SmallSectionContainer, SimpleContainer, AlertContainer } from "@/ui/Containers";
 import { Common } from "@/constants/constants";
 import { ValidationMessage } from "@/ui/Common";
 
@@ -57,13 +57,13 @@ export function MySelf() {
                 </>
 
                 {showConfirm && (
-                    <DangerContainer>
+                    <AlertContainer>
                         <H4>{Common.areYouSure}</H4>
                         <ButtonContainer>
                             <CommonButton variant={"secondary"} onClick={() => setShowConfirm(false)}>{Common.no}</CommonButton>
                             <CommonButton variant={"danger"} onClick={handleDelete}>{Common.yes}</CommonButton>
                         </ButtonContainer>
-                    </DangerContainer>
+                    </AlertContainer>
                 )}
             </>
         )
